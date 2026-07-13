@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Account - MarketFlow</title>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/Account.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+<div class="register-wrapper">
+
+
+<!-- LEFT SIDE -->
+
+<section class="left-panel">
+
+
+<div class="brand">
+
+
+<div class="logo-box">
+<i class="fa-solid fa-cart-shopping"></i>
+</div>
+
+
+<div>
+
+<h2>MarketFlow</h2>
+
+<span>
+Market Management System
+</span>
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="welcome-section">
+
+
+<h1>
+Create Your Account
+</h1>
+
+
+<h3>
+Grow your business smarter
+</h3>
+
+
+<p>
+
+Manage products, sales, inventory
+and your team from one powerful platform.
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="dashboard-card">
+
+<img src="https://images.pexels.com/photos/18471529/pexels-photo-18471529.jpeg">
+
+</div>
+
+
+
+
+
+<div class="feature-list">
+
+
+<div class="feature-item">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<div>
+
+<h4>
+Secure System
+</h4>
+
+<p>
+Your business data is protected.
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="feature-item">
+
+<i class="fa-solid fa-chart-line"></i>
+
+
+<div>
+
+<h4>
+Business Analytics
+</h4>
+
+<p>
+Track your performance easily.
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="feature-item">
+
+<i class="fa-solid fa-users"></i>
+
+
+<div>
+
+<h4>
+Staff Management
+</h4>
+
+<p>
+Control users and permissions.
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+<!-- RIGHT SIDE -->
+
+
+<section class="right-panel">
+
+
+
+<div class="register-card">
+
+
+
+<div class="form-header">
+
+
+<div class="header-top">
+
+
+<h2>
+Create Account
+</h2>
+
+
+<button onclick="window.location.href='/'">
+
+Back
+
+</button>
+
+
+</div>
+
+
+
+<p>
+Enter your information to join MarketFlow
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+<form method="post" action="/auth/register">
+
+
+
+
+
+<div class="row">
+
+
+<div class="form-group">
+
+<label>
+First Name
+</label>
+
+<input type="text" name="firstName">
+
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>
+Last Name
+</label>
+
+<input type="text" name="lastName">
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Email Address
+</label>
+
+<input type="email" name="email">
+
+</div>
+
+
+
+
+
+<div class="row">
+
+
+<div class="form-group">
+
+<label>
+Job Title
+</label>
+
+<input type="text" name="jobTitle">
+
+
+</div>
+
+
+
+
+<div class="form-group">
+
+<label>
+RoleName
+</label>
+
+<input type="text" name="role">
+
+</div>
+
+</div>
+
+<div class="form-group">
+<label>
+Phone Number
+</label>
+
+
+<input type="tel" name="phone">
+
+
+</div>
+
+<div class="row">
+
+<div class="form-group">
+
+<label>
+Business Name
+</label>
+
+<input type="text" name="businessName">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Location
+</label>
+
+<input type="text" name="location">
+
+
+</div>
+
+
+</div>
+
+<div class="row">
+
+
+<div class="form-group">
+
+<label>
+Password
+</label>
+
+<input type="password" name="password">
+
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>
+Confirm Password
+</label>
+
+<input type="password" name="confirmPassword">
+</div>
+</div>
+<div class="password-rules">
+<p>✓ Minimum 8 characters</p>
+
+<p>✓ Uppercase letter</p>
+
+<p>✓ Number included</p>
+
+<p>✓ Special character</p>
+
+</div>
+
+<div class="terms">
+
+
+<input type="checkbox">
+
+<span>
+I agree to Terms & Conditions
+</span>
+
+
+</div>
+<button class="register-btn">
+
+Create Account
+
+</button>
+
+
+{{#if message}}
+
+<div class="message">
+
+{{message}}
+
+</div>
+
+{{/if}}
+
+<div class="signin-link">
+
+Already have an account?
+
+<a href="/login">
+Sign In
+</a>
+
+</div>
+</form>
+</div>
+</section>
+</div>
+</body>
+</html>

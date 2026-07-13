@@ -1,0 +1,224 @@
+Businesses
+Roles
+Users
+Products
+Inventory
+Sales
+SaleDetails
+Customers
+
+/*users table design */
+
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+
+    RoleID INT NOT NULL,
+
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+
+    JobTitle VARCHAR(100),
+
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Phone VARCHAR(20),
+
+    PasswordHash VARCHAR(255) NOT NULL,
+
+    IsActive BOOLEAN DEFAULT TRUE,
+
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (RoleID)
+        REFERENCES Roles(RoleID)
+);
+
+/* Roles table */
+
+CREATE TABLE Roles (
+    RoleID INT PRIMARY KEY AUTO_INCREMENT,
+    RoleName VARCHAR(50) NOT NULL UNIQUE,
+    Description VARCHAR(255)
+);
+
+
+
+<!-- Modal Body -->
+      <div class="modal-body p-4">
+        <form action="/auth/attendance" method="POST">
+          <div class="row g-3">
+            
+            <div class="col-md-6">
+              <input type="text" name="name" class="form-control" placeholder="Student Name" required>
+            </div>
+             <div class="col-md-6">
+              <input type="text" name="mentor" class="form-control" placeholder="Mentor Name">
+            </div>
+            <div class="col-md-6">
+              <select name="days" class="form-select" required>
+                <option value="">Select Day</option>
+                <option>Sunday</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <input type="time" name="Scheduled_Time" class="form-control" placeholder="Scheduled_Time" required>
+            </div>
+           
+            <div class="col-12">
+              <input type="url" name="link" class="form-control" placeholder="Student Link" required>
+            </div>
+
+            <div class="col-12 d-flex justify-content-between">
+              <button type="submit" class="btn btn-primary px-4">
+                <i class="fas fa-paper-plane me-1"></i> Submit
+              </button>
+              
+              <!-- Admin-only button -->
+              <button type="button" class="btn btn-warning px-4" data-bs-toggle="modal" data-bs-target="#adminModal">
+                <i class="fas fa-user-shield me-1"></i> Add Admin link
+              </button>
+
+              <button type="button" class="btn btn-warning px-4" data-bs-toggle="modal" data-bs-target="#daysModal">
+                <i class="fas fa-user-shield me-1"></i> Select_day
+              </button>
+
+              <!-- institutional goal -->
+              <button type="button"
+               class="btn btn-success px-4"
+               data-bs-toggle="modal"
+               data-bs-target="#goalModal">
+              <i class="fas fa-bullseye me-1"></i> Institution Goal
+             </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+
+       let cleaned_expiry_date = expiry_date;
+
+        if (!cleaned_expiry_date || cleaned_expiry_date.trim() === "") {
+            cleaned_expiry_date = null;
+        }
+
+
+<!--
+    <div class="customer-card">
+
+        <div class="customer-header">
+            <i class="fa fa-user-o"></i>
+            <h3>Customer</h3>
+        </div>
+
+        <div class="form-group">
+            <label>Name <span>(optional)</span></label>
+            <input type="text" placeholder="Enter customer name">
+        </div>
+
+        <div class="form-group">
+            <label>Phone number</label>
+            <input type="text" placeholder="Enter phone number">
+        </div>
+
+        <div class="form-group">
+            <label>Location <span>(optional)</span></label>
+            <input type="text" placeholder="Enter location">
+        </div>
+
+    </div> -->
+
+
+document.addEventListener("keydown", function (e) {
+
+    if (e.key === "F1") {
+        e.preventDefault();      // Prevent browser Help
+        newSale();
+    }
+
+    if (e.key === "F2") {
+        e.preventDefault();
+        document.getElementById("searchProduct").focus();
+    }
+
+    if (e.key === "F3") {
+        e.preventDefault();
+        holdSale();
+    }
+
+    if (e.key === "F4") {
+        e.preventDefault();
+        recallSale();
+    }
+
+});
+    <script>
+// Quantity
+const qtyInput = document.getElementById("quantity");
+
+document.getElementById("qtyPlus").addEventListener("click", () => {
+    qtyInput.value = Number(qtyInput.value) + 1;
+});
+
+document.getElementById("qtyMinus").addEventListener("click", () => {
+    if (Number(qtyInput.value) > 1) {
+        qtyInput.value = Number(qtyInput.value) - 1;
+    }
+});
+
+
+// Price
+const priceInput = document.getElementById("price");
+
+document.getElementById("pricePlus").addEventListener("click", () => {
+    priceInput.value = (Number(priceInput.value) + 1).toFixed(2);
+});
+
+document.getElementById("priceMinus").addEventListener("click", () => {
+    if (Number(priceInput.value) > 0) {
+        priceInput.value = (Number(priceInput.value) - 1).toFixed(2);
+    }
+});
+</script>
+
+
+
+
+
+how to imprement shortcut keys 
+
+document.addEventListener("keydown", (event) => {
+    // Ctrl+S
+        if (event.ctrlKey && event.key.toLowerCase() === "s") {
+            event.preventDefault(); // prevent browser Save dialog
+        console.log("Save triggered");
+    }
+
+    // ctrl + F1
+    if (event.ctrlKey && event.key.toLowerCase() === "f1"){
+        console.loq("Ctrl f1 pressed")
+    }     
+ 
+    // Alt+N
+    if (event.altKey && event.key.toLowerCase() === "n") {
+        console.log("New item");
+    }
+});
+
+When handling an event, use this code to prevent default behavior and to cancel bubbling. An event is raised on the active element focused. By default the event will bubble up to higher levels in the html tree.
+event.preventDefault(); // This will prevent the default behavior of a keypress, such as ctrl+s will often trigger saving on a web page.
+event.stopPropagation(); // This will prevent bubbling the event higher in the html tree.
+ background: linear-gradient(
+    90deg,
+    rgba(224, 243, 228, 1) 0%,
+    rgba(229, 244, 232, 1) 50%,
+    rgba(233, 245, 236, 1) 100%
+);

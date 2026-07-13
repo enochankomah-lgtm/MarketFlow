@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+        <title> MarketFlow-main</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">   
+        <link rel="stylesheet" href="/main.css">
+
+        <script>
+
+            // Function to filter products by category
+            function filterCategory(category) {
+                
+                const productCards = document.querySelectorAll('.product-card');
+                productCards.forEach(card => {
+                    const cardCategory = card.dataset.category;
+                    if (category === 'All' || cardCategory === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+        </script>
+    <script>
+     document.addEventListener("DOMContentLoaded", function () {        
+        const searchInput = document.getElementById("searchcategory");
+        
+        searchInput.addEventListener("keyup", function () {
+            const value = this.value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+
+            productCards.forEach(function (productCard) {
+                const productName = productCard.querySelector('.product-name').textContent.toLowerCase();
+
+                if (productName.includes(value)) {
+                    productCard.style.display = "";
+                } else {
+                    productCard.style.display = "none";
+                }
+            });
+        });
+    });
+    </script>
+
+</head>
+
+<body>
+
+    <nav class="main-navbar">
+        <div class="logo">
+            <i class="fas fa-store"></i>
+            <div class="logo-text">
+                <h2>MarketFlow</h2> 
+            </div>
+        </div>
+        
+        <div class="search-container">
+            <input class="searchitem" id="searchcategory" type="search" placeholder="Search products by....." aria-label="Search Products">
+            <div class="dropdown">
+        <button
+            class="btn category-btn dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+            All Product Pages
+        </button>
+
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item" href="/pos">
+                    <i class="fas fa-cash-register"></i>
+                    Point of Sales
+                </a>
+            </li>
+
+            <li>
+                <a class="dropdown-item" href="/productpages/products">
+                    <i class="fas fa-boxes-stacked"></i>
+                    Products
+                </a>
+            </li>
+
+            <li>
+                <a class="dropdown-item" href="/customers">
+                    <i class="fas fa-users"></i>
+                    Customer Trends
+                </a>
+            </li>
+
+            <li>
+                <button
+                    class="dropdown-item"
+                    data-bs-toggle="modal"
+                    data-bs-target="#Inventorysystem">
+
+                    <i class="fas fa-database"></i>
+                    Inventory Records
+
+                </button>
+            </li>
+
+            <li>
+                <a class="dropdown-item" href="/performance">
+                    <i class="fas fa-chart-pie"></i>
+                    Business Performance
+                </a>
+            </li>
+
+            <li>
+                <a class="dropdown-item" href="/insights">
+                    <i class="fas fa-lightbulb"></i>
+                    Generate Insights
+                </a>
+            </li>
+
+        </ul>
+
+        </div>
+            <button
+                type="button"
+                class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <!-- Right Menu -->
+
+        <div class="right-menu">
+
+            
+
+
+            <div class="menu-item">
+
+                <i class="fas fa-user-circle"></i>
+
+                <div>
+
+                    <small>User Account</small>
+
+                    <span>Welcome, {{name}}</span>
+
+                </div>
+
+            </div>
+
+        </div>
+       
+
+    </nav>
+
+    <div class="category-card">
+        <div class="category-header">
+            <i class="fa-solid fa-border-all"></i>
+            <span>CATEGORIES</span>
+        </div>
+        <div class="category-item">
+
+            <div class="category-row" onclick="filterCategory('All')">
+                <img src="https://cdn-icons-png.flaticon.com/128/12489/12489785.png" alt="">
+                All
+            </div>
+            {{#each categories}}
+                <div class="category-row" onclick="filterCategory('{{category}}')">
+                    <img src="https://cdn-icons-png.flaticon.com/128/12489/12489785.png" alt="">
+                    {{category}}
+                </div>
+            {{/each}}
+        </div>
+        <div class="category-footer">
+            <button class="add-products" id="addCategoryBtn">
+                <i class="fas fa-plus"></i>
+                Add Product
+            </button>
+        </div>
+    </div>
+        <!-- shortcut toolbar -->
+
+        <div class="shortcut-toolbar">
+
+            <button class="shortcut-btn" id="newSaleBtn">
+                <div class="shortcut-icon green">
+                    <i class="fa-solid fa-cart-plus"></i>
+                </div>
+
+                <div class="shortcut-text">
+                    <span class="shortcut-key">F1</span>
+                    <span class="shortcut-title">New Sale</span>
+                </div>
+            </button>
+
+
+            <button class="shortcut-btn" id="holdSaleBtn">
+                <div class="shortcut-icon orange">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+                <div class="shortcut-text">
+                    <span class="shortcut-key">F3</span>
+                    <span class="shortcut-title">Hold Sale</span>
+                </div>
+            </button>
+
+
+            <button class="shortcut-btn" id="recallSaleBtn">
+                <div class="shortcut-icon blue">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+                <div class="shortcut-text">
+                    <span class="shortcut-key">F4</span>
+                    <span class="shortcut-title">Recall Sale</span>
+                </div>
+            </button>
+
+
+            <button class="shortcut-btn" id="priceCheckBtn">
+                <div class="shortcut-icon purple">
+                    <i class="fa-solid fa-barcode"></i>
+                </div>
+                <div class="shortcut-text">
+                    <span class="shortcut-key">F5</span>
+                   <span class="shortcut-title">Price Check</span>
+                </div>
+            </button>
+
+        </div>
+            
+
+      <div class="products-container">
+
+        <section class="products">
+
+            {{#each products}}
+
+            <div class="product-card" data-category="{{category}}">
+                <img src="{{product_image}}" alt="{{product_name}}">
+                <div class="content">
+                    <h5 class="product-name">{{product_name}}</h5>
+                    <span class="price">GH₵ {{selling_price}} /{{unit}}</span>
+                    <div class="stock-btn">
+                    <small>Stock: {{totalreceived}}</small>
+                    <button class="add-btn edit-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editproduct"
+                            data-id="{{product_id}}"
+                            data-name="{{product_name}}"
+                            data-category="{{category}}"
+                            data-brand="{{brand}}"
+                            data-unit="{{unit}}"
+                            data-cost="{{cost_price}}"
+                            data-selling="{{selling_price}}"
+                            data-msrp="{{msrp}}"
+                            data-description="{{description}}"
+                            data-image="{{product_image}}"
+                            data-supplier="{{supplier_name}}"
+                            data-expiry="{{expiry_date}}" >
+                        <i class="fa-solid fa-bag-shopping"></i> sell
+                    </button>
+                    
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{/each}}
+
+        </section>
+
+    </div>
+
+
+
+
+
+
+    <!-- =======================
+            MODAL
+    ======================== -->
+
+    <div
+    class="modal fade"
+
+    id="Inventorysystem"
+
+    tabindex="-1">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+
+    <div class="modal-content rounded-4">
+
+    <div class="modal-header bg-success text-white">
+
+    <h5 class="modal-title">
+
+    <i class="fas fa-warehouse me-2"></i>
+
+    Inventory Management
+
+    </h5>
+
+    <button
+
+    type="button"
+
+    class="btn-close btn-close-white"
+
+    data-bs-dismiss="modal">
+
+    </button>
+
+    </div>
+
+
+
+    <div class="modal-body p-4">
+
+    <div class="row g-4">
+
+
+    <div class="col-md-6">
+
+    <div class="card h-100 border-0 shadow-sm">
+
+    <div class="card-body text-center">
+
+    <i class="fas fa-warehouse fa-3x text-success mb-3"></i>
+
+    <h5>Stock Intake</h5>
+
+    <p>
+
+    Record new stock entries and manage inventory.
+
+    </p>
+
+    <a
+
+    href="/productpages/inventory"
+
+    class="btn btn-success">
+
+    Open Stock Intake
+
+    </a>
+
+    </div>
+
+    </div>
+
+    </div>
+
+
+
+    <div class="col-md-6">
+
+    <div class="card h-100 border-0 shadow-sm">
+
+    <div class="card-body text-center">
+
+    <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+
+    <h5>Inventory Dashboard</h5>
+
+    <p>
+
+    Track inventory levels and stock movement.
+
+    </p>
+
+    <a
+
+    href="/inventoryDashboard"
+
+    class="btn btn-primary">
+
+    Open Dashboard
+
+    </a>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    <div class="modal fade" id="editproduct" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4">
+                <!-- Modal Heading -->
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title">
+                            <i class="fas fa-box me-2"></i> EDIT PRODUCT
+                        </h5>
+
+                        <button  type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">  </button>
+                    </div>
+                
+               <div class="modal-body p-4">
+                    <div class="entirecontainer">
+                        <form action="/productpages/products/update" method="POST">
+                            <div class="top-section">
+                                <!-- PRODUCT CARD -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="icon">📦</div>
+                                        <div>
+                                        <p>PURCHASING INFORMATION</p>
+                                        <h2>ITEM / QUANTITY</h2>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="edit_product_id" name="product_id">
+                                    <div class="inputs">
+                                        <div class="inputs1">
+                                            <label>Product Name</label>
+                                            <input type="text" id="edit_product_name" name="product_name" placeholder="Product Name" value="existing product name">
+                                            <label>Quantity</label>
+                                            <div class="setquantity">
+                                                <button class="minus" id="quantity-minus"> - </button>
+                                                <input class="Quantityinput" type="text" id="quantity" name="quantity" placeholder="Quantity">
+                                                <button class="plus" id="quantity-plus"> + </button>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+
+                                <!-- PRICE CARD -->
+                                <div class="card">
+                                <div class="card-header">
+                                    <div class="icon">💰</div>
+                                    <div>
+                                    <p>PRICE DETAILS</p>
+                                    <h2>Product Pricing</h2>
+                                    </div>
+                                </div>
+
+                                <div class="inputs">
+                                    <div class="inputs1">
+                                    <input type="number" id="edit_cost_price" name="cost_price" placeholder="Cost Price" required>
+                                    <input type="number" id="edit_selling_price" name="selling_price" placeholder="Selling Price" required>
+                                    </div>
+
+                                    <input type="number" id="edit_msrp" name="msrp" placeholder="MSRP">
+                                </div>
+                                </div>
+
+                            </div>
+                        </form>
+                 </div>
+              </div>                
+           </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (){
+            const productquantity = document.getElementById("quantity");
+            const productminus = document.getElementById("quantity-minus");
+            const productplus = document.getElementById("quantity-plus");
+
+            productplus.addEventListener("click", function(){
+                productquantity.value = Number(productquantity.value) +1
+            });
+
+            productminus.addEventListener("click", function(){
+                if(Number(productquantity.value) > 0){
+                    productquantity.value = Number(productquantity.value) -1
+                }
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

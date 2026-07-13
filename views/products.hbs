@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/products.css">
+
+    <title>MarketFlow Dashboard</title>
+
+ </head>
+
+
+<body>
+
+<!-- HEADER -->
+<header>
+
+   <div class="logo">
+
+      <img src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png">
+
+        <h1>
+        Market<span>Flow</span>
+        </h1>
+
+  </div>    
+    
+         <button class="add-btn"
+             data-bs-toggle="modal"
+             data-bs-target="#Inventorysystem">
+              <i class="fa fa-plus"></i>
+              Add Product
+          </button>    
+
+</header>
+
+
+<aside>
+
+
+  <button class="shop">   Dashboard </button>
+
+    <a href="/productpages/main">
+      <i class="fa fa-cash-register"></i>
+      Point Of Sales
+    </a>
+
+
+    <a href="/productpages/inventory">
+      <i class="fa fa-box"></i>
+      Inventory
+    </a>
+
+
+    <a href="/products" class="active">
+      <i class="fa fa-cubes"></i>
+      Products
+    </a>
+
+
+    <a href="/customers">
+      <i class="fa fa-users"></i>
+      Customers
+    </a>
+
+    <a href="/performance">
+      <i class="fa fa-chart-line"></i>
+      Analytics
+    </a>
+
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main>
+
+
+    <h2>Product Dashboard</h2>
+
+    <p class="subtitle">
+    Monitor stock levels, track sales performance, and manage product data efficiently.
+    </p>
+
+    <!-- CARDS -->
+
+    <section class="stats">
+      <div class="stat">
+
+        <h5>Total Expected Sales Value</h5>
+
+        <h2>${{totalsales}}</h2>
+
+      </div>
+
+      <div class="stat">
+
+        <h5>Total Cost Value</h5>
+
+        <h2>${{totalcost}}</h2>
+
+      </div>
+
+      <div class="stat">
+        <h5>Net Profit</h5>
+        <h2>${{totalProfit}}</h2>
+      </div>
+
+      <div class="stat">
+        <h5>Available Products</h5>
+        <h2>
+        {{products.length}}
+        </h2>
+        <p> {{expiringdate}} products expiring soon</p>
+
+      </div>
+
+
+    </section>
+
+    <div class="product-header">
+      <h2>  My Products  </h2>
+      <div class="search-box">
+        <input type="text" id="productSearch" placeholder="Search products...">
+        <i class="fa fa-search"></i>
+      </div>
+    </div>
+
+    <section class="products">
+
+
+      {{#each products}}
+
+        <div class="product-card">
+            <img src="{{product_image}}">
+            <div class="content">
+              <h3 class="product-name">{{product_name}}</h3>
+              <p class="product-category">{{category}}</p>
+              <h4>${{selling_price}} / {{unit}}</h4>
+
+              <p>stock: {{totalreceived}}</p>
+
+              <button
+                  class="add-btn edit-btn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editproduct"
+
+                  data-id="{{product_id}}"
+                  data-name="{{product_name}}"
+                  data-category="{{category}}"
+                  data-brand="{{brand}}"
+                  data-unit="{{unit}}"
+                  data-cost="{{cost_price}}"
+                  data-selling="{{selling_price}}"
+                  data-msrp="{{msrp}}"
+                  data-description="{{description}}"
+                  data-image="{{product_image}}"
+                  data-supplier="{{supplier_name}}"
+                  data-expiry="{{expiry_date}}">
+
+                  <i class="fa fa-edit"></i>
+                  Edit
+              </button>
+          </div>
+
+
+
+        </div>
+
+      {{/each}}
+
+    </section>
+
+    <div class="new-product">
+      <a href="/productpages/add">
+        + Add New Product
+      </a>
+
+    </div>
+
+</main>
+
+<div class="modal fade" id="Inventorysystem" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4">
+
+      <!-- Modal Header -->
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-user-tie me-2"></i> ADD PRODUCT
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      
+  <div class="modal-body p-4">
+
+    <div class="entirecontainer">
+
+     <form action="/productpages/add" method="POST">
+
+      <div class="top-section">
+
+        <!-- PRODUCT CARD -->
+        <div class="card">
+          <div class="card-header">
+            <div class="icon">📦</div>
+            <div>
+              <p>PRODUCT INFORMATION</p>
+              <h2>Add New Product</h2>
+            </div>
+          </div>
+
+          <div class="inputs">
+            <div class="inputs1">
+              <input type="text" name="product_name" placeholder="Product Name">
+              <input type="text" name="category" placeholder="Category">
+            </div>
+
+            <div class="inputs2">
+              <input type="text" name="brand" placeholder="Brand">
+              <input type="text" name="unit" placeholder="Unit">
+            </div>
+          </div>
+        </div>
+
+        <!-- PRICE CARD -->
+        <div class="card">
+          <div class="card-header">
+            <div class="icon">💰</div>
+            <div>
+              <p>PRICE DETAILS</p>
+              <h2>Product Pricing</h2>
+            </div>
+          </div>
+
+          <div class="inputs">
+            <div class="inputs1">
+              <input type="number" name="cost_price" placeholder="Cost Price">
+              <input type="number" name="selling_price" placeholder="Selling Price">
+            </div>
+
+            <input type="number" name="msrp" placeholder="MSRP">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM CARD -->
+      <div class="card bottom-card">
+
+        <div class="card-header">
+          <div class="icon">📝</div>
+          <div>
+            <p>MORE INFORMATION</p>
+            <h2>Product Description & Supplier</h2>
+          </div>
+        </div>
+
+        <textarea class="area1" name="description" placeholder="Product description"></textarea>
+
+        <div class="bottom-inputs">
+          <input type="url" name="product_image" placeholder="Product Image Link">
+          <input type="text" name="supplier_name" placeholder="Supplier Name">
+          
+        </div>
+
+        <button type="submit">Add Product</button>
+
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editproduct" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4">
+
+      <!-- Modal Header -->
+      <div class="modal-header bg-success text-white">
+    <h5 class="modal-title">
+        <i class="fas fa-box me-2"></i> EDIT PRODUCT
+    </h5>
+
+    <button
+        type="button"
+        class="btn-close btn-close-white"
+        data-bs-dismiss="modal">
+    </button>
+</div>
+      
+  <div class="modal-body p-4">
+
+    <div class="entirecontainer">
+
+     <form action="/productpages/products/update" method="POST">
+
+      <div class="top-section">
+
+        <!-- PRODUCT CARD -->
+        <div class="card">
+          <div class="card-header">
+            <div class="icon">📦</div>
+            <div>
+              <p>PRODUCT INFORMATION</p>
+              <h2>Edit Product</h2>
+            </div>
+          </div>
+
+          <input type="hidden" id="edit_product_id" name="product_id">
+          <div class="inputs">
+            <div class="inputs1">
+              <input type="text" id="edit_product_name" name="product_name" placeholder="Product Name" value="existing product name">
+              <input type="text" id="edit_category" name="category" placeholder="Category">
+            </div>
+
+            <div class="inputs2">
+              <input type="text" id="edit_brand" name="brand" placeholder="Brand">
+              <input type="text" id="edit_unit" name="unit" placeholder="Unit">
+            </div>
+          </div>
+        </div>
+
+        <!-- PRICE CARD -->
+        <div class="card">
+          <div class="card-header">
+            <div class="icon">💰</div>
+            <div>
+              <p>PRICE DETAILS</p>
+              <h2>Product Pricing</h2>
+            </div>
+          </div>
+
+          <div class="inputs">
+            <div class="inputs1">
+              <input type="number" id="edit_cost_price" name="cost_price" placeholder="Cost Price" required>
+              <input type="number" id="edit_selling_price" name="selling_price" placeholder="Selling Price" required>
+            </div>
+
+            <input type="number" id="edit_msrp" name="msrp" placeholder="MSRP">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM CARD -->
+      <div class="card bottom-card">
+
+        <div class="card-header">
+          <div class="icon">📝</div>
+          <div>
+            <p>MORE INFORMATION</p>
+            <h2>Product Description & Supplier</h2>
+          </div>
+        </div>
+
+        <textarea class="area1" id="edit_description" name="description" placeholder="Product description"></textarea>
+
+        <div class="bottom-inputs">
+          <input type="url" id="edit_product_image" name="product_image" placeholder="Product Image Link">
+          <input type="text" id="edit_supplier_name" name="supplier_name" placeholder="Supplier Name">
+          <input type="date" id="edit_expiry_date" name="expiry_date">
+        </div>
+
+        <button type="submit">Save Product</button>
+
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+      
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll(".edit-btn").forEach(button => {
+
+    button.addEventListener("click", function () {
+
+        document.getElementById("edit_product_id").value =
+            this.dataset.id;
+
+        document.getElementById("edit_product_name").value =
+            this.dataset.name;
+
+        document.getElementById("edit_category").value =
+            this.dataset.category;
+
+        document.getElementById("edit_brand").value =
+            this.dataset.brand;
+
+        document.getElementById("edit_unit").value =
+            this.dataset.unit;
+
+        document.getElementById("edit_cost_price").value =
+            this.dataset.cost;
+
+        document.getElementById("edit_selling_price").value =
+            this.dataset.selling;
+
+        document.getElementById("edit_msrp").value =
+            this.dataset.msrp;
+
+        document.getElementById("edit_description").value =
+            this.dataset.description;
+
+        document.getElementById("edit_product_image").value =
+            this.dataset.image;
+
+        document.getElementById("edit_supplier_name").value =
+            this.dataset.supplier;
+
+        document.getElementById("edit_expiry_date").value =
+            this.dataset.expiry;
+    });
+
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const SearchItems = document.getElementById("productSearch");
+
+  SearchItems.addEventListener("keyup",function(){
+    const searchinput = this.value.toLowerCase();
+    const SearchOutput = document.querySelectorAll(".product-card");
+
+    SearchOutput.forEach( item => {
+      const productName = item.querySelector(".product-name").textContent.toLowerCase();
+      const productCategory = item.querySelector(".product-category").textContent.toLowerCase();
+
+      
+    if(productName.includes(searchinput) || productCategory.includes(searchinput))
+    {
+      item.style.display = "block";
+    }
+    else
+    {
+      item.style.display = "none";
+    }
+
+    })
+  })
+
+});
+
+</script>
+
+</body>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</html>

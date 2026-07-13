@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/inventory.css">
+
+    <title>Inventory - marketflow</title>
+
+</head>
+
+
+<body>
+
+            <nav>
+
+                <div class="Logo">
+
+                    <img class="" src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png" alt="marketflow-logo-png" border="0">
+                    <h1>
+                        Market<span>Flow</span>
+                    </h1>
+                 </div>
+                 <ul>
+                    <li>
+                        <a href="/" class="list1">
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/main" class="list2">
+                            Main
+                        </a>
+                    </li>
+                </ul>
+            </nav> 
+
+                <div class="page-layout">
+                    <aside class="sidebar">
+                        <button class="btn">
+                            Shop Now
+                     </button>           
+                        <div class="features">
+                                    <a href="/main" >          
+                            
+                            <button class="btns">
+                            <i class="fas fa-cash-register"></i>    
+                            Point of Sales
+                            </button>            
+                     </a>
+                     <a href="/inventory">
+                        <button class="btns">
+                            <i class="fas fa-database"></i>
+                            Inventory Records
+                        </button>    
+                    </a> 
+                        <a href="/customers" >
+                        <button class="btns">
+                            <i class="fas fa-users">  </i>
+                            Customer Trends
+                        </button>
+                    </a>
+                    <a href="/productpages/products" >
+                        <button class="btns">
+                            <i class="fas fa-boxes-stacked"></i> 
+                            Products
+                        </button>
+                    </a> 
+                    <a href="/performance">
+                        <button class="btns">
+                            <i class="fas fa-chart-pie"></i>
+                            Business Performance
+                    </button>
+                    </a>
+                    <a href="/insights" >
+                        <button class="btns">
+                            <i class="fas fa-lightbulb"></i>
+                            Generate Insights
+                        </button>
+                     </a>
+                        </div>
+                    </aside>
+             </div>
+
+                <div class="stockset">
+                    <button class="stockset1" onclick="window.location.href='/productpages/stockintake'">
+                      stock Intake
+                    </button>  
+                    <button class="stockset1">
+                     Stock Movements
+                    </button>
+                </div> 
+
+ <div class="entirecontainer">
+
+     <form action="/productpages/add" method="POST">
+
+       <!-- TOP SECTION -->
+
+       <div class="top-section">
+
+         <!-- PRODUCT DETAILS CARD -->
+
+  <div class="card">
+    <div class="card-header">
+      <div class="icon">
+        📦
+   </div>
+    <div>
+       <p>PRODUCT INFORMATION</p>
+       <h2>Add New Product</h2>
+    </div>
+
+</div>
+
+
+
+   <div class="inputs">
+    <div class="inputs1">
+        <input type="text" name="product_name" placeholder="Product Name">
+
+        <input type="text" name="category" placeholder="Category">
+     </div>
+     <div class="inputs2">
+        <input type="text"  name="brand"  placeholder="Brand">
+
+        <input  type="text"  name="unit" placeholder="Unit">
+     </div>
+    </div>
+        </div>
+
+<!-- PRICE CARD -->
+
+<div class="card">
+  <div class="card-header">
+  <div class="icon">
+   💰
+  </div>
+
+    <div>
+        <p>PRICE DETAILS</p>
+        <h2>Product Pricing</h2>
+    </div>
+
+</div>
+
+<div class="inputs">
+    <div class="inputs1">
+      <input type="number" name="cost_price" placeholder="Cost Price">
+
+      <input type="number" name="selling_price" placeholder="Selling Price">
+    </div>
+
+   <input type="number" name="msrp" placeholder="MSRP">
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- BOTTOM CARD -->
+
+
+<div class="card bottom-card">
+
+
+<div class="card-header">
+  <div class="icon">
+   📝
+  </div>
+ <div>
+   <p>MORE INFORMATION</p>
+   <h2>Product Description & Supplier</h2>
+</div>
+<button>Add Product</button>
+</div>
+
+
+<textarea class="area1" name="description" placeholder="Product description"></textarea>
+
+<div class="bottom-inputs">
+<input type="url" name="product_image" placeholder="Product Image Link">
+
+<input type="text" name="supplier_name" placeholder="Supplier Name">
+
+</div>
+
+</div>
+</form>
+</div>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+

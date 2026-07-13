@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stockintake.css">
+
+    <title>Inventory - marketflow</title>
+
+</head>
+
+
+<body>
+
+            <nav>
+
+                <div class="Logo">
+
+                    <img class="" src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png" alt="marketflow-logo-png" border="0">
+                    <h1>
+                        Market<span>Flow</span>
+                    </h1>
+                 </div>
+                 <ul>
+                    <li>
+                        <a href="/" class="list1">
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/main" class="list2">
+                            Main
+                        </a>
+                    </li>
+                </ul>
+            </nav> 
+
+                <div class="page-layout">
+                    <aside class="sidebar">
+                        <button class="btn">
+                            Shop Now
+                     </button>           
+                        <div class="features">
+                                    <a href="/main" >          
+                            
+                            <button class="btns">
+                            <i class="fas fa-cash-register"></i>    
+                            Point of Sales
+                            </button>            
+                     </a>
+                     <a href="/inventory">
+                        <button class="btns">
+                            <i class="fas fa-database"></i>
+                            Inventory Records
+                        </button>    
+                    </a> 
+                       
+                    <a href="/productpages/products" >
+                        <button class="btnss">
+                            <i class="fas fa-boxes-stacked"></i> 
+                            Products
+                        </button>
+                    </a> 
+                    
+                        </div>
+                    </aside>
+             </div>
+
+                <div class="stockset">
+                    <button class="stockset1" id="inventorybtn">
+                      Add Product
+                    </button>  
+                    <button class="stockset1">
+                     Stock Movements
+                    </button>
+                </div> 
+
+        <div class="entirecontainer">
+            <form action="/productpages/add-stock" method="POST">
+                <div class="top-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="icon">📦</div>
+                            <div>
+                                <p>STOCK INFORMATION</p>
+                                <h2>Stock Intake</h2>
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <div class="product-search">
+                                <input  type="text"   id="productSearch" placeholder="Search Product..." autocomplete="off" required>
+                                <input  type="hidden"  id="product_id"  name="product_id">
+                                <div id="searchResults" class="search-results"> </div>
+                            </div>
+
+                            <input type="text" id="brand" placeholder="Brand" >
+                            <input type="text" id="category" placeholder="Category" readonly>
+                            <input type="text" id="unit" placeholder="Unit" readonly>
+                            <input type="text" id="supplier" placeholder="Supplier" readonly>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="icon">📋</div>
+                            <div>
+                                <p>STOCK DETAILS</p>
+                                <h2>Inventory Details</h2>        
+                            </div>
+
+                        </div>
+
+                        <div class="inputs">
+                            <input type="text" name="batch_number" placeholder="Batch Number" >
+                            <input type="number" name="quantity_received" id="quantity_received" placeholder="Quantity Received" required>
+                            <input type="number" id="quantity_available" placeholder="Quantity Available" readonly>
+                            <input type="date" name="expiry_date"> 
+                            <button type="submit">Add Stock</button>
+                        </div>
+                  </div>
+                </div>
+            </form>
+        </div>
+
+  <script src="/js/bootstrap.bundle.min.js">  </script>
+
+    <script>
+        const inventory = document.getElementById("inventorybtn");
+        inventory.onclick = function(){
+            window.location.href = "/productpages/inventory"
+        }
+    </script>
+
+    <script>
+
+        const productSearch = document.getElementById("productSearch");
+        const resultsBox = document.getElementById("searchResults");
+        const hiddenProductId = document.getElementById("product_id");
+
+        productSearch.addEventListener("keyup", async function () {
+            const search = this.value;
+            if (search.length < 2) {
+                resultsBox.innerHTML = "";
+                return;
+            }
+
+            const response = await fetch(`/productpages/search-products?search=${search}`);
+            const products = await response.json();
+            console.log(products);
+
+            let html = "";
+
+            products.forEach(product => {
+                html += `
+                    <div
+                        class="result-item"
+                        data-id="${product.product_id}"
+                        data-name="${product.product_name}"
+                        data-brand="${product.brand}"
+                        data-category="${product.category}"
+                        data-unit="${product.unit}"
+                        data-supplier="${product.supplier_name}"
+                    >
+                        <strong>${product.product_name}</strong>
+                        <br>
+                        <small>
+                            ${product.brand} |
+                            ${product.category} |
+                            ${product.unit} |
+                            ${product.supplier_name}
+                        </small>
+                    </div>
+                `;
+            });
+
+            resultsBox.innerHTML = html;
+        });
+
+    resultsBox.addEventListener("click", function (e) {
+
+        const item = e.target.closest(".result-item");
+
+        if (!item) return;
+
+        productSearch.value = item.dataset.name;
+
+        hiddenProductId.value = item.dataset.id;
+
+        document.getElementById("brand").value = item.dataset.brand;
+
+        document.getElementById("category").value = item.dataset.category;
+
+        document.getElementById("unit").value = item.dataset.unit;
+
+        document.getElementById("supplier").value = item.dataset.supplier;
+
+        resultsBox.innerHTML = "";
+
+    });
+
+    const qtyReceived = document.getElementById("quantity_received");
+    const qtyAvailable = document.getElementById("quantity_available");
+
+    qtyReceived.addEventListener("input", function () {
+
+        qtyAvailable.value = this.value;
+
+    });
+
+    </script>
+</body>
+
+</html>
+
+
