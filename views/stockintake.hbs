@@ -184,22 +184,16 @@
     resultsBox.addEventListener("click", function (e) {
 
         const item = e.target.closest(".result-item");
+            if (!item) return;
 
-        if (!item) return;
+                    productSearch.value = item.dataset.name;
+                    hiddenProductId.value = item.dataset.id;
+                    document.getElementById("brand").value = item.dataset.brand;
+                    document.getElementById("category").value = item.dataset.category;
+                    document.getElementById("unit").value = item.dataset.unit;
+                    document.getElementById("supplier").value = item.dataset.supplier;
 
-        productSearch.value = item.dataset.name;
-
-        hiddenProductId.value = item.dataset.id;
-
-        document.getElementById("brand").value = item.dataset.brand;
-
-        document.getElementById("category").value = item.dataset.category;
-
-        document.getElementById("unit").value = item.dataset.unit;
-
-        document.getElementById("supplier").value = item.dataset.supplier;
-
-        resultsBox.innerHTML = "";
+                    resultsBox.innerHTML = "";
 
     });
 

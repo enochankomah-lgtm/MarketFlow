@@ -47,7 +47,11 @@ exports.register = async(req, res) => {
         req.session.user = {
             id: result.insertId,
             name: firstName + " " + lastName,
-            email: email
+            email: email,
+            RoleName: role,
+            Business_name:businessName,
+            phone:phone,
+            location:location
         };
 
         return res.redirect("/productpages/main");
@@ -67,7 +71,7 @@ exports.login = async(req, res) => {
     try {
 
         const [users] = await db.query(
-            `SELECT UserID, FirstName, LastName, Email, PasswordHash
+            `SELECT *
              FROM Users
              WHERE Email = ?`, [email]
         );
@@ -97,9 +101,13 @@ exports.login = async(req, res) => {
         req.session.user = {
             id: user.UserID,
             name: user.FirstName + " " + user.LastName,
-            email: user.Email
+            email: user.Email,
+            location:user.Business_location,
+            phone:user.Phone,
+            RoleName:user.RoleName,
+            Business_name:user.Business_name
         };
-
+        console.log(req.session.user);
         return res.redirect("/productpages/main");
 
     } catch (error) {
@@ -111,4 +119,22 @@ exports.login = async(req, res) => {
         });
 
     }
+};
+
+
+exports.logout = (req, res) => {
+
+    req.session.destroy((err) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).send("Unable to log out.");
+        }
+
+        res.clearCookie("connect.sid");
+
+        return res.redirect('/login');
+
+    });
+
 };

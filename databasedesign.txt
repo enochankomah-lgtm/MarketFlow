@@ -202,6 +202,13 @@ document.addEventListener("keydown", (event) => {
         console.log("Save triggered");
     }
 
+   if(event.ctrlkey && event.key.toLowerCase() ===  'm'){
+     event.preventDefault();
+     console.log('this are to tigger sales')
+
+   }
+
+
     // ctrl + F1
     if (event.ctrlKey && event.key.toLowerCase() === "f1"){
         console.loq("Ctrl f1 pressed")
@@ -213,7 +220,8 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-When handling an event, use this code to prevent default behavior and to cancel bubbling. An event is raised on the active element focused. By default the event will bubble up to higher levels in the html tree.
+When handling an event, use this code to prevent default behavior and to cancel bubbling. An event is raised on the active element focused.
+ By default the event will bubble up to higher levels in the html tree.
 event.preventDefault(); // This will prevent the default behavior of a keypress, such as ctrl+s will often trigger saving on a web page.
 event.stopPropagation(); // This will prevent bubbling the event higher in the html tree.
  background: linear-gradient(
