@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employees - MarketFlow</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            margin-bottom: 6px;
+        }
+
+        .page-title p {
+            color: #666;
+            margin-top: 0;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .submit-button {
+            margin-top: 5px;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .submit-button:hover {
+            background: #1d4ed8;
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 14px 16px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        .setup-result {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+            border-radius: 7px;
+        }
+
+        .setup-result h4 {
+            margin-top: 0;
+            color: #166534;
+        }
+
+        .setup-url {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .copy-button {
+            margin-top: 8px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background: #374151;
+            color: white;
+            cursor: pointer;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 900px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 13px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+            font-size: 14px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .role {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 5px;
+            background: #eef2ff;
+            color: #3730a3;
+            font-size: 12px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-button {
+            padding: 7px 11px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 12px;
+        }
+
+        .activate {
+            background: #16a34a;
+        }
+
+        .deactivate {
+            background: #dc2626;
+        }
+
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        @media (max-width: 750px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header nav {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>MarketFlow Admin Portal</h1>
+
+        <nav>
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/registrations">Registrations</a>
+            <a href="/admin/employees">Employees</a>
+            <a href="/auth/logout">Logout</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <a href="/admin/dashboard" class="back">
+            ← Back to Dashboard
+        </a>
+
+        <section class="page-title">
+            <h2>Employee Management</h2>
+            <p>
+                Create and manage employees belonging to your business.
+            </p>
+        </section>
+
+        <div id="message" class="message"></div>
+
+        <!-- CREATE EMPLOYEE -->
+        <section class="section">
+
+            <h3>Create Employee</h3>
+
+            <form id="employeeForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+
+                        <input
+                            type="text"
+                            id="firstName"
+                            name="FirstName"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+
+                        <input
+                            type="text"
+                            id="lastName"
+                            name="LastName"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="Email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+
+                        <input
+                            type="text"
+                            id="phone"
+                            name="Phone"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title</label>
+
+                        <input
+                            type="text"
+                            id="jobTitle"
+                            name="JobTitle"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role">Role</label>
+
+                        <select id="role" name="RoleName" required>
+
+                            <option value="">
+                                Select role
+                            </option>
+
+                            <option value="Cashier">
+                                Cashier
+                            </option>
+
+                            <option value="Manager">
+                                Manager
+                            </option>
+
+                            <option value="Administrator">
+                                Administrator
+                            </option>
+
+                            <option value="Admin">
+                                Admin
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="branch">Branch</label>
+
+                        <select id="branch" name="branch_id" required>
+
+                            <option value="">
+                                Select branch
+                            </option>
+
+                            {{#each branches}}
+
+                                <option value="{{branch_name}}">
+                                    {{branch_name}}
+                                </option>
+
+                            {{/each}}
+
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+
+                        <button
+                            type="submit"
+                            class="submit-button"
+                            id="createButton"
+                        >
+                            Create Employee
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+            <div id="setupResult" class="setup-result">
+
+                <h4>Employee Created Successfully</h4>
+
+                <p>
+                    Give the employee this one-time account setup link.
+                    They will use it to create their own password.
+                </p>
+
+                <input
+                    type="text"
+                    id="setupUrl"
+                    class="setup-url"
+                    readonly
+                >
+
+                <button
+                    type="button"
+                    class="copy-button"
+                    onclick="copySetupLink()"
+                >
+                    Copy Setup Link
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- EMPLOYEE LIST -->
+        <section class="section">
+
+            <h3>Employees</h3>
+
+            {{#if employees.length}}
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Branch</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {{#each employees}}
+
+                                <tr>
+
+                                    <td>
+                                        {{FirstName}} {{LastName}}
+                                    </td>
+
+                                    <td>
+                                        {{Email}}
+                                    </td>
+
+                                    <td>
+                                        {{Phone}}
+                                    </td>
+
+                                    <td>
+                                        <span class="role">
+                                            {{RoleName}}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{branch_name}}
+                                    </td>
+
+                                    <td>
+
+                                        {{#ifEquals IsActive 1}}
+
+                                            <span class="status active">
+                                                Active
+                                            </span>
+
+                                        {{else}}
+
+                                            <span class="status inactive">
+                                                Inactive
+                                            </span>
+
+                                        {{/ifEquals}}
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            {{#ifEquals IsActive 1}}
+
+                                                <button
+                                                    type="button"
+                                                    class="action-button deactivate"
+                                                    onclick="deactivateEmployee({{UserID}})"
+                                                >
+                                                    Deactivate
+                                                </button>
+
+                                            {{else}}
+
+                                                <button
+                                                    type="button"
+                                                    class="action-button activate"
+                                                    onclick="activateEmployee({{UserID}})"
+                                                >
+                                                    Activate
+                                                </button>
+
+                                            {{/ifEquals}}
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {{/each}}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {{else}}
+
+                <div class="empty">
+                    <h3>No Employees Found</h3>
+
+                    <p>
+                        Create your first employee using the form above.
+                    </p>
+                </div>
+
+            {{/if}}
+
+        </section>
+
+    </main>
+
+
+    <script>
+        const employeeForm = document.getElementById("employeeForm");
+        const messageBox = document.getElementById("message");
+        const setupResult = document.getElementById("setupResult");
+        const setupUrl = document.getElementById("setupUrl");
+        const createButton = document.getElementById("createButton");
+
+        function showMessage(message, success = true) {
+            messageBox.textContent = message;
+            messageBox.style.display = "block";
+
+            if (success) {
+                messageBox.style.color = "#166534";
+                messageBox.style.background = "#dcfce7";
+            } else {
+                messageBox.style.color = "#991b1b";
+                messageBox.style.background = "#fee2e2";
+            }
+        }
+
+
+        employeeForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            createButton.disabled = true;
+            createButton.textContent = "Creating...";
+
+            setupResult.style.display = "none";
+
+            const formData = new FormData(employeeForm);
+
+            const employeeData = {
+                FirstName: formData.get("FirstName"),
+                LastName: formData.get("LastName"),
+                Email: formData.get("Email"),
+                Phone: formData.get("Phone"),
+                JobTitle: formData.get("JobTitle"),
+                RoleName: formData.get("RoleName"),
+                branch_id: formData.get("branch_id")
+            };
+
+            try {
+                const response = await fetch("/admin/employees", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(employeeData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || "Unable to create employee."
+                    );
+                }
+
+                showMessage(
+                    data.message || "Employee created successfully."
+                );
+
+                if (data.setupUrl) {
+                    setupUrl.value = data.setupUrl;
+                    setupResult.style.display = "block";
+                }
+
+                employeeForm.reset();
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 10000);
+
+            } catch (error) {
+                console.error(error);
+
+                showMessage(
+                    error.message || "Something went wrong.",
+                    false
+                );
+
+            } finally {
+                createButton.disabled = false;
+                createButton.textContent = "Create Employee";
+            }
+        });
+
+
+        async function activateEmployee(userId) {
+
+            const confirmed = confirm(
+                "Are you sure you want to activate this employee?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `/admin/employees/${userId}/activate`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || "Unable to activate employee."
+                    );
+                }
+
+                showMessage(
+                    data.message || "Employee activated successfully."
+                );
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 700);
+
+            } catch (error) {
+                console.error(error);
+                showMessage(error.message, false);
+            }
+        }
+
+
+        async function deactivateEmployee(userId) {
+
+            const confirmed = confirm(
+                "Are you sure you want to deactivate this employee?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `/admin/employees/${userId}/deactivate`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || "Unable to deactivate employee."
+                    );
+                }
+
+                showMessage(
+                    data.message || "Employee deactivated successfully."
+                );
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 700);
+
+            } catch (error) {
+                console.error(error);
+                showMessage(error.message, false);
+            }
+        }
+
+
+        async function copySetupLink() {
+
+            try {
+                await navigator.clipboard.writeText(setupUrl.value);
+
+                showMessage(
+                    "Setup link copied to clipboard."
+                );
+
+            } catch (error) {
+                setupUrl.select();
+                document.execCommand("copy");
+
+                showMessage(
+                    "Setup link copied to clipboard."
+                );
+            }
+        }
+    </script>
+
+</body>
+</html>

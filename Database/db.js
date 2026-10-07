@@ -1,14 +1,31 @@
-const express = require("express");
-
 const mysql = require("mysql2/promise");
-const db = mysql.createPool({
-    host: "localhost",
-    user: "root", 
-    password: "2004",
-    database: "Marketflow"
+require("dotenv").config();
 
+const db = mysql.createPool({
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || "Marketflow",
+
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0
 });
 
-console.log("Database connected successfully");
+// Test database connection
+(async () => {
+    try {
+        const connection = await db.getConnection();
+
+        console.log("Database connected successfully");
+
+        connection.release();
+    } catch (error) {
+        console.error("Database connection failed:", error.message);
+    }
+})();
 
 module.exports = db;

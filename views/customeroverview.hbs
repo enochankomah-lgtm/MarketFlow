@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Overview | {{businessName}}</title>
+    <link rel="stylesheet" href="/customeroverview.css">
+</head>
+<body>
+
+    <!-- Customer Overview -->
+
+    <main class="customer-overview-page">
+        <header class="customer-overview-header">
+            <div>
+                <h1>Customer Overview</h1>
+                <p>{{businessName}}</p>
+            </div>
+
+            <form method="GET" action="/customer-overview" class="customer-overview-filters" autocomplete="off">
+
+    <select name="scope" id="customerScope">
+        <option value="business" {{#if isBusinessScope}}selected{{/if}}>
+            All Branches
+        </option>
+        <option value="branch" {{#if isBranchScope}}selected{{/if}}>
+            Branch
+        </option>
+    </select>
+
+    <select
+        name="branch_id"
+        id="customerBranch"
+        {{#unless isBranchScope}}disabled{{/unless}}
+    >
+        {{#each branches}}
+            <option
+                value="{{branch_id}}"
+                {{#if selected}}selected{{/if}}
+            >
+                {{branch_name}}
+            </option>
+        {{/each}}
+    </select>
+
+    <select name="period" id="customerPeriod">
+        <option value="today" {{#ifEquals period "today"}}selected{{/ifEquals}}>
+            Today
+        </option>
+        <option value="week" {{#ifEquals period "week"}}selected{{/ifEquals}}>
+            This Week
+        </option>
+        <option value="month" {{#ifEquals period "month"}}selected{{/ifEquals}}>
+            This Month
+        </option>
+        <option value="quarter" {{#ifEquals period "quarter"}}selected{{/ifEquals}}>
+            This Quarter
+        </option>
+        <option value="year" {{#ifEquals period "year"}}selected{{/ifEquals}}>
+            This Year
+        </option>
+        <option value="all" {{#ifEquals period "all"}}selected{{/ifEquals}}>
+            All Time
+        </option>
+    </select>
+
+</form>
+
+<script>
+    const filterForm =
+        document.querySelector(".customer-overview-filters");
+
+    const scopeSelect =
+        document.getElementById("customerScope");
+
+    const branchSelect =
+        document.getElementById("customerBranch");
+
+    const periodSelect =
+        document.getElementById("customerPeriod");
+
+    const updateBranchFilter = () => {
+        const branchScope =
+            scopeSelect.value === "branch";
+
+        branchSelect.disabled = !branchScope;
+        branchSelect.style.display =
+            branchScope ? "block" : "none";
+    };
+
+    scopeSelect.addEventListener("change", () => {
+        if (scopeSelect.value === "business") {
+            branchSelect.disabled = true;
+            filterForm.submit();
+            return;
+        }
+
+        updateBranchFilter();
+    });
+
+    branchSelect.addEventListener("change", () => {
+        if (branchSelect.value) {
+            filterForm.submit();
+        }
+    });
+
+    periodSelect.addEventListener("change", () => {
+        filterForm.submit();
+    });
+
+    updateBranchFilter();
+</script>
+
+        </header>
+
+        <div class="customer-overview-scope">
+            {{#if isBranchScope}}
+                <span>{{branchName}}</span>
+                {{#if branchLocation}}
+                    <span>{{branchLocation}}</span>
+                {{/if}}
+            {{else}}
+                <span>All Branches</span>
+            {{/if}}
+
+            <span>{{period}}</span>
+        </div>
+
+        <section class="customer-kpi-grid">
+            <article class="customer-kpi-card">
+                <div class="customer-kpi-label">Total Customers</div>
+                <div class="customer-kpi-value">{{overview.totalCustomers}}</div>
+                <div class="customer-kpi-description">Customers registered</div>
+            </article>
+
+            <article class="customer-kpi-card">
+                <div class="customer-kpi-label">Active Customers</div>
+                <div class="customer-kpi-value">{{overview.activeCustomers}}</div>
+                <div class="customer-kpi-description">Currently active customers</div>
+            </article>
+
+            <article class="customer-kpi-card">
+                <div class="customer-kpi-label">New Customers</div>
+                <div class="customer-kpi-value">{{overview.newCustomers}}</div>
+                <div class="customer-kpi-description">First-time customers</div>
+            </article>
+
+            <article class="customer-kpi-card">
+                <div class="customer-kpi-label">Returning Customers</div>
+                <div class="customer-kpi-value">{{overview.returningCustomers}}</div>
+                <div class="customer-kpi-description">Customers who purchased more than once</div>
+            </article>
+
+            <article class="customer-kpi-card">
+                <div class="customer-kpi-label">Customers With Purchases</div>
+                <div class="customer-kpi-value">{{overview.customersWithPurchases}}</div>
+                <div class="customer-kpi-description">Customers who purchased</div>
+            </article>
+
+            <article class="customer-kpi-card">
+                <div class="customer-kpi-label">Customer Revenue</div>
+                <div class="customer-kpi-value">₵{{overview.customerRevenue}}</div>
+                <div class="customer-kpi-description">Revenue generated by customers</div>
+            </article>
+
+            <article class="customer-kpi-card">
+                <div class="customer-kpi-label">Average Customer Value</div>
+                <div class="customer-kpi-value">₵{{overview.averageCustomerValue}}</div>
+                <div class="customer-kpi-description">Average revenue per purchasing customer</div>
+            </article>
+
+            <article class="customer-kpi-card">
+                <div class="customer-kpi-label">Average Order Value</div>
+                <div class="customer-kpi-value">₵{{overview.averageOrderValue}}</div>
+                <div class="customer-kpi-description">Average customer transaction value</div>
+            </article>
+        </section>
+    </main>
+
+</body>
+
+<script>
+    const scopeSelect =
+        document.getElementById("customerScope");
+
+    const branchSelect =
+        document.getElementById("customerBranch");
+
+    const updateBranchFilter = () => {
+        const branchScope =
+            scopeSelect.value === "branch";
+
+        branchSelect.disabled = !branchScope;
+        branchSelect.style.display =
+            branchScope ? "block" : "none";
+    };
+
+    scopeSelect.addEventListener(
+        "change",
+        updateBranchFilter
+    );
+
+    updateBranchFilter();
+</script>
+</html>

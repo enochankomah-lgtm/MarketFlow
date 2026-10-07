@@ -1,0 +1,630 @@
+/* =====================================================
+           RESET
+        ===================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        /* =====================================================
+           BODY
+        ===================================================== */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+        /* =====================================================
+           DASHBOARD
+        ===================================================== */
+        .dashboard {
+            max-width: 1600px;
+            margin: auto;
+            padding: 16px 20px;
+        }
+        /* =====================================================
+           HEADER
+        ===================================================== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 14px;
+        }
+        .header-left h1 {
+            font-size: 23px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #111827;
+        }
+        .header-left p {
+            color: #6b7280;
+            font-size: 13px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        /* =====================================================
+           CASHIER INFORMATION
+        ===================================================== */
+        .cashier-info {
+            text-align: right;
+        }
+        .cashier-info strong {
+            display: block;
+            font-size: 14px;
+            color: #111827;
+            margin-bottom: 3px;
+        }
+        .cashier-info span {
+            color: #6b7280;
+            font-size: 12px;
+        }
+        /* =====================================================
+           PROFILE ICON
+        ===================================================== */
+        .profile-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #e8f0ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+        /* =====================================================
+           NEW SALE BUTTON
+        ===================================================== */
+        .new-sale-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 17px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+        .new-sale-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+        /* =====================================================
+           KPI CARDS
+        ===================================================== */
+       .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 9px;
+            padding: 13px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eef1f5;
+            position: relative;
+            overflow: hidden;
+            transition: 0.2s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 5px 16px rgba(0, 0, 0, 0.07);
+        }
+        /* ICON */
+        .stat-icon {
+            width: 33px;
+            height: 33px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 13px;
+            font-size: 16px;
+        }
+        .sales-icon {
+            background: #e8f0ff;
+            color: #2563eb;
+        }
+        .transaction-icon {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+        .items-icon {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+        .cash-icon {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        .mobile-icon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        .card-icon {
+            background: #fce7f3;
+            color: #db2777;
+        }
+        .stat-title {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            white-space: nowrap;
+        }
+        /* =====================================================
+           GENERAL CARDS
+        ===================================================== */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #eef1f5;
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        /* =====================================================
+           CARD HEADER
+        ===================================================== */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .card-title i {
+            color: #2563eb;
+            font-size: 15px;
+        }
+        .card-header h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+        }
+        .card-header span {
+            color: #6b7280;
+            font-size: 11px;
+        }
+        /* =====================================================
+           MAIN GRID
+        ===================================================== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+        /* =====================================================
+           CHART
+        ===================================================== */
+        .chart-container {
+            height: 260px;
+        }
+        .today-chart-card {
+            margin-bottom: 18px;
+        }
+        .today-chart-container {
+            height: 260px;
+        }
+        .chart-filter {
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            color: #374151;
+            border-radius: 6px;
+            padding: 6px 28px 6px 9px;
+            font-size: 11px;
+            outline: none;
+        }
+        /* =====================================================
+           PAYMENT LIST
+        ===================================================== */
+        .payment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #edf0f4;
+        }
+        .payment-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .payment-left {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .payment-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f3f4f6;
+            color: #4b5563;
+            font-size: 13px;
+        }
+        .payment-name {
+            font-size: 13px;
+            color: #374151;
+        }
+        .payment-amount {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+        }
+        /* =====================================================
+           BOTTOM GRID
+        ===================================================== */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+        /* =====================================================
+           TOP PRODUCTS
+        ===================================================== */
+        .product-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid #edf0f4;
+        }
+        .product-row:last-child {
+            border-bottom: none;
+        }
+        .product-left {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+        .product-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .product-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .product-quantity {
+            margin-top: 3px;
+            color: #9ca3af;
+            font-size: 11px;
+        }
+        .product-revenue {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+        }
+        /* =====================================================
+           TRANSACTIONS
+        ===================================================== */
+        .transactions-card {
+            margin-bottom: 18px;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            padding: 11px;
+            text-align: left;
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 600;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+        td {
+            padding: 12px 11px;
+            font-size: 12px;
+            border-bottom: 1px solid #f0f1f3;
+            color: #374151;
+        }
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+        /* =====================================================
+           STATUS
+        ===================================================== */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .Completed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        .Pending {
+            background: #fef3c7;
+            color: #b45309;
+        }
+        .Cancelled {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        .status.Completed .sale-status-icon::before {
+            content: "✓";
+        }
+        .status.Pending .sale-status-icon::before {
+            content: "◷";
+        }
+        .status.Cancelled .sale-status-icon::before {
+            content: "×";
+        }
+        .sale-status-icon {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        /* =====================================================
+           ALERTS
+        ===================================================== */
+        .alerts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        .alert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid #edf0f4;
+        }
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+        .alert-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-icon {
+            width: 33px;
+            height: 33px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+        .low-icon {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .expiry-icon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        .alert-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .alert-value {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .low {
+            color: #dc2626;
+        }
+        .expiry {
+            color: #d97706;
+        }
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+        .empty {
+            padding: 22px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+        .empty i {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 20px;
+        }
+
+        /* =========================================
+   PAYMENT SUMMARY
+========================================= */
+
+.payment-summary-card {
+    width: 100%;
+}
+
+.payment-summary-content {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    padding: 10px 5px 5px;
+}
+
+
+/* =========================================
+   PAYMENT DONUT CHART
+========================================= */
+
+.payment-chart-container {
+    position: relative;
+
+    width: 220px;
+    height: 220px;
+
+    flex-shrink: 0;
+}
+
+.payment-chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* =========================================
+   CENTER OF DONUT
+========================================= */
+
+.payment-chart-center {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+
+    text-align: center;
+}
+
+.payment-chart-center strong {
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.payment-chart-center small {
+    margin-top: 3px;
+    font-size: 12px;
+    color: #777;
+}
+
+
+/* =========================================
+   PAYMENT LIST
+========================================= */
+
+.payment-summary-content .payment-list {
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .payment-summary-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .payment-chart-container {
+        width: 200px;
+        height: 200px;
+    }
+
+    .payment-summary-content .payment-list {
+        width: 100%;
+    }
+
+}
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 900px) {
+            .main-grid,
+            .bottom-grid,
+            .alerts-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+        @media (max-width: 600px) {
+            .dashboard {
+                padding: 14px;
+            }
+            .header {
+                flex-direction: column;
+            }
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .cashier-info {
+                text-align: left;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stat-value {
+                font-size: 18px;
+            }
+            .new-sale-btn {
+                padding: 10px 13px;
+            }
+            .card {
+                padding: 16px;
+            }
+        }
+        @media (max-width: 420px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-right {
+                flex-wrap: wrap;
+            }
+        }

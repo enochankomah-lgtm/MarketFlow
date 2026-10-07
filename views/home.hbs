@@ -1,455 +1,1407 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/home.css">
 
-    <title>MarketFlow</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>MarketFlow | Business Management Platform</title>
+
+<meta
+    name="description"
+    content="MarketFlow helps businesses manage sales, inventory, products, customers, teams and business performance from one powerful platform."
+>
+
+<meta
+    name="theme-color"
+    content="#0f172a"
+>
+
+<!-- Bootstrap -->
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<!-- MarketFlow Homepage CSS -->
+<link
+    rel="stylesheet"
+    href="/home.css"
+>
+
 
 </head>
 
-
 <body>
 
-    <nav>
 
-        <div class="Logo">
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
 
-            <!-- ✅ LOCAL IMAGE FROM PUBLIC FOLDER -->
-<img  src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png" alt="marketflow-logo-png" border="0">
+<header class="main-nav">
 
-            <h1>
+    <div class="nav-container">
+
+        <a
+            href="/"
+            class="brand"
+            aria-label="MarketFlow Home"
+        >
+            <img
+                src="/marketflow-logo.png"
+                alt="MarketFlow"
+                class="brand-logo"
+            >
+
+            <span class="brand-text">
                 Market<span>Flow</span>
-            </h1>
+            </span>
+        </a>
+
+
+        <nav
+            class="nav-actions"
+            aria-label="Main navigation"
+        >
+
+            <a
+                href="#features"
+                class="nav-link"
+            >
+                Features
+            </a>
+
+            <a
+                href="#about"
+                class="nav-link"
+            >
+                About
+            </a>
+
+            <a
+                href="/login"
+                class="nav-link login-link"
+            >
+                Login
+            </a>
+
+            <a
+                href="/register-business"
+                class="create-account"
+            >
+                <span>
+                    Get Started
+                </span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN PAGE
+====================================================== -->
+
+<main class="home-page">
+
+
+    <!-- =================================================
+         PLATFORM STATUS
+    ================================================== -->
+
+    <section class="top-bar">
+
+        <div class="platform-status">
+
+            <span class="status-dot"></span>
+
+            <span>
+                MarketFlow Business Platform
+            </span>
 
         </div>
 
 
-        <ul>
+        <div class="clockin">
 
-            <li>
-                <a href="/Account" class="list1">
-                    Create Account
-                </a>
-            </li>
+            <i class="fa-regular fa-clock"></i>
 
+            <span
+                id="clock"
+                class="clock"
+            >
+                Loading...
+            </span>
 
-            <li>
-                <a href="/login" class="list2">
-                    Login
-                </a>
-            </li>
+        </div>
 
-        </ul>
-
-    </nav>
-
-    <div class="clockin">
-
-        <h2 id="clock" class="clock"></h2>
-
-    </div>
-
-    <div class="page-layout">
-
-        <aside class="sidebar">
+    </section>
 
 
-            <button class="btn">
-                Market Overview
-           </button>
-           
-            <div class="features">
 
-                <h4>
-                    <i class="fas fa-cash-register"></i>
-                    Record and manage product sales transactions.
-                </h4>
+    <!-- =================================================
+         HERO SECTION
+    ================================================== -->
 
-                <h4>
-                    <i class="fas fa-chart-line"></i>
-                    Calculate total sales revenue and profit margins.
-                </h4>
+    <section class="hero-section">
 
-                <h4>
-                    <i class="fas fa-boxes-stacked"></i>
-                    Track inventory levels and stock movements.
-                </h4>
-                <h4>
-                    <i class="fas fa-triangle-exclamation"></i>
-                    Monitor stock and identify products for restocking.
-                </h4>
-                <h4>
-                    <i class="fas fa-database"></i>
-                    Manage product information and inventory records.
-                </h4>
-                <h4>
-                    <i class="fas fa-chart-pie"></i>
-                    Analyze revenue, profit, and business performance.
-                </h4>
+        <div class="hero-content">
 
-                
-                <h4>
-                    <i class="fas fa-users"></i>
-                    Evaluate customer purchasing trends.
-                </h4>
-                <h4>
-                    <i class="fas fa-trophy"></i>
-                    Identify top and low-performing products.
-                </h4>
-                <h4>
-                    <i class="fas fa-lightbulb"></i>
-                    Generate insights for smarter business decisions.
-                </h4>
+
+            <!-- HERO BADGE -->
+
+            <div class="hero-eyebrow">
+
+                <span class="eyebrow-icon">
+                    <i class="fa-solid fa-sparkles"></i>
+                </span>
+
+                <span>
+                    Modern Business Management
+                </span>
+
             </div>
 
-        </aside>
 
-          <main class="content">
+            <!-- HERO TITLE -->
+
+            <h1 class="hero-title">
+
+                Run your business
+                <span class="hero-highlight">
+                    smarter.
+                </span>
+
+                <br>
+
+                Grow with confidence.
+
+            </h1>
 
 
-            <div class="hero-text">
-                <h2 class="font">
-                    Advance To A New Business Approach
-                </h2>
-                <p class="font1">
-                    Simplify inventory management, monitor sales,
-                    and gain valuable insights to grow your business.
+            <!-- HERO DESCRIPTION -->
+
+            <p class="hero-description">
+
+                MarketFlow brings sales, inventory, products,
+                customers, teams and business insights together
+                in one simple and powerful platform.
+
+            </p>
+
+
+            <!-- HERO ACTIONS -->
+
+            <div class="hero-actions">
+
+                <a
+                    href="/register-business"
+                    class="primary-action"
+                >
+
+                    <span>
+                        <i class="fa-solid fa-rocket"></i>
+                        Start Your Business
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right action-arrow"></i>
+
+                </a>
+
+
+                <a
+                    href="/login"
+                    class="secondary-action"
+                >
+
+                    <i class="fa-solid fa-right-to-bracket"></i>
+
+                    Sign In
+
+                </a>
+
+            </div>
+
+
+            <!-- HERO TRUST ITEMS -->
+
+            <div class="hero-meta">
+
+                <div class="meta-item">
+
+                    <span class="meta-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </span>
+
+                    <span>
+                        Secure business data
+                    </span>
+
+                </div>
+
+
+                <div class="meta-item">
+
+                    <span class="meta-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </span>
+
+                    <span>
+                        Actionable insights
+                    </span>
+
+                </div>
+
+
+                <div class="meta-item">
+
+                    <span class="meta-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </span>
+
+                    <span>
+                        Team management
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             HERO PRODUCT PREVIEW
+        ================================================== -->
+
+        <div class="hero-visual">
+
+            <div class="visual-glow"></div>
+
+            <div class="visual-card">
+
+
+                <!-- VISUAL HEADER -->
+
+                <div class="visual-header">
+
+                    <div class="visual-heading">
+
+                        <span class="visual-small-label">
+                            MARKETFLOW
+                        </span>
+
+                        <span class="visual-label">
+                            Business Overview
+                        </span>
+
+                    </div>
+
+
+                    <span class="visual-status">
+
+                        <span class="status-dot"></span>
+
+                        Active
+
+                    </span>
+
+                </div>
+
+
+                <!-- IMAGE AREA -->
+
+                <div class="image-slider">
+
+                    <img
+                        src="https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                        alt="Business team working together"
+                        class="slide active"
+                    >
+
+                    <img
+                        src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                        alt="Business meeting"
+                        class="slide"
+                    >
+
+                    <img
+                        src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                        alt="Business professionals"
+                        class="slide"
+                    >
+
+                    <img
+                        src="https://images.pexels.com/photos/3184639/pexels-photo-3184639.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                        alt="Business planning"
+                        class="slide"
+                    >
+
+                    <img
+                        src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                        alt="Modern business operations"
+                        class="slide"
+                    >
+
+
+                    <div class="slider-overlay">
+
+                        <div class="slider-badge">
+
+                            <i class="fa-solid fa-chart-pie"></i>
+
+                            Smart Business Management
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VISUAL FOOTER -->
+
+                <div class="visual-footer">
+
+                    <div class="visual-footer-item">
+
+                        <span class="footer-mini-icon">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </span>
+
+                        <div>
+                            <small>
+                                Performance
+                            </small>
+
+                            <strong>
+                                Business insights
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="visual-footer-item">
+
+                        <span class="footer-mini-icon">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </span>
+
+                        <div>
+                            <small>
+                                Operations
+                            </small>
+
+                            <strong>
+                                Inventory control
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ABOUT / VALUE SECTION
+    ================================================== -->
+
+    <section
+        class="about-section"
+        id="about"
+    >
+
+        <div class="about-content">
+
+            <div class="section-eyebrow">
+                <i class="fa-solid fa-layer-group"></i>
+                One platform
+            </div>
+
+
+            <h2>
+                Everything your business needs,
+                <span>
+                    connected in one place.
+                </span>
+            </h2>
+
+
+            <p>
+
+                Instead of managing different parts of your
+                business separately, MarketFlow gives you a
+                centralized workspace for the everyday operations
+                that keep your business moving.
+
+            </p>
+
+        </div>
+
+
+        <div class="about-stats">
+
+            <div class="about-stat">
+
+                <div class="about-stat-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </div>
+
+                <strong>
+                    Sales
+                </strong>
+
+                <span>
+                    Manage transactions
+                </span>
+
+            </div>
+
+
+            <div class="about-stat">
+
+                <div class="about-stat-icon">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+
+                <strong>
+                    Inventory
+                </strong>
+
+                <span>
+                    Keep stock organized
+                </span>
+
+            </div>
+
+
+            <div class="about-stat">
+
+                <div class="about-stat-icon">
+                    <i class="fa-solid fa-chart-column"></i>
+                </div>
+
+                <strong>
+                    Insights
+                </strong>
+
+                <span>
+                    Understand performance
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         FEATURES
+    ================================================== -->
+
+    <section
+        class="features-section"
+        id="features"
+    >
+
+        <div class="section-header">
+
+            <div class="section-eyebrow">
+
+                <i class="fa-solid fa-grid-2"></i>
+
+                Powerful tools
+
+            </div>
+
+
+            <h2>
+                Built around the way
+                <span>
+                    businesses operate.
+                </span>
+            </h2>
+
+
+            <p>
+
+                MarketFlow brings the essential tools of
+                everyday business management into one organized
+                workspace.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="feature-grid">
+
+
+            <!-- SALES -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-cash-register"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        01
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Sales Management
+                </h3>
+
+
+                <p>
+                    Record and manage product sales transactions
+                    efficiently while keeping your business
+                    operations organized.
                 </p>
+
+
+                <div class="feature-link">
+                    Manage sales
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+
+
+            <!-- INVENTORY -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        02
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Inventory Control
+                </h3>
+
+
+                <p>
+                    Track inventory levels and maintain accurate
+                    stock information across your business.
+                </p>
+
+
+                <div class="feature-link">
+                    Control inventory
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+
+
+            <!-- STOCK -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        03
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Stock Monitoring
+                </h3>
+
+
+                <p>
+                    Identify products that need attention and
+                    stay informed about stock levels.
+                </p>
+
+
+                <div class="feature-link">
+                    Monitor stock
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+
+
+            <!-- PRODUCTS -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        04
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Product Management
+                </h3>
+
+
+                <p>
+                    Organize product information, pricing,
+                    categories and inventory records.
+                </p>
+
+
+                <div class="feature-link">
+                    Manage products
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+
+
+            <!-- REVENUE -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        05
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Revenue &amp; Profit
+                </h3>
+
+
+                <p>
+                    Review revenue, profitability and important
+                    business performance information.
+                </p>
+
+
+                <div class="feature-link">
+                    View performance
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+
+
+            <!-- CUSTOMERS -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-user-group"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        06
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Customer Insights
+                </h3>
+
+
+                <p>
+                    Understand customer activity and purchasing
+                    patterns through organized business data.
+                </p>
+
+
+                <div class="feature-link">
+                    Understand customers
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+
+
+            <!-- PRODUCT PERFORMANCE -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-ranking-star"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        07
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Product Performance
+                </h3>
+
+
+                <p>
+                    Identify top-performing and low-performing
+                    products using business performance data.
+                </p>
+
+
+                <div class="feature-link">
+                    Analyze products
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+
+
+            <!-- BUSINESS INSIGHTS -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        08
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Business Insights
+                </h3>
+
+
+                <p>
+                    Turn business information into useful
+                    operational insights for everyday decisions.
+                </p>
+
+
+                <div class="feature-link">
+                    Explore insights
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+
+
+            <!-- TEAM -->
+
+            <article class="feature-card">
+
+                <div class="feature-card-top">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-users-gear"></i>
+                    </div>
+
+                    <span class="feature-number">
+                        09
+                    </span>
+
+                </div>
+
+
+                <h3>
+                    Team Management
+                </h3>
+
+
+                <p>
+                    Support organized staff operations and help
+                    keep your business team connected.
+                </p>
+
+
+                <div class="feature-link">
+                    Manage your team
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         HOW IT WORKS
+    ================================================== -->
+
+    <section class="process-section">
+
+        <div class="section-header">
+
+            <div class="section-eyebrow">
+                <i class="fa-solid fa-route"></i>
+                Simple to get started
             </div>
 
-            <div class="MainContainer">
-                <div class="words">
-                     <div class="setimage">   
-                         <img class="imagecontrol" src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png" alt="marketflow-logo-png" border="0">
-                  
-                    
-                     </div>       
+
+            <h2>
+                From setup to
+                <span>
+                    everyday operations.
+                </span>
+            </h2>
+
+
+            <p>
+                Start with your business and build your workflow
+                around the tools you need.
+            </p>
+
+        </div>
+
+
+        <div class="process-grid">
+
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    01
+                </span>
+
+                <div class="process-icon">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+
+                <h3>
+                    Register your business
+                </h3>
+
+                <p>
+                    Create your business account and establish
+                    your MarketFlow workspace.
+                </p>
+
+            </div>
+
+
+            <div class="process-connector"></div>
+
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    02
+                </span>
+
+                <div class="process-icon">
+                    <i class="fa-solid fa-sliders"></i>
+                </div>
+
+                <h3>
+                    Set up your operations
+                </h3>
+
+                <p>
+                    Organize products, inventory, employees and
+                    the information your business needs.
+                </p>
+
+            </div>
+
+
+            <div class="process-connector"></div>
+
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    03
+                </span>
+
+                <div class="process-icon">
+                    <i class="fa-solid fa-chart-simple"></i>
+                </div>
+
+                <h3>
+                    Manage &amp; understand
+                </h3>
+
+                <p>
+                    Manage daily operations and use your business
+                    information to understand performance.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CALL TO ACTION
+    ================================================== -->
+
+    <section class="cta-section">
+
+        <div class="cta-background-shape cta-shape-one"></div>
+
+        <div class="cta-background-shape cta-shape-two"></div>
+
+
+        <div class="cta-content">
+
+
+            <div class="cta-text">
+
+                <div class="cta-eyebrow">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                    Get started with MarketFlow
+
+                </div>
+
+
+                <h2>
+                    Bring your business
+                    <span>
+                        together.
+                    </span>
+                </h2>
+
+
+                <p>
+                    Create your business account and start
+                    managing your operations from one organized
+                    platform.
+                </p>
+
+            </div>
+
+
+            <div class="cta-actions">
+
+                <a
+                    href="/register-business"
+                    class="primary-action"
+                >
+
+                    <span>
+                        <i class="fa-solid fa-building-circle-check"></i>
+                        Register Your Business
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right action-arrow"></i>
+
+                </a>
+
+
+                <a
+                    href="/login"
+                    class="secondary-action"
+                >
+
+                    <i class="fa-solid fa-right-to-bracket"></i>
+
+                    Login
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         FOOTER
+    ================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+
+            <div class="footer-main">
+
+
+                <!-- FOOTER BRAND -->
+
+                <div class="footer-brand">
+
+                    <a
+                        href="/"
+                        class="footer-logo"
+                    >
+
+                        <img
+                            src="/marketflow-logo.png"
+                            alt="MarketFlow"
+                        >
+
+                        <span>
+                            Market<span>Flow</span>
+                        </span>
+
+                    </a>
+
 
                     <p>
-
-                        Execute and manage your business with smart sales tracking, inventory control,customers analysis and real-time insights.
-
+                        A modern platform for managing the
+                        everyday operations of your business.
                     </p>
-
-                    <div class="btn-container">
-
-
-                        <button class="btn-primary">
-
-                            Dashboard
-
-                        </button>
-
-
-
-                        <a href="/Account">
-
-                            <button class="btn-secondary">
-
-                                Create Account
-
-                            </button>
-
-                        </a>
-
-
-                    </div>
-
-
-
-                </div>              
-
-
-                <div class="image-container">
-
-                    <div class="image-slider">
-
-                        <img src="https://images.pexels.com/photos/4909546/pexels-photo-4909546.jpeg"
-                         class="slide active">
-
-                         <img src="https://thfvnext.bing.com/th/id/OIP.WyQdbTcHygxrcolZjPQb9QHaEd?w=260&h=180&c=7&r=0&o=7&cb=thfvnextfalcon2&dpr=1.3&pid=1.7&rm=3"
-                         class="slide">
-
-                         <img src="https://images.pexels.com/photos/29289933/pexels-photo-29289933.jpeg"
-                         class="slide">
-
-                        <img src="https://images.pexels.com/videos/9811588/pexels-photo-9811588.jpeg?h=153&w=171&fit=crop&dpr=2"
-                        class="slide">
-
-                        <img src="https://thfvnext.bing.com/th/id/OIP.97zFlDxRWLyllgifk3Q6RwHaE8?w=254&h=180&c=7&r=0&o=7&cb=thfvnextfalcon2&dpr=1.3&pid=1.7&rm=3"
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/9805150/pexels-photo-9805150.jpeg"
-                         class="slide" >
-
-                        <img src="https://images.pexels.com/photos/16767121/pexels-photo-16767121.jpeg"
-                         class="slide" >
-
-                         <img src="https://thfvnext.bing.com/th/id/OIP.pcbk9iF2nbyIAQkVdjEobgHaEo?w=290&h=181&c=7&r=0&o=7&cb=thfvnextfalcon2&dpr=1.3&pid=1.7&rm=3"
-                         class="slide" >
-
-                         <img src="https://media.istockphoto.com/id/467367026/photo/perfect-sky-and-ocean.jpg?b=1&s=612x612&w=0&k=20&c=Ja5hseU2-xchfnBFN4BS2Hh6cn00A6plkjUuQQudTp8=" 
-                         class="slide">
-
-                        <img src="https://images.pexels.com/photos/1366594/pexels-photo-1366594.jpeg"
-                        class="slide" >
-                        <img src="https://images.pexels.com/photos/34803891/pexels-photo-34803891.jpeg" class="slide">
-
-                        <img src="https://images.pexels.com/photos/29152700/pexels-photo-29152700.jpeg" 
-                         class="slide">
-                         <img src="https://images.pexels.com/photos/28575430/pexels-photo-28575430.jpeg"
-                          class="slide">
-
-                        <img src="https://images.pexels.com/photos/36622709/pexels-photo-36622709.jpeg" 
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/17070585/pexels-photo-17070585.jpeg"
-                         class="slide" >
-                         <img src="https://images.pexels.com/photos/11053643/pexels-photo-11053643.jpeg" 
-                         class="slide">
-
-                         <img src="https://images.pexels.com/photos/28145277/pexels-photo-28145277.jpeg" 
-                         class="slide">
-
-                         <img src="https://images.pexels.com/photos/32757557/pexels-photo-32757557.jpeg" 
-                         class="slide">
-
-                         <img src="https://images.pexels.com/photos/36498405/pexels-photo-36498405.jpeg" 
-                         class="slide">
-                         <img src="https://images.pexels.com/photos/33852956/pexels-photo-33852956.jpeg"
-                          class="slide">
-
-                          <img src="https://images.pexels.com/photos/33465447/pexels-photo-33465447.jpeg" 
-                          class="slide">
-
-                          <img src="https://thfvnext.bing.com/th/id/OIP.1flM4eBGm5wrulFxoYsp9wHaE7?w=272&h=180&c=7&r=0&o=7&cb=thfvnextfalcon2&dpr=1.3&pid=1.7&rm=3" 
-                          class="slide">
-
-                        <img src="https://images.pexels.com/photos/29028112/pexels-photo-29028112.jpeg"
-                        class="slide" >
-                        <img src="https://images.pexels.com/photos/35097906/pexels-photo-35097906.jpeg" 
-                         class="slide">
-                         <img src="https://images.pexels.com/photos/34204869/pexels-photo-34204869.jpeg" 
-                         class="slide">
-
-                         <img src="https://images.pexels.com/photos/358220/pexels-photo-358220.jpeg"
-                         class="slide" >
-
-                        <img src="https://images.pexels.com/photos/12876900/pexels-photo-12876900.jpeg" 
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/38064187/pexels-photo-38064187.jpeg"
-                        class="slide" >
-
-                        <img src="https://images.pexels.com/photos/8828607/pexels-photo-8828607.jpeg" 
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/12159231/pexels-photo-12159231.jpeg" 
-                         class="slide" >    
-                         <img src="https://images.pexels.com/photos/35342010/pexels-photo-35342010.jpeg"
-                         class="slide">                    
-                         <img src="https://images.pexels.com/photos/37084371/pexels-photo-37084371.jpeg" 
-                        class="slide" >
-
-                        <img src="https://images.pexels.com/photos/36779265/pexels-photo-36779265.jpeg"
-                        class="slide" >
-
-                        <img src="https://images.pexels.com/photos/29887515/pexels-photo-29887515.jpeg" 
-                        class="slide">
-
-                        <img src="https://media.istockphoto.com/id/1367418891/photo/the-johar-trade-area-is-a-center-for-buying-and-selling-and-shopping-destinations-in-the-city.jpg?b=1&s=612x612&w=0&k=20&c=SHa6Uqd5Ob1oqg3xbDOOD9heQnF314gL6dbi1VoLRqQ=" class="slide">
-
-                        <img src="https://images.pexels.com/photos/28654108/pexels-photo-28654108.jpeg"
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/34337859/pexels-photo-34337859.jpeg"
-                         class="slide" >
-
-                        <img src="https://images.pexels.com/photos/33810489/pexels-photo-33810489.jpeg" 
-                        class="slide">
-                        <img src="https://images.pexels.com/photos/31781975/pexels-photo-31781975.jpeg" 
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/27067921/pexels-photo-27067921.jpeg" 
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/1422408/pexels-photo-1422408.jpeg" 
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/37813475/pexels-photo-37813475.jpeg"
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/33810488/pexels-photo-33810488.jpeg" 
-                        class="slide">
-
-                       <img src="https://images.pexels.com/photos/37088538/pexels-photo-37088538.jpeg" 
-                       class="slide">
-
-                       <img src="https://images.pexels.com/photos/37095505/pexels-photo-37095505.jpeg"
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/34009126/pexels-photo-34009126.jpeg"
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/30608308/pexels-photo-30608308.jpeg"
-                         class="slide">
-                         <img src="https://images.pexels.com/photos/9805147/pexels-photo-9805147.jpeg"
-                         class="slide">
-
-                         <img src="https://thfvnext.bing.com/th/id/OIP.ovnHtd-OxC_W_LswzvQYYQHaFj?w=233&h=150&c=6&r=0&o=7&cb=thfvnextfalcon2&dpr=1.3&pid=1.7&rm=3"
-                         class="slide">
-
-
-                        <img src="https://images.pexels.com/photos/16766371/pexels-photo-16766371.jpeg"
-                        class="slide">
-                        <img src="https://images.pexels.com/photos/36627680/pexels-photo-36627680.jpeg" 
-                        class="slide">
-
-
-
-                        <img src="https://images.pexels.com/photos/6193209/pexels-photo-6193209.jpeg"
-                        class="slide">
-
-
-
-                        <img src="https://images.pexels.com/photos/36940772/pexels-photo-36940772.jpeg"
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/29174551/pexels-photo-29174551.jpeg"
-                         class="slide" >
-                         <img src="https://images.pexels.com/photos/16337695/pexels-photo-16337695.jpeg"
-                          class="slide">
-
-
-                        <img src="https://images.pexels.com/photos/36611201/pexels-photo-36611201.jpeg"
-                        class="slide">
-
-                        <img src="https://thfvnext.bing.com/th/id/OIP.LZACZZjP1BbiYORIxqH45gHaEK?w=299&h=180&c=7&r=0&o=7&cb=thfvnextfalcon2&dpr=1.3&pid=1.7&rm=3"
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/16155275/pexels-photo-16155275.jpeg"
-                        class="slide" >
-
-                        <img src="https://images.pexels.com/photos/12340541/pexels-photo-12340541.jpeg"
-                         class="slide">
-
-                         <img src="https://images.pexels.com/photos/28907758/pexels-photo-28907758.jpeg"
-                          class="slide">
-
-                          <img src="https://images.pexels.com/photos/7770791/pexels-photo-7770791.jpeg"
-                           class="slide" >
-
-                           <img src="https://images.pexels.com/photos/33404485/pexels-photo-33404485.jpeg"
-                           class="slide">
-
-                           <img src="https://images.pexels.com/photos/36581523/pexels-photo-36581523.jpeg"
-                            class="slide">
-
-                            <img src="https://images.pexels.com/photos/16114746/pexels-photo-16114746.jpeg"
-                             class="slide">
-
-                             <img src="https://images.pexels.com/photos/35633192/pexels-photo-35633192.jpeg" 
-                             class="slide">
-
-
-                        <img src="https://images.pexels.com/photos/7196438/pexels-photo-7196438.jpeg"
-                         class="slide">
-
-                         <img src="https://images.pexels.com/photos/35855576/pexels-photo-35855576.jpeg"
-                          class="slide">
-
-                        <img src="https://images.pexels.com/photos/36537043/pexels-photo-36537043.jpeg"
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/36835799/pexels-photo-36835799.jpeg" 
-                        class="slide">
-
-                        <img src="https://images.pexels.com/photos/31719002/pexels-photo-31719002.jpeg" 
-                        class="slide">
-
-
-                    </div>
-
 
                 </div>
 
 
 
+                <!-- FOOTER NAVIGATION -->
+
+                <div class="footer-column">
+
+                    <h4>
+                        Platform
+                    </h4>
+
+                    <a href="#features">
+                        Features
+                    </a>
+
+                    <a href="#about">
+                        About
+                    </a>
+
+                    <a href="/register-business">
+                        Get Started
+                    </a>
+
+                </div>
+
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Account
+                    </h4>
+
+                    <a href="/login">
+                        Login
+                    </a>
+
+                    <a href="/auth/register">
+                        Create Account
+                    </a>
+
+                    <a href="/register-business">
+                        Register Business
+                    </a>
+
+                </div>
+
+
+
+                <!-- FOOTER STATUS -->
+
+                <div class="footer-column footer-status-column">
+
+                    <h4>
+                        MarketFlow
+                    </h4>
+
+                    <div class="footer-status">
+
+                        <span class="status-dot"></span>
+
+                        Platform available
+
+                    </div>
+
+
+                    <p>
+                        Manage your business.
+                        Understand your operations.
+                    </p>
+
+                </div>
 
             </div>
 
 
 
-        </main>
+            <!-- FOOTER BOTTOM -->
+
+            <div class="footer-bottom">
+
+                <span>
+                    &copy;
+                    <span id="currentYear"></span>
+                    MarketFlow. All rights reserved.
+                </span>
+
+
+                <span class="footer-tagline">
+                    Business management, simplified.
+                </span>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+</main>
 
 
 
-    </div>
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
 
 <script>
 
+    /* =================================================
+       LIVE CLOCK
+    ================================================== */
 
-// CLOCK
+    function showTime() {
 
-function showTime(){
+        const clock =
+            document.getElementById("clock");
 
+        if (!clock) {
+            return;
+        }
 
-    let now = new Date();
+        const now =
+            new Date();
 
+        const time =
+            now.toLocaleString(
+                "en-US",
+                {
+                    dateStyle: "medium",
+                    timeStyle: "medium"
+                }
+            );
 
-    let time = now.toLocaleString("en-US", {
-
-        dateStyle:"medium",
-
-        timeStyle:"medium"
-
-    });
-
-
-
-    document.getElementById("clock").innerHTML = time;
-
-
-}
-
-
-
-setInterval(showTime,1000);
-
-
-showTime();
+        clock.textContent =
+            time;
+    }
 
 
-let slides = document.querySelectorAll(".slide");
-let current = 0;
-function changeSlide(){
-slides[current].classList.remove("active");
-  current++;
+    showTime();
 
-    if(current >= slides.length){
+    setInterval(
+        showTime,
+        1000
+    );
 
-        current = 0;
+
+
+    /* =================================================
+       IMAGE SLIDER
+    ================================================== */
+
+    const slides =
+        document.querySelectorAll(".slide");
+
+    let currentSlide =
+        0;
+
+
+    function changeSlide() {
+
+        if (!slides.length) {
+            return;
+        }
+
+
+        slides[currentSlide]
+            .classList
+            .remove("active");
+
+
+        currentSlide++;
+
+
+        if (
+            currentSlide >=
+            slides.length
+        ) {
+
+            currentSlide =
+                0;
+
+        }
+
+
+        slides[currentSlide]
+            .classList
+            .add("active");
 
     }
 
-    slides[current].classList.add("active");
-}
-setInterval(changeSlide,10000);
+
+    if (
+        slides.length > 1
+    ) {
+
+        setInterval(
+            changeSlide,
+            10000
+        );
+
+    }
 
 
+
+    /* =================================================
+       CURRENT YEAR
+    ================================================== */
+
+    const currentYear =
+        document.getElementById(
+            "currentYear"
+        );
+
+
+    if (currentYear) {
+
+        currentYear.textContent =
+            new Date()
+                .getFullYear();
+
+    }
+
+
+
+    /* =================================================
+       SMOOTH ANCHOR SCROLL
+    ================================================== */
+
+    document
+        .querySelectorAll(
+            'a[href^="#"]'
+        )
+        .forEach(
+            function (link) {
+
+                link.addEventListener(
+                    "click",
+                    function (event) {
+
+                        const targetId =
+                            this.getAttribute(
+                                "href"
+                            );
+
+                        const target =
+                            document.querySelector(
+                                targetId
+                            );
+
+
+                        if (target) {
+
+                            event.preventDefault();
+
+                            target.scrollIntoView(
+                                {
+                                    behavior: "smooth",
+                                    block: "start"
+                                }
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
 
 </script>
 
 
-
 </body>
-
 </html>

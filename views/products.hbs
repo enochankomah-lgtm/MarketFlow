@@ -1,467 +1,582 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Font Awesome -->
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
+    <!-- Products CSS -->
     <link rel="stylesheet" href="/products.css">
 
-    <title>MarketFlow Dashboard</title>
-
- </head>
-
+    <title>Products | MarketFlow</title>
+</head>
 
 <body>
 
-<!-- HEADER -->
-<header>
+    <!-- =====================================================
+         TOP NAVIGATION
+    ====================================================== -->
+    <header class="top-navbar">
 
-   <div class="logo">
+        <div class="logo">
+            <img src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png"
+                 alt="MarketFlow Logo">
 
-      <img src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png">
+            <h1>
+                Market<span>Flow</span>
+            </h1>
+        </div>
 
-        <h1>
-        Market<span>Flow</span>
-        </h1>
+        <div class="top-actions">
 
-  </div>    
-    
-         <button class="add-btn"
-             data-bs-toggle="modal"
-             data-bs-target="#Inventorysystem">
-              <i class="fa fa-plus"></i>
-              Add Product
-          </button>    
+            <a href="/" class="top-link">
+                <i class="fas fa-house"></i>
+                Home
+            </a>
 
-</header>
+            <a href="/main" class="top-link">
+                <i class="fas fa-chart-line"></i>
+                Main
+            </a>
 
+            <a
+                href="/productpages/inventory"
+                class="add-product-btn"
+            >
+                <i class="fas fa-plus"></i>
+                Add Product
+            </a>
 
-<aside>
+        </div>
 
-
-  <button class="shop">   Dashboard </button>
-
-    <a href="/productpages/main">
-      <i class="fa fa-cash-register"></i>
-      Point Of Sales
-    </a>
-
-
-    <a href="/productpages/inventory">
-      <i class="fa fa-box"></i>
-      Inventory
-    </a>
-
-
-    <a href="/products" class="active">
-      <i class="fa fa-cubes"></i>
-      Products
-    </a>
+    </header>
 
 
-    <a href="/customers">
-      <i class="fa fa-users"></i>
-      Customers
-    </a>
-
-    <a href="/performance">
-      <i class="fa fa-chart-line"></i>
-      Analytics
-    </a>
+    <!-- =====================================================
+         PAGE LAYOUT
+    ====================================================== -->
+    <div class="page-layout">
 
 
-</aside>
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                <span>MAIN MENU</span>
+            </div>
 
 
-<!-- MAIN -->
-
-<main>
-
-
-    <h2>Product Dashboard</h2>
-
-    <p class="subtitle">
-    Monitor stock levels, track sales performance, and manage product data efficiently.
-    </p>
-
-    <!-- CARDS -->
-
-    <section class="stats">
-      <div class="stat">
-
-        <h5>Total Expected Sales Value</h5>
-
-        <h2>${{totalsales}}</h2>
-
-      </div>
-
-      <div class="stat">
-
-        <h5>Total Cost Value</h5>
-
-        <h2>${{totalcost}}</h2>
-
-      </div>
-
-      <div class="stat">
-        <h5>Net Profit</h5>
-        <h2>${{totalProfit}}</h2>
-      </div>
-
-      <div class="stat">
-        <h5>Available Products</h5>
-        <h2>
-        {{products.length}}
-        </h2>
-        <p> {{expiringdate}} products expiring soon</p>
-
-      </div>
+            <a href="/productpages/main" class="sidebar-link">
+                <div class="sidebar-icon">
+                    <i class="fas fa-cash-register"></i>
+                </div>
+                <span>Point Of Sales</span>
+            </a>
 
 
-    </section>
+            <a href="/productpages/inventory" class="sidebar-link">
+                <div class="sidebar-icon">
+                    <i class="fas fa-boxes-stacked"></i>
+                </div>
+                <span>Inventory</span>
+            </a>
 
-    <div class="product-header">
-      <h2>  My Products  </h2>
-      <div class="search-box">
-        <input type="text" id="productSearch" placeholder="Search products...">
-        <i class="fa fa-search"></i>
-      </div>
+
+            <a href="/products" class="sidebar-link active">
+                <div class="sidebar-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <span>Products</span>
+            </a>
+
+
+            <a href="/customer-overview" class="sidebar-link">
+                <div class="sidebar-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span>Customers</span>
+            </a>
+
+
+            <a href="/stockanalysis/inventoryanalyst" class="sidebar-link">
+                <div class="sidebar-icon">
+                    <i class="fas fa-boxes-stacked"></i>
+                </div>
+                <span>Inventory Analytics</span>
+            </a>
+
+            <a href="/profitabledashboard" class="sidebar-link">
+                <div class="sidebar-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <span>Profit & Revenue</span>
+            </a>
+
+            <a href="/product-performance" class="sidebar-link">
+                <div class="sidebar-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <span>Product Performance</span>
+            </a>
+
+            <a href="/settings" class="sidebar-link">
+                <div class="sidebar-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span>Settings</span>
+            </a>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    <span>System Online</span>
+                </div>
+
+                <small>MarketFlow Management</small>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             MAIN CONTENT
+        ================================================== -->
+        <main class="main-content">
+
+
+            <!-- PAGE HEADER -->
+            <section class="page-header">
+
+                <div class="header-text">
+
+                    <div class="breadcrumb">
+                        <i class="fas fa-house"></i>
+                        <span>/</span>
+                        <span>Products</span>
+                    </div>
+
+                    <div class="title-row">
+
+                        <div>
+                            <h2>Product Management</h2>
+
+                            <p>
+                                Manage your products, pricing, stock information
+                                and supplier details from one place.
+                            </p>
+                        </div>
+
+                        <div class="product-count">
+                            <i class="fas fa-boxes-stacked"></i>
+                            <div>
+                                <strong>{{products.length}}</strong>
+                                <span>Products</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+            <section class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon sales-icon">
+                        <i class="fas fa-money-bill-trend-up"></i>
+                    </div>
+
+                    <div class="stat-info">
+                        <span>Total Expected Sales Value</span>
+                        <h3>GH₵ {{totalsales}}</h3>
+                        <small>
+                            <i class="fas fa-chart-line"></i>
+                            Expected revenue
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon cost-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+
+                    <div class="stat-info">
+                        <span>Total Cost Value</span>
+                        <h3>GH₵ {{totalcost}}</h3>
+                        <small>
+                            <i class="fas fa-calculator"></i>
+                            Inventory cost
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon profit-icon">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+
+                    <div class="stat-info">
+                        <span>Net Profit</span>
+                        <h3>GH₵ {{totalProfit}}</h3>
+                        <small>
+                            <i class="fas fa-chart-pie"></i>
+                            Estimated profit
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon products-icon">
+                        <i class="fas fa-boxes-stacked"></i>
+                    </div>
+
+                    <div class="stat-info">
+                        <span>Available Products</span>
+                        <h3>{{products.length}}</h3>
+                        <small class="warning-text">
+                            <i class="fas fa-clock"></i>
+                            {{expiringdate}} expiring soon
+                        </small>
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 PRODUCTS SECTION
+            ================================================== -->
+            <section class="products-panel">
+
+
+                <!-- PRODUCTS HEADER -->
+                <div class="products-toolbar">
+
+                    <div class="products-title">
+
+                        <div class="section-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+
+                        <div>
+                            <span>PRODUCT CATALOG</span>
+                            <h2>My Products</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="toolbar-actions">
+
+                        <div class="search-box">
+
+                            <i class="fas fa-magnifying-glass"></i>
+
+                            <input
+                                type="text"
+                                id="productSearch"
+                                placeholder="Search products..."
+                                autocomplete="off">
+
+                        </div>
+
+
+                        <a href="/productpages/inventory"
+                           class="new-product-btn">
+
+                            <i class="fas fa-plus"></i>
+                            New Product
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRODUCT GRID -->
+                <div class="products-grid" id="productsGrid">
+
+
+                    {{#each products}}
+
+                    <article class="product-card">
+
+
+                        <!-- PRODUCT IMAGE -->
+                        <div class="product-image-container">
+
+                            {{#if product_image}}
+
+                                <img
+                                    src="{{product_image}}"
+                                    alt="{{product_name}}">
+
+                            {{else}}
+
+                                <div class="no-product-image">
+                                    <i class="fas fa-box-open"></i>
+                                    <span>No Image</span>
+                                </div>
+
+                            {{/if}}
+
+
+                            <div class="stock-badge">
+                                <i class="fas fa-cubes"></i>
+                                {{totalavailable}} {{unit}}
+                            </div>
+
+                        </div>
+
+
+                        <!-- PRODUCT CONTENT -->
+                        <div class="product-content">
+
+
+                            <div class="product-meta">
+                                <span class="category-badge">
+                                    {{category}}
+                                </span>
+                            </div>
+
+
+                            <h3 class="product-name">
+                                {{product_name}}
+                            </h3>
+
+
+                            <p class="product-brand">
+                                <i class="fas fa-tag"></i>
+                                {{brand}}
+                            </p>
+
+
+                            <div class="price-row">
+
+                                <div>
+                                    <span class="price-label">
+                                        Selling Price
+                                    </span>
+
+                                    <strong class="product-price">
+                                        GH₵ {{selling_price}}
+                                    </strong>
+                                </div>
+
+                                <span class="unit-label">
+                                    / {{unit}}
+                                </span>
+
+                            </div>
+
+
+                            <div class="product-footer">
+
+
+                                <div class="stock-info">
+
+                                    <span>Stock Available</span>
+
+                                    <strong>
+                                        {{totalavailable}}
+                                    </strong>
+
+                                </div>
+
+
+                               <a
+                                    href="/productpages/products/edit/{{product_id}}"
+                                    class="edit-btn"
+                                >
+                                    <i class="fas fa-pen-to-square"></i>
+                                    Edit
+                                </a>
+
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                    {{/each}}
+
+
+                    <!-- EMPTY STATE -->
+                    <div class="empty-state" id="emptyState">
+
+                        <div class="empty-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+
+                        <h3>No products found</h3>
+
+                        <p>
+                            Try a different search or add a new product
+                            to your catalog.
+                        </p>
+
+                        <a href="/productpages/inventory"
+                           class="empty-action">
+
+                            <i class="fas fa-plus"></i>
+                            Add Product
+
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- PAGE FOOTER -->
+            <footer class="page-footer">
+
+                <div>
+                    <i class="fas fa-shield-halved"></i>
+                    Product information is securely managed by MarketFlow.
+                </div>
+
+                <span>
+                    MarketFlow Product Management
+                </span>
+
+            </footer>
+
+
+        </main>
+
     </div>
 
-    <section class="products">
-
-
-      {{#each products}}
-
-        <div class="product-card">
-            <img src="{{product_image}}">
-            <div class="content">
-              <h3 class="product-name">{{product_name}}</h3>
-              <p class="product-category">{{category}}</p>
-              <h4>${{selling_price}} / {{unit}}</h4>
-
-              <p>stock: {{totalreceived}}</p>
-
-              <button
-                  class="add-btn edit-btn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editproduct"
-
-                  data-id="{{product_id}}"
-                  data-name="{{product_name}}"
-                  data-category="{{category}}"
-                  data-brand="{{brand}}"
-                  data-unit="{{unit}}"
-                  data-cost="{{cost_price}}"
-                  data-selling="{{selling_price}}"
-                  data-msrp="{{msrp}}"
-                  data-description="{{description}}"
-                  data-image="{{product_image}}"
-                  data-supplier="{{supplier_name}}"
-                  data-expiry="{{expiry_date}}">
-
-                  <i class="fa fa-edit"></i>
-                  Edit
-              </button>
-          </div>
-
-
-
-        </div>
-
-      {{/each}}
-
-    </section>
-
-    <div class="new-product">
-      <a href="/productpages/add">
-        + Add New Product
-      </a>
-
-    </div>
-
-</main>
-
-<div class="modal fade" id="Inventorysystem" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content rounded-4">
-
-      <!-- Modal Header -->
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title">
-          <i class="fas fa-user-tie me-2"></i> ADD PRODUCT
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      
-  <div class="modal-body p-4">
-
-    <div class="entirecontainer">
-
-     <form action="/productpages/add" method="POST">
-
-      <div class="top-section">
-
-        <!-- PRODUCT CARD -->
-        <div class="card">
-          <div class="card-header">
-            <div class="icon">📦</div>
-            <div>
-              <p>PRODUCT INFORMATION</p>
-              <h2>Add New Product</h2>
-            </div>
-          </div>
-
-          <div class="inputs">
-            <div class="inputs1">
-              <input type="text" name="product_name" placeholder="Product Name">
-              <input type="text" name="category" placeholder="Category">
-            </div>
-
-            <div class="inputs2">
-              <input type="text" name="brand" placeholder="Brand">
-              <input type="text" name="unit" placeholder="Unit">
-            </div>
-          </div>
-        </div>
-
-        <!-- PRICE CARD -->
-        <div class="card">
-          <div class="card-header">
-            <div class="icon">💰</div>
-            <div>
-              <p>PRICE DETAILS</p>
-              <h2>Product Pricing</h2>
-            </div>
-          </div>
-
-          <div class="inputs">
-            <div class="inputs1">
-              <input type="number" name="cost_price" placeholder="Cost Price">
-              <input type="number" name="selling_price" placeholder="Selling Price">
-            </div>
-
-            <input type="number" name="msrp" placeholder="MSRP">
-          </div>
-        </div>
-
-      </div>
-
-      <!-- BOTTOM CARD -->
-      <div class="card bottom-card">
-
-        <div class="card-header">
-          <div class="icon">📝</div>
-          <div>
-            <p>MORE INFORMATION</p>
-            <h2>Product Description & Supplier</h2>
-          </div>
-        </div>
-
-        <textarea class="area1" name="description" placeholder="Product description"></textarea>
-
-        <div class="bottom-inputs">
-          <input type="url" name="product_image" placeholder="Product Image Link">
-          <input type="text" name="supplier_name" placeholder="Supplier Name">
-          
-        </div>
-
-        <button type="submit">Add Product</button>
-
-      </div>
-
-    </form>
-  </div>
-
-</div>
-
-      
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="editproduct" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content rounded-4">
-
-      <!-- Modal Header -->
-      <div class="modal-header bg-success text-white">
-    <h5 class="modal-title">
-        <i class="fas fa-box me-2"></i> EDIT PRODUCT
-    </h5>
-
-    <button
-        type="button"
-        class="btn-close btn-close-white"
-        data-bs-dismiss="modal">
-    </button>
-</div>
-      
-  <div class="modal-body p-4">
-
-    <div class="entirecontainer">
-
-     <form action="/productpages/products/update" method="POST">
-
-      <div class="top-section">
-
-        <!-- PRODUCT CARD -->
-        <div class="card">
-          <div class="card-header">
-            <div class="icon">📦</div>
-            <div>
-              <p>PRODUCT INFORMATION</p>
-              <h2>Edit Product</h2>
-            </div>
-          </div>
-
-          <input type="hidden" id="edit_product_id" name="product_id">
-          <div class="inputs">
-            <div class="inputs1">
-              <input type="text" id="edit_product_name" name="product_name" placeholder="Product Name" value="existing product name">
-              <input type="text" id="edit_category" name="category" placeholder="Category">
-            </div>
-
-            <div class="inputs2">
-              <input type="text" id="edit_brand" name="brand" placeholder="Brand">
-              <input type="text" id="edit_unit" name="unit" placeholder="Unit">
-            </div>
-          </div>
-        </div>
-
-        <!-- PRICE CARD -->
-        <div class="card">
-          <div class="card-header">
-            <div class="icon">💰</div>
-            <div>
-              <p>PRICE DETAILS</p>
-              <h2>Product Pricing</h2>
-            </div>
-          </div>
-
-          <div class="inputs">
-            <div class="inputs1">
-              <input type="number" id="edit_cost_price" name="cost_price" placeholder="Cost Price" required>
-              <input type="number" id="edit_selling_price" name="selling_price" placeholder="Selling Price" required>
-            </div>
-
-            <input type="number" id="edit_msrp" name="msrp" placeholder="MSRP">
-          </div>
-        </div>
-
-      </div>
-
-      <!-- BOTTOM CARD -->
-      <div class="card bottom-card">
-
-        <div class="card-header">
-          <div class="icon">📝</div>
-          <div>
-            <p>MORE INFORMATION</p>
-            <h2>Product Description & Supplier</h2>
-          </div>
-        </div>
-
-        <textarea class="area1" id="edit_description" name="description" placeholder="Product description"></textarea>
-
-        <div class="bottom-inputs">
-          <input type="url" id="edit_product_image" name="product_image" placeholder="Product Image Link">
-          <input type="text" id="edit_supplier_name" name="supplier_name" placeholder="Supplier Name">
-          <input type="date" id="edit_expiry_date" name="expiry_date">
-        </div>
-
-        <button type="submit">Save Product</button>
-
-      </div>
-
-    </form>
-  </div>
-
-</div>
-
-      
-    </div>
-  </div>
-</div>
-
-<script>
-document.querySelectorAll(".edit-btn").forEach(button => {
-
-    button.addEventListener("click", function () {
-
-        document.getElementById("edit_product_id").value =
-            this.dataset.id;
-
-        document.getElementById("edit_product_name").value =
-            this.dataset.name;
-
-        document.getElementById("edit_category").value =
-            this.dataset.category;
-
-        document.getElementById("edit_brand").value =
-            this.dataset.brand;
-
-        document.getElementById("edit_unit").value =
-            this.dataset.unit;
-
-        document.getElementById("edit_cost_price").value =
-            this.dataset.cost;
-
-        document.getElementById("edit_selling_price").value =
-            this.dataset.selling;
-
-        document.getElementById("edit_msrp").value =
-            this.dataset.msrp;
-
-        document.getElementById("edit_description").value =
-            this.dataset.description;
-
-        document.getElementById("edit_product_image").value =
-            this.dataset.image;
-
-        document.getElementById("edit_supplier_name").value =
-            this.dataset.supplier;
-
-        document.getElementById("edit_expiry_date").value =
-            this.dataset.expiry;
-    });
-
-});
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-  const SearchItems = document.getElementById("productSearch");
-
-  SearchItems.addEventListener("keyup",function(){
-    const searchinput = this.value.toLowerCase();
-    const SearchOutput = document.querySelectorAll(".product-card");
-
-    SearchOutput.forEach( item => {
-      const productName = item.querySelector(".product-name").textContent.toLowerCase();
-      const productCategory = item.querySelector(".product-category").textContent.toLowerCase();
-
-      
-    if(productName.includes(searchinput) || productCategory.includes(searchinput))
-    {
-      item.style.display = "block";
-    }
-    else
-    {
-      item.style.display = "none";
-    }
-
-    })
-  })
-
-});
-
-</script>
+
+
+
+    <!-- =====================================================
+         EDIT PRODUCT MODAL
+    ====================================================== -->
+
+
+
+    <!-- Bootstrap -->
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+
+
+    <!-- =====================================================
+         PRODUCT SEARCH
+    ====================================================== -->
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const searchInput =
+                document.getElementById("productSearch");
+
+            const productCards =
+                document.querySelectorAll(".product-card");
+
+            const emptyState =
+                document.getElementById("emptyState");
+
+
+            searchInput.addEventListener("input", function () {
+
+                const searchValue =
+                    this.value.trim().toLowerCase();
+
+                let visibleProducts = 0;
+
+
+                productCards.forEach(card => {
+
+                    const productName =
+                        card.querySelector(".product-name")
+                            .textContent
+                            .toLowerCase();
+
+                    const productCategory =
+                        card.querySelector(".category-badge")
+                            .textContent
+                            .toLowerCase();
+
+                    const productBrand =
+                        card.querySelector(".product-brand")
+                            .textContent
+                            .toLowerCase();
+
+
+                    const matches =
+                        productName.includes(searchValue) ||
+                        productCategory.includes(searchValue) ||
+                        productBrand.includes(searchValue);
+
+
+                    if (matches) {
+
+                        card.style.display = "";
+
+                        visibleProducts++;
+
+                    } else {
+
+                        card.style.display = "none";
+
+                    }
+
+                });
+
+
+                if (visibleProducts === 0) {
+
+                    emptyState.classList.add("show");
+
+                } else {
+
+                    emptyState.classList.remove("show");
+
+                }
+
+            });
+
+        });
+
+    </script>
 
 </body>
-<script src="/js/bootstrap.bundle.min.js"></script>
+
 </html>

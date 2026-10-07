@@ -1,189 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-        <meta charset="UTF-8">
-        <meta name="viewport"
-            content="width=device-width, initial-scale=1.0">
-
-        <title> MarketFlow-main</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="/css/bootstrap.min.css">   
-        <link rel="stylesheet" href="/main.css">
-
-        <script>
-
-            // Function to filter products by category
-            function filterCategory(category) {
-                
-                const productCards = document.querySelectorAll('.product-card');
-                productCards.forEach(card => {
-                    const cardCategory = card.dataset.category;
-                    if (category === 'All' || cardCategory === category) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
-
-        </script>
-    <script>
-     document.addEventListener("DOMContentLoaded", function () {        
-        const searchInput = document.getElementById("searchcategory");
-        
-        searchInput.addEventListener("keyup", function () {
-            const value = this.value.toLowerCase();
-            const productCards = document.querySelectorAll('.product-card');
-
-            productCards.forEach(function (productCard) {
-                const productName = productCard.querySelector('.product-name').textContent.toLowerCase();
-
-                if (productName.includes(value)) {
-                    productCard.style.display = "";
-                } else {
-                    productCard.style.display = "none";
-                }
-            });
-        });
-    });
-    </script>
-
-   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b6517">
+    <title>MarketFlow - Point of Sales</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/main.css">
 </head>
 
 <body>
-
-    <nav class="main-navbar">
+    <!-- MAIN NAVIGATION -->
+    <nav class="main-navbar" aria-label="Main navigation">
         <div class="logo">
-            <i class="fas fa-store"></i>
+            <i class="fas fa-store" aria-hidden="true">▣</i>
             <div class="logo-text">
-                <h2>MarketFlow</h2> 
+                <h2>MarketFlow</h2>
             </div>
         </div>
-        
+
         <div class="search-container">
-            <input class="searchitem" id="searchcategory" type="search" placeholder="Search products by....." aria-label="Search Products">
+            <input
+                class="searchitem"
+                id="searchcategory"
+                type="search"
+                placeholder="Search products..."
+                aria-label="Search products">
+
             <div class="dropdown">
-        <button
-            class="btn category-btn dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false">
-            All Product Pages
-        </button>
-
-        <ul class="dropdown-menu">
-            <li>
-                <a class="dropdown-item" href="/pos">
-                    <i class="fas fa-cash-register"></i>
-                    Point of Sales
-                </a>
-            </li>
-
-            <li>
-                <a class="dropdown-item" href="/productpages/products">
-                    <i class="fas fa-boxes-stacked"></i>
-                    Products
-                </a>
-            </li>
-
-            <li>
-                <a class="dropdown-item" href="/customers">
-                    <i class="fas fa-users"></i>
-                    Customer Trends
-                </a>
-            </li>
-
-            <li>
                 <button
-                    class="dropdown-item"
-                    data-bs-toggle="modal"
-                    data-bs-target="#Inventorysystem">
-
-                    <i class="fas fa-database"></i>
-                    Inventory Records
-
+                    class="btn category-btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    All Product Pages
                 </button>
-            </li>
 
-            <li>
-                <a class="dropdown-item" href="/performance">
-                    <i class="fas fa-chart-pie"></i>
-                    Business Performance
-                </a>
-            </li>
+                <ul class="dropdown-menu">               
+                    <li><a class="dropdown-item" href="/productpages/products">□ Products</a></li>                    
+                </ul>
+            </div>
 
-            <li>
-                <a class="dropdown-item" href="/insights">
-                    <i class="fas fa-lightbulb"></i>
-                    Generate Insights
-                </a>
-            </li>
-
-        </ul>
-
-        </div>
-            <button
-                type="button"
-                class="search-btn">
-                <i class="fas fa-search"></i>
+            <button type="button" class="search-btn" aria-label="Search">
+                <i class="fas fa-search" aria-hidden="true">⌕</i>
             </button>
         </div>
 
-        <!-- Right Menu -->
+        <div class="right-menu">
+            <div class="dropdown mobile-nav-menu">
+                <button
+                    type="button"
+                    class="mobile-nav-btn dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    aria-label="Open navigation">
+                    <i class="fa-solid fa-bars" aria-hidden="true">☰</i>
+                    <span>Menu</span>
+                </button>
 
-        <div class="right-menu">  
-            <a href="/logout" class="logout-btn dropdown-toggle"
-            data-bs-toggle="dropdown"
-            aria-expanded="false">
-             <i class="fa-solid fa-right-from-bracket"></i>
-             User Profile
-           </a>  
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="/productpages/main">▣ Point of Sales</a></li>
+                    <li><a class="dropdown-item" href="/productpages/products">□ Products</a></li>
+                    <li><a class="dropdown-item" href="/customers">♙ Customer Trends</a></li>
+                    <li>
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#Inventorysystem">
+                            ▤ Inventory Records
+                        </button>
+                    </li>
+                    <li><a class="dropdown-item" href="/performance">◈ Business Performance</a></li>
+                    <li><a class="dropdown-item" href="/insights">✦ Generate Insights</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/cashier-dashboard">▣ Statistics</a></li>
+                </ul>
+            </div>
 
-                  <div class="dropdown">                    
-                    <ul class="dropdown-menu dropdown-menu-end user-dropdown">
-                        <li class="dropdown-header">
-                            <i class="fa-solid fa-circle-user"></i>
-                            <div>
-                                <strong>{{name}}</strong>
-                                <small>{{RoleName}}</small>
-                            </div>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-regular fa-user"></i>
-                                My Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-gear"></i>
-                                Settings
-                            </a>
-                        </li>
+            <div class="dropdown">
+                <button
+                    type="button"
+                    class="logout-btn dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-circle-user" aria-hidden="true">●</i>
+                    User Profile
+                </button>
 
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-key"></i>
-                                Change Password
-                            </a>
-                        </li>
+                <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+                    <li class="dropdown-header">
+                        <i class="fa-solid fa-circle-user" aria-hidden="true">●</i>
+                        <div>
+                            <strong>{{name}}</strong>
+                            <small>{{RoleName}}</small>
+                        </div>
+                    </li>
 
-                        <li><hr class="dropdown-divider"></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" id="myProfileBtn">♙ My Profile</a></li>
+                    <li><a class="dropdown-item" href="#">⚙ Settings</a></li>
+                    <li><a class="dropdown-item" href="#" id="openChangePasswordModal">⚿ Change Password</a></li>
 
-                        <li>
-                            <a class="dropdown-item logout-item" href="/auth/logout", onclick="return confirm('Are you sure you want to sign out?')">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                Sign Out
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <a
+                            class="dropdown-item logout-item"
+                            href="/auth/logout"
+                            onclick="return confirm('Are you sure you want to sign out?')">
+                            ⇥ Sign Out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
             <div class="menu-item">
-                <i class="fas fa-user-circle"></i>
+                <i class="fas fa-user-circle" aria-hidden="true">●</i>
                 <div>
                     <small>User On duty</small>
                     <span>Welcome, {{name}}</span>
@@ -192,709 +125,784 @@
         </div>
     </nav>
 
-    <div class="category-card">
+    <!-- CATEGORY PANEL -->
+    <aside class="category-card" aria-label="Product categories">
         <div class="category-header">
-            <i class="fa-solid fa-border-all"></i>
+            <i class="fa-solid fa-border-all" aria-hidden="true">▦</i>
             <span>CATEGORIES</span>
         </div>
-        <div class="category-item">
 
+        <div class="category-item">
             <div class="category-row" onclick="filterCategory('All')">
-                <img src="https://cdn-icons-png.flaticon.com/128/12489/12489785.png" alt="">
-                All
+                <span aria-hidden="true">▦</span>
+                <span>All</span>
             </div>
+
             {{#each categories}}
                 <div class="category-row" onclick="filterCategory('{{category}}')">
-                    <img src="https://cdn-icons-png.flaticon.com/128/12489/12489785.png" alt="">
-                    {{category}}
+                    <span aria-hidden="true">□</span>
+                    <span>{{category}}</span>
                 </div>
             {{/each}}
         </div>
+
         <div class="category-footer">
-            <button class="add-products" id="addCategoryBtn">
-                <i class="fas fa-plus"></i>
-                Add Product
-            </button>
+            <div class="category-actions">
+                <button
+                    type="button"
+                    class="category-action customer-action"
+                    id="customersBtn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#customerModal"
+                    data-bs-backdrop="false">
+                    <span class="category-action-icon" aria-hidden="true">♙</span>
+                    <span>Customers</span>
+                </button>
+
+                <a
+                    href="/cashier-dashboard"
+                    class="category-action statistics-action"
+                    id="cashierDashboardBtn">
+                    <span class="category-action-icon" aria-hidden="true">◈</span>
+                    <span>Statistics</span>
+                </a>
+            </div>
         </div>
+    </aside>
+
+    <!-- CASHIER SHORTCUTS -->
+    <div class="shortcut-toolbar" aria-label="Cashier shortcuts">
+        <button
+            type="button"
+            class="shortcut-btn"
+            data-bs-target="#newSaleBtn"
+            data-bs-toggle="modal">
+            <div class="shortcut-icon green">
+                <i class="fa-solid fa-cart-plus" aria-hidden="true">+</i>
+            </div>
+            <div class="shortcut-text">
+                <span class="shortcut-key">F1</span>
+                <span class="shortcut-title">New Sale</span>
+            </div>
+        </button>
+
+        <button
+            type="button"
+            class="shortcut-btn"
+            data-bs-target="#holdSaleBtn"
+            data-bs-toggle="modal">
+            <div class="shortcut-icon orange">
+                <i class="fa-solid fa-box" aria-hidden="true">□</i>
+            </div>
+            <div class="shortcut-text">
+                <span class="shortcut-key">F3</span>
+                <span class="shortcut-title">Hold Sale</span>
+            </div>
+        </button>
+
+        <button
+            type="button"
+            class="shortcut-btn"
+            id="RecallSale"
+            data-bs-target="#RecallSaleModal"
+            data-bs-toggle="modal">
+            <div class="shortcut-icon blue">
+                <i class="fa-solid fa-folder-open" aria-hidden="true">▣</i>
+            </div>
+            <div class="shortcut-text">
+                <span class="shortcut-key">F4</span>
+                <span class="shortcut-title">Recall Sale</span>
+            </div>
+        </button>
+
+        <button
+            type="button"
+            class="shortcut-btn"
+            id="priceCheckBtn"
+            data-bs-target="#pricechecking"
+            data-bs-toggle="modal">
+            <div class="shortcut-icon purple">
+                <i class="fa-solid fa-barcode" aria-hidden="true">▥</i>
+            </div>
+            <div class="shortcut-text">
+                <span class="shortcut-key">F5</span>
+                <span class="shortcut-title">Price Check</span>
+            </div>
+        </button>
     </div>
-        <!-- shortcut toolbar -->
 
-        <div class="shortcut-toolbar">
-
-            <button class="shortcut-btn" data-bs-target="#newSaleBtn" data-bs-toggle="modal">
-                <div class="shortcut-icon green">
-                    <i class="fa-solid fa-cart-plus"></i>
-                </div>
-
-                <div class="shortcut-text">
-                    <span class="shortcut-key">F1</span>
-                    <span class="shortcut-title">New Sale</span>
-                </div>
-            </button>
-
-
-            <button class="shortcut-btn" data-bs-target="#holdSaleBtn" data-bs-toggle="modal">
-                <div class="shortcut-icon orange">
-                    <i class="fa-solid fa-box"></i>
-                </div>
-                <div class="shortcut-text">
-                    <span class="shortcut-key">F3</span>
-                    <span class="shortcut-title">Hold Sale</span>
-                </div>
-            </button>
-
-
-            <button class=" btn shortcut-btn" id="RecallSale" data-bs-target="#RecallSaleModal" data-bs-toggle="modal">
-                <div class="shortcut-icon blue">
-                    <i class="fa-solid fa-folder-open"></i>
-                </div> 
-                <div class="shortcut-text">
-                    <span class="shortcut-key">F4</span>
-                    <span class="shortcut-title">Recall Sale</span>
-                </div>
-            </button>
-
-
-            <button class="shortcut-btn" id="priceCheckBtn"
-                data-bs-target="#pricechecking"
-                data-bs-toggle="modal">
-                <div class="shortcut-icon purple">
-                    <i class="fa-solid fa-barcode"></i>
-                </div>
-                <div class="shortcut-text">
-                    <span class="shortcut-key">F5</span>
-                   <span class="shortcut-title">Price Check</span>
-                </div>
-            </button>
-
-        </div>
-            
-
-      <div class="products-container">
-
+    <!-- PRODUCTS -->
+    <main class="products-container" aria-label="Products">
         <section class="products">
-
             {{#each products}}
+                <article class="product-card" data-category="{{category}}">
+                    <div class="product-image-container">
+                        {{#if product_image}}
+                            <img
+                                src="{{product_image}}"
+                                alt="{{product_name}}"
+                                class="product-image"
+                                loading="lazy"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        {{/if}}
 
-            <div class="product-card" data-category="{{category}}">
-                       <div class="product-image-container">
-                        <img
-                            src="{{product_image}}"
-                            alt="{{product_name}}"
-                            class="product-image"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                        >
-
-                        <div class="product-initial">
+                        <div
+                            class="product-initial"
+                            {{#if product_image}}style="display:none;"{{/if}}>
                             {{product_name}}
                         </div>
                     </div>
-                <div class="content">
-                    <h5 class="product-name">{{product_name}}</h5>
-                    <span class="price">GH₵ {{selling_price}} /{{unit}}</span>
-                    <div class="stock-btn">
-                    <small>Stock: {{totalreceived}}</small>
-                    <button class="add-btn edit-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#productpurchasing"
-                            data-id="{{product_id}}"
-                            data-name="{{product_name}}"
-                            data-category="{{category}}"
-                            data-brand="{{brand}}"
-                            data-unit="{{unit}}"
-                            data-cost="{{cost_price}}"
-                            data-selling="{{selling_price}}"
-                            data-msrp="{{msrp}}"
-                            data-description="{{description}}"
-                            data-image="{{product_image}}"
-                            data-supplier="{{supplier_name}}"
-                            data-expiry="{{expiry_date}}" >
-                        <i class="fa-solid fa-bag-shopping"></i> sell
-                    </button>
-                    
-                    </div>
 
+                    <div class="content">
+                        <h5 class="product-name">{{product_name}}</h5>
+                        <span class="price">GH₵ {{selling_price}} / {{unit}}</span>
+
+                        <div class="stock-btn">
+                            <small>Stock: {{totalavailable}}</small>
+
+                            <button
+                                type="button"
+                                class="add-btn edit-btn {{#if (lt totalavailable 6)}}danger{{/if}}"
+                                {{#if (numberequal totalavailable 0)}}disabled{{/if}}
+                                data-bs-toggle="modal"
+                                data-bs-target="#productpurchasing"
+                                data-id="{{product_id}}"
+                                data-name="{{product_name}}"
+                                data-category="{{category}}"
+                                data-brand="{{brand}}"
+                                data-unit="{{unit}}"
+                                data-cost="{{cost_price}}"
+                                data-selling="{{selling_price}}"
+                                data-msrp="{{msrp}}"
+                                data-description="{{description}}"
+                                data-image="{{product_image}}"
+                                data-supplier="{{supplier_name}}"
+                                data-expiry="{{expiry_date}}">
+                                <i class="fa-solid fa-bag-shopping" aria-hidden="true">▣</i>
+                                Sell
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            {{else}}
+                <div class="empty-products">
+                    <h3>No products available</h3>
+                    <p>Add products to begin selling.</p>
+                </div>
+            {{/each}}
+        </section>
+    </main>
+
+    <!-- CART / PAYMENT PANEL -->
+    <aside class="purchasepoint" aria-label="Current sale">
+        <section class="salesreview">
+            <div class="cartstyle">
+                <div>
+                    <span class="section-kicker">CURRENT SALE</span>
+                    <h5>Cart</h5>
                 </div>
 
-            </div>
-
-            {{/each}}
-
-        </section>
-
-    </div>
-    <div class="purchasepoint">
-        <div class="salesreview">
-            <div class="cartstyle">
-                <h5>Cart</h5>
-                <form action="/productpages/clearCart" method="POST">
+                <form
+                    action="/productpages/clearCart"
+                    method="POST"
+                    id="clearCartForm">
                     <button type="submit" class="delete-btn">
-                    Clear Carts <i class="fa-solid fa-trash"></i>
+                        Clear Cart
+                        <i class="fa-solid fa-trash" aria-hidden="true">×</i>
                     </button>
                 </form>
             </div>
-         <div class="table-scroll">  
-            <table class="purchase_ite">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Item</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class="salesbody">
-                    {{#each initialsales}}
-                    <tr>
-                        <td>{{@index}}</td>
-                        <td class="product-info">
-                            <div class="product-name">{{product_name}}</div>
-                            <small>GH₵ {{cost_price}}</small>
-                        </td>
-                        <td>
-                            <div class="qty-boxx">
-                                <button class="minus">−</button>
-                                <span>{{quantity}}</span>
-                                <button class="plus">+</button>
-                            </div>
-                        </td>
-                        <td>GH₵ {{cost_price}}</td>
-                        <td>GH₵ {{total_price}}</td>
-                        <td>
-                            <button class="delete-btn" onclick="deleteitem('{{sales_id}}')">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-        </div> 
-        <div class="subtotalinfo">
-            <div class="cart-summary">
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span class="amount">{{subtotal}}</span>
-                </div>
-                <div class="summary-row">
-                    <div class="discount-label">
-                        <span>Discount</span>
 
-                        <button class="discount-btn">
-                            <i class="fa-solid fa-percent"></i>
-                        </button>
-                    </div>
-                    <span class="amount">{{discount}}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tax</span>
-                    <span class="amount">{{tax}}</span>
-                </div>
-                <hr>
-                <div class="summary-row grand-total">
-                    <span>Grand Total</span>
-                    <span>{{grandTotal}}</span>
-                </div>
-        </div>
-    </div>
-      <div class="payment-section">
+            <div class="table-scroll">
+                <table class="purchase_ite">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th><span class="visually-hidden">Remove</span></th>
+                        </tr>
+                    </thead>
 
-    <div class="payment-top">
-        <div class="amount-section">
-            <p>Amount Payable</p>
-            <h2>GH₵ <span id="amountPayable">{{grandTotal}}</span></h2>
-        </div>
-        <div class="payment-inputs">
-            <div class="payment-row">
-                <label>Paid</label>
-                <input
-                    type="number"
-                    id="paidAmount"
-                    placeholder="0.00"
-                    
-                    oninput="ChangeAmount()">
-            </div>
-            <div class="payment-row">
-                <label>Change</label>
-                <h3>
-                    GH₵
-                    <span placeholder="0.00" id="changeAmount"></span>
-                </h3>
-            </div>
-        </div>
-    </div>
-</div>
-    <div class="payment-methods">
-    <!-- CASH -->
-    <button
-        type="button"
-        class="payment-btn cash"
-        onclick="openPaymentModal('cashPaymentModal')">
-
-        <i class="fa-solid fa-money-bill-wave"></i>
-        <span>Cash</span>
-
-    </button>
-
-    <!-- MOBILE MONEY -->
-    <button
-        type="button"
-        class="payment-btn momo"
-        onclick="openPaymentModal('momoPaymentModal')">
-
-        <i class="fa-solid fa-mobile-screen-button"></i>
-        <span>Mobile Money</span>
-
-    </button>
-
-    <!-- CARD -->
-    <button
-        type="button"
-        class="payment-btn cardmethod"
-        onclick="openPaymentModal('cardPaymentModal')">
-
-        <i class="fa-regular fa-credit-card"></i>
-        <span>Card</span>
-
-    </button>
-
-    <!-- SPLIT PAYMENT -->
-    <button
-        type="button"
-        class="payment-btn split"
-        onclick="openPaymentModal('splitPaymentModal')">
-
-        <i class="fa-solid fa-code-branch"></i>
-        <span>Split Payment</span>
-
-    </button>
-
-</div>
-</div>   
-
-    <div class="modal fade" id="Inventorysystem" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content rounded-4">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title">
-                        <i class="fas fa-warehouse me-2"></i>
-                        Inventory Management
-                    </h5>
-
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
-                    </button>
-
-                </div>
-
-                <div class="modal-body p-4">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="card h-100 border-0 shadow-sm">
-                                
-                                <div class="card-body text-center">
-                                    <i class="fas fa-warehouse fa-3x text-success mb-3"></i>
-                                    <h5>Stock Intake</h5>
-                                    <p>Record new stock entries and manage inventory.</p>
-
-                                    <a href="/productpages/inventory" class="btn btn-success">
-                                    Open Stock Intake
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
-                                    <h5>Inventory Dashboard</h5>
-                                    <p>Track inventory levels and stock movement.</p>
-                                    <a href="/inventoryDashboard"  class="btn btn-primary">
-                                    Open Dashboard
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<div class="modal fade" id="pricechecking" tabindex="-1">
-    <div class="modal-dialog modal-lg modalprice modal-dialog-centered">
-        <div class="modal-content rounded-4">
-
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-tags me-2"></i> PRODUCT PRICE CHECK
-                </h5>
-
-                <button type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-
-                <!-- Search -->
-                <div class="mb-3">
-                    <input
-                        type="text"
-                        id="priceSearch"
-                        class="form-control"
-                        placeholder="Search Product Name or Product ID...">
-                </div>
-
-                <!-- Table -->
-                <div class="table-scroll">
-
-                    <table class="purchase_item">
-
-                        <thead>
+                    <tbody class="salesbody">
+                        {{#each initialsales}}
                             <tr>
-                                <th>Product Name</th>
-                                <th>Category</th>
-                                <th>Brand</th>
-                                <th>Unit</th>
-                                <th>Price</th>
-                            </tr>
-                        </thead>
+                                <td>{{@index}}</td>
 
-                        <tbody id="priceTableBody">
+                                <td class="product-info">
+                                    <div class="product-name">{{product_name}}</div>
+                                    <small>GH₵ {{Selling_price}}</small>
+                                </td>
 
-                            {{#each products}}
+                                <td>
+                                    <div class="qty-boxx">
+                                        <button
+                                            type="button"
+                                            class="minus"
+                                            aria-label="Decrease quantity">
+                                            −
+                                        </button>
 
-                            <tr>
-                                 <td class="product-info">
-                                    <div class="product-name">
-                                        {{product_name}}
+                                        <span>{{quantity}}</span>
+
+                                        <button
+                                            type="button"
+                                            class="plus"
+                                            aria-label="Increase quantity">
+                                            +
+                                        </button>
                                     </div>
                                 </td>
 
-                                <td>{{category}}</td>
+                                <td>GH₵ {{Selling_price}}</td>
+                                <td>GH₵ {{total_price}}</td>
 
-                                <td>{{brand}}</td>
-
-                                <td>{{unit}}</td>
-
-                                <td class="fw-bold text-success">
-                                    GH₵ {{selling_price}}
-                                </td>
-
-                            </tr>
-
-                            {{/each}}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-</div>
-    </div>
-
-
-    <div class="modal fade" id="productpurchasing" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content rounded-4">
-                   <div class="modal-header bg-success text-white">
-                        <h5 class="modal-title">
-                            <i class="fas fa-box me-2"></i> THIS_PRODUCT
-                        </h5>
-
-                        <button  type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">  </button>
-                    </div>
-                
-               <div class="modal-body p-4">
-                    <div class="entirecontainer">
-                        <form action="/productpages/sales/add" method="POST">
-                            <div class="top-section">                                
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="icon">📦</div>
-                                        <div>
-                                        <p>PURCHASING INFORMATION</p>
-                                        <h2>ITEM / QUANTITY</h2>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="inputs">
-                                        <div class="inputs1">
-                                                <label>Product Name</label>
-                                                <input  class="productname"
-                                                 type="text" id="product_name" name="product_name"
-                                                  placeholder="Product Name" >
-                                                <input type="hidden"  id="product_id" name="ProductId">
-                                                <div class="searchbox" id="itembox" ></div>
-
-
-                                            <label>Quantity</label>
-                                            <div class="setquantity">
-                                                <div class="minus" id="quantity-minus"> <i class="fas fa-minus"></i> </div>
-                                                <input class="Quantityinput" type="text" id="quantity" name="quantity" placeholder="Quantity">
-                                                <div class="plus" id="quantity-plus"> <i class="fas fa-plus"></i> </div>
-                                            </div>
-                                        </div>                                        
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="icon">💰</div>
-                                        <div>
-                                        <p>PRICE DETAILS</p>
-                                        <h2>PRODUCT PRICING</h2>
-                                        </div>
-                                    </div>
-
-                                    <div class="inputs">
-                                        
-                                        <label>Price_Each</label>
-                                        <input class="priceEach" type="number" id="cost_price" name="PriceEach" placeholder="Price_Each">                                    
-                                        <label>Total_Price</label>
-                                        <input class="totalprice" type="number" id="total_product" name="TotalPrice" placeholder="Total_price">
-                                    </div>
-                                </div>
-                                <button class = 'Addpurchase'>Purchase</button>
-                            </div>
-                        </form>
-                 </div>
-              </div>                
-           </div>
-        </div>
-    </div>
-    <div class="modal fade" id="RecallSaleModal" tabindex="-1">
-    <div class="modal-dialog recallsales modal-xl modal-dialog-centered">
-        <div class="modal-content shadow-lg border-0 rounded-4">
-
-            <div class="modal-header recall-header">
-                <h3 class="modal-title text-white fw-bold">
-                    Held Sales
-                </h3>
-
-                <button
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal">
-                </button>
-            </div>
-
-            <div class="modal-body p-4">
-
-                <div class="held-table">
-
-                    <table class="table align-middle mb-0">
-
-                        <thead>
-                            <tr>
-                                <th>Invoice No.</th>
-                                <th>Cashier</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Date Held</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {{#each temporalsales}}
-                            <tr>
-                                <td class="fw-bold">
-                                    {{invoice_number}}
-                                </td>
                                 <td>
-                                    {{cashier_id}}
-                                </td>
-                                <td>
-                                    {{customer_id}}
-                                </td>
-                                <td>
-                                    <span class="badge-held">
-                                        {{hold_status}}
-                                    </span>
-                                </td>
-                                <td>
-                                    {{created_at}}
-                                </td>
-                                <td>
-                                    <button class="btn recall-btn" onclick="recallholdsale('{{invoice_number}}')">
-                                        <i class="fa-solid fa-rotate-left"></i>
-                                        Recall
+                                    <button
+                                        type="button"
+                                        class="delete-btn"
+                                        onclick="deleteitem('{{sales_id}}')"
+                                        aria-label="Remove {{product_name}}">
+                                        <i class="fa-solid fa-trash" aria-hidden="true">×</i>
                                     </button>
                                 </td>
                             </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
+                        {{else}}
+                            <tr class="empty-cart-row">
+                                <td colspan="6">
+                                    <div class="empty-cart">
+                                        <strong>Your cart is empty</strong>
+                                        <span>Select a product to add it to the sale.</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="subtotalinfo">
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span class="amount">GH₵ {{subtotal}}</span>
+                </div>
+
+                <div class="summary-row">
+                    <div class="discount-label">
+                        <span>Discount</span>
+                        <button
+                            type="button"
+                            class="discount-btn"
+                            aria-label="Discount">
+                            <i class="fa-solid fa-percent" aria-hidden="true">%</i>
+                        </button>
+                    </div>
+
+                    <span class="amount">GH₵ {{discount}}</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Tax</span>
+                    <span class="amount">GH₵ {{tax}}</span>
+                </div>
+
+                <hr>
+
+                <div class="summary-row grand-total">
+                    <span>Grand Total</span>
+                    <span>GH₵ {{grandTotal}}</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="payment-section">
+            <div class="payment-top">
+                <div class="amount-section">
+                    <p>Amount Payable</p>
+                    <h2>GH₵ <span id="amountPayable">{{grandTotal}}</span></h2>
+                </div>
+
+                <div class="payment-inputs">
+                    <div class="payment-row">
+                        <label for="paidAmount">Paid</label>
+                        <input
+                            type="number"
+                            id="paidAmount"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0"
+                            inputmode="decimal"
+                            oninput="ChangeAmount()">
+                    </div>
+
+                    <div class="payment-row">
+                        <label for="changeAmount">Change</label>
+                        <h3>GH₵ <span id="changeAmount">0.00</span></h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="payment-methods" aria-label="Payment methods">
+            <button
+                type="button"
+                class="payment-btn cash"
+                onclick="openPaymentModal('cashPaymentModal')">
+                <i class="fa-solid fa-money-bill-wave" aria-hidden="true">₵</i>
+                <span>Cash</span>
+            </button>
+
+            <button
+                type="button"
+                class="payment-btn momo"
+                onclick="openMomoPaymentModal()">
+                <i class="fa-solid fa-mobile-screen-button" aria-hidden="true">☎</i>
+                <span>Mobile Money</span>
+            </button>
+
+            <button
+                type="button"
+                class="payment-btn cardmethod"
+                onclick="openPaymentModal('cardPaymentModal')">
+                <i class="fa-regular fa-credit-card" aria-hidden="true">▭</i>
+                <span>Card</span>
+            </button>
+
+            <button
+                type="button"
+                class="payment-btn split"
+                onclick="openPaymentModal('splitPaymentModal')">
+                <i class="fa-solid fa-code-branch" aria-hidden="true">÷</i>
+                <span>Split Payment</span>
+            </button>
+        </section>
+    </aside>
+
+
+    <!-- PRICE CHECK MODAL -->
+    <div class="modal fade" id="pricechecking" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modalprice modal-dialog-centered">
+            <div class="modal-content rounded-4">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">▥ Product Price Check</h5>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input
+                            type="search"
+                            id="priceSearch"
+                            class="form-control"
+                            placeholder="Search Product Name or Product ID..."
+                            autocomplete="off">
+                    </div>
+
+                    <div class="table-scroll">
+                        <table class="purchase_item">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Brand</th>
+                                    <th>Unit</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="priceTableBody">
+                                {{#each products}}
+                                    <tr>
+                                        <td class="product-info">
+                                            <div class="product-name">{{product_name}}</div>
+                                        </td>
+                                        <td>{{category}}</td>
+                                        <td>{{brand}}</td>
+                                        <td>{{unit}}</td>
+                                        <td class="fw-bold text-success">
+                                            GH₵ {{selling_price}}
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="holdSaleBtn" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered holdsale-dialog">
-        <div class="modal-content rounded-4 border-0 shadow-lg">
-            <div class="modal-header holdsale-header">
-                <h4 class="modal-title">
-                    <i class="fa-solid fa-cart-shopping me-2"></i>
-                    Hold Current Sale
-                </h4>
-                <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal">
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="holdsale-wrapper">
-                    <div class="holdsale-card">
-                        <div class="holdsale-card-header">
-                            <div>
-                                <h5>Current Cart</h5>
-                                <p>
-                                    Save this sale and continue serving another customer.
-                                </p>
-                            </div>
-                            <div class="holdsale-badge">
-                                {{initialsales.length}} Items
-                            </div>
-                        </div>
-                        <div class="holdsale-table">
-                            <table class="purchase_ite">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Item</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="salesbody">
-                                    {{#each initialsales}}
-                                    <tr>
-                                        <td>{{@index}}</td>
-                                        <td class="product-info">
-                                            <div class="product-name">
-                                                {{product_name}}
-                                            </div>
-                                            <small>
-                                                GH₵ {{cost_price}}
-                                            </small>
-                                        </td>
-                                        <td>
-                                            <div class="qty-boxx">
-                                                <button class="minus">
+    <!-- PRODUCT SALE MODAL -->
+    <div class="modal fade" id="productpurchasing" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">□ Add Product to Sale</h5>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body p-4">
+                    <div class="entirecontainer">
+                        <form
+                            action="/productpages/sales/add"
+                            method="POST"
+                            id="productSaleForm">
+
+                            <div class="top-section">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="icon">□</div>
+                                        <div>
+                                            <p>PURCHASING INFORMATION</p>
+                                            <h2>ITEM / QUANTITY</h2>
+                                        </div>
+                                    </div>
+
+                                    <div class="inputs">
+                                        <div class="inputs1">
+                                            <label for="product_name">Product Name</label>
+
+                                            <input
+                                                class="productname"
+                                                type="text"
+                                                id="product_name"
+                                                name="product_name"
+                                                placeholder="Product Name"
+                                                autocomplete="off"
+                                                required>
+
+                                            <input
+                                                type="hidden"
+                                                id="product_id"
+                                                name="ProductId">
+
+                                            <div class="searchbox" id="itembox"></div>
+
+                                            <label for="quantity">Quantity</label>
+
+                                            <div class="setquantity">
+                                                <button
+                                                    type="button"
+                                                    class="minus"
+                                                    id="quantity-minus"
+                                                    aria-label="Decrease quantity">
                                                     −
                                                 </button>
-                                                <span>
-                                                    {{quantity}}
-                                                </span>
-                                                <button class="plus">
+
+                                                <input
+                                                    class="Quantityinput"
+                                                    type="number"
+                                                    id="quantity"
+                                                    name="quantity"
+                                                    placeholder="Quantity"
+                                                    min="1"
+                                                    step="1"
+                                                    inputmode="numeric"
+                                                    required>
+
+                                                <button
+                                                    type="button"
+                                                    class="plus"
+                                                    id="quantity-plus"
+                                                    aria-label="Increase quantity">
                                                     +
                                                 </button>
                                             </div>
-                                        </td>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="icon">₵</div>
+                                        <div>
+                                            <p>PRICE DETAILS</p>
+                                            <h2>PRODUCT PRICING</h2>
+                                        </div>
+                                    </div>
+
+                                    <div class="inputs">
+                                        <label for="selling_price">Price Each</label>
+
+                                        <input
+                                            class="priceEach"
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            id="selling_price"
+                                            name="PriceEach"
+                                            placeholder="Price Each"
+                                            required>
+
+                                        <input
+                                            type="hidden"
+                                            id="cost_price"
+                                            name="Costprice">
+
+                                        <label for="total_product">Total Price</label>
+
+                                        <input
+                                            class="totalprice"
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            id="total_product"
+                                            name="TotalPrice"
+                                            placeholder="Total Price"
+                                            readonly>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="Addpurchase">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECALL HELD SALES -->
+    <div class="modal fade" id="RecallSaleModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog recallsales modal-xl modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0 rounded-4">
+                <div class="modal-header recall-header">
+                    <h3 class="modal-title text-white fw-bold">Held Sales</h3>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body p-4">
+                    <div class="held-table">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Invoice No.</th>
+                                    <th>Cashier</th>
+                                    <th>Customer</th>
+                                    <th>Status</th>
+                                    <th>Date Held</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{#each temporalsales}}
+                                    <tr>
+                                        <td class="fw-bold">{{invoice_number}}</td>
+                                        <td>{{cashier_id}}</td>
+                                        <td>{{customer_id}}</td>
                                         <td>
-                                            GH₵ {{cost_price}}
+                                            <span class="badge-held">{{hold_status}}</span>
                                         </td>
-                                        <td>
-                                            GH₵ {{total_price}}
-                                        </td>
+                                        <td>{{created_at}}</td>
                                         <td>
                                             <button
-                                                class="delete-btn"
-                                                onclick="deleteitem('{{sales_id}}')">
-                                                <i class="fa-solid fa-trash"></i>
+                                                type="button"
+                                                class="btn recall-btn"
+                                                onclick="recallholdsale('{{invoice_number}}')">
+                                                ↶ Recall
                                             </button>
                                         </td>
                                     </tr>
-                                    {{/each}}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="holdsale-footer">
-                            <div>
-                                <h6>Total Cart Items</h6>
-                                <span>{{initialsales.length}}</span>
+                                {{else}}
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            No held sales available.
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOLD CURRENT SALE -->
+    <div class="modal fade" id="holdSaleBtn" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered holdsale-dialog">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header holdsale-header">
+                    <h4 class="modal-title">▣ Hold Current Sale</h4>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="holdsale-wrapper">
+                        <div class="holdsale-card">
+                            <div class="holdsale-card-header">
+                                <div>
+                                    <h5>Current Cart</h5>
+                                    <p>Save this sale and continue serving another customer.</p>
+                                </div>
+
+                                <div class="holdsale-badge">
+                                    {{initialsales.length}} Items
+                                </div>
                             </div>
-                            <form
-                                action="/productpages/holdallsale"
-                                method="POST">
-                                <button
-                                    type="submit"
-                                    class="holdsale-save-btn">
-                                    <i class="fa-solid fa-floppy-disk me-2"></i>
-                                    Hold Sale
-                                </button>
-                            </form>
+
+                            <div class="holdsale-table">
+                                <table class="purchase_ite">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Item</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="salesbody">
+                                        {{#each initialsales}}
+                                            <tr>
+                                                <td>{{@index}}</td>
+
+                                                <td class="product-info">
+                                                    <div class="product-name">{{product_name}}</div>
+                                                    <small>GH₵ {{Selling_price}}</small>
+                                                </td>
+
+                                                <td>
+                                                    <div class="qty-boxx">
+                                                        <button
+                                                            type="button"
+                                                            class="minus"
+                                                            aria-label="Decrease quantity">
+                                                            −
+                                                        </button>
+
+                                                        <span>{{quantity}}</span>
+
+                                                        <button
+                                                            type="button"
+                                                            class="plus"
+                                                            aria-label="Increase quantity">
+                                                            +
+                                                        </button>
+                                                    </div>
+                                                </td>
+
+                                                <td>GH₵ {{Selling_price}}</td>
+                                                <td>GH₵ {{total_price}}</td>
+
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        class="delete-btn"
+                                                        onclick="deleteitem('{{sales_id}}')"
+                                                        aria-label="Remove item">
+                                                        ×
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        {{else}}
+                                            <tr>
+                                                <td colspan="6" class="text-center py-4">
+                                                    Cart is empty.
+                                                </td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="holdsale-footer">
+                                <div>
+                                    <h6>Total Cart Items</h6>
+                                    <span>{{initialsales.length}}</span>
+                                </div>
+
+                                <form
+                                    action="/productpages/holdallsale"
+                                    method="POST"
+                                    id="holdSaleForm">
+                                    <button
+                                        type="submit"
+                                        class="holdsale-save-btn"
+                                        {{#unless initialsales.length}}disabled{{/unless}}>
+                                        ▣ Hold Sale
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div
+                                id="holdSaleMessage"
+                                class="alert d-none mt-3 mb-0"
+                                role="alert">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-
-<div class="modal fade" id="newSaleBtn" tabindex="-1">
-    <div class="modal-dialog modal-md modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-4">
-
-            <div class="modal-header delete-header">
-                <h4 class="modal-title">
-                    <i class="fa-solid fa-trash-can me-2"></i>
-                    Clear Sales Records
-                </h4>
-
-                <button
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal">
-                </button>
-            </div>
-
-            <form action="/productpages/deletesales" method="POST">
+    <!-- NEW SALE -->
+    <div class="modal fade" id="newSaleBtn" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header delete-header">
+                    <h4 class="modal-title">＋ Start New Sale</h4>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
 
                 <div class="modal-body">
-
                     <div class="delete-card">
+                        <div class="delete-icon">?</div>
 
-                        <div class="delete-icon">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-
-                        <h4>Delete All Sales Data?</h4>
+                        <h4>Start a New Sale?</h4>
 
                         <p>
-                            This action will permanently remove:
+                            Starting a new sale will clear the current cart.
                         </p>
 
                         <ul>
-                            <li>Current Cart Items</li>
-                            <li>Held Sales</li>
-                            <li>Held Sale Items</li>
+                            <li>Current cart items will be removed.</li>
+                            <li>Held sales will remain محفوظ.</li>
+                            <li>Completed sales will not be affected.</li>
                         </ul>
 
                         <div class="warning-box">
-                            This action cannot be undone.
+                            Make sure you hold the current sale first if you need it later.
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="modal-footer border-0">
-
                     <button
                         type="button"
                         class="btn btn-light px-4"
@@ -902,615 +910,1542 @@
                         Cancel
                     </button>
 
-                    <button
-                        type="submit"
-                        class="btn btn-danger px-4">
-                        <i class="fa-solid fa-trash me-2"></i>
-                        Clear All
-                    </button>
+                    <form action="/productpages/clearCart" method="POST" id="newSaleForm">
+                        <button type="submit" class="btn btn-success px-4">
+                            Start New Sale
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CASH PAYMENT -->
+    <div
+        id="cashPaymentModal"
+        class="payment-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cashPaymentTitle">
+
+        <div class="payment-modal-content">
+            <div class="payment-modal-header">
+                <div>
+                    <h2 id="cashPaymentTitle">Cash Payment</h2>
+                    <p>Complete the cash payment</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="close-payment-modal"
+                    onclick="closePaymentModal('cashPaymentModal')"
+                    aria-label="Close">
+                    ×
+                </button>
+            </div>
+
+            <div class="payment-modal-body">
+                <div class="payment-summary">
+                    <span>Amount Payable</span>
+                    <strong>
+                        GH₵ <span class="modal-grand-total">{{grandTotal}}</span>
+                    </strong>
+                </div>
+
+                <div class="modal-input-group">
+                    <label for="cashAmountPaid">Amount Received</label>
+                    <input
+                        type="number"
+                        id="cashAmountPaid"
+                        step="0.01"
+                        min="0"
+                        inputmode="decimal"
+                        placeholder="0.00">
+                </div>
+
+                <div class="payment-summary change-summary">
+                    <span>Change</span>
+                    <strong>
+                        GH₵ <span id="cashModalChange">0.00</span>
+                    </strong>
+                </div>
+            </div>
+
+            <div class="payment-modal-footer">
+                <button
+                    type="button"
+                    class="modal-cancel-btn"
+                    onclick="closePaymentModal('cashPaymentModal')">
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="modal-complete-btn"
+                    id="completeCashPayment">
+                    ✓ Complete Sale
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE MONEY -->
+    <div
+        id="momoPaymentModal"
+        class="payment-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="momoPaymentTitle">
+
+        <div class="payment-modal-content">
+            <div class="payment-modal-header">
+                <div>
+                    <h2 id="momoPaymentTitle">Mobile Money Payment</h2>
+                    <p>Complete the mobile money transaction</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="close-payment-modal"
+                    onclick="closePaymentModal('momoPaymentModal')"
+                    aria-label="Close">
+                    ×
+                </button>
+            </div>
+
+            <div class="payment-modal-body">
+                <div class="momo-amount-box">
+                    <div class="momo-amount-icon">₵</div>
+
+                    <div class="momo-amount-details">
+                        <span>Amount Payable</span>
+                        <strong>
+                            GH₵ <span class="modal-grand-total">{{grandTotal}}</span>
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="momo-section">
+                    <h3><span>1.</span> Select Mobile Money Network</h3>
+
+                    <div class="momo-network-options">
+                        <button
+                            type="button"
+                            class="momo-network-card active"
+                            data-network="MTN"
+                            onclick="selectMomoNetwork(this)">
+                            <span class="network-check">✓</span>
+                            <div class="network-logo mtn-logo">MTN</div>
+                            <strong>MTN</strong>
+                            <small>Mobile Money</small>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="momo-network-card"
+                            data-network="Telecel"
+                            onclick="selectMomoNetwork(this)">
+                            <div class="network-logo telecel-logo">t telecel</div>
+                            <strong>Telecel</strong>
+                            <small>Cash</small>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="momo-network-card"
+                            data-network="AirtelTigo"
+                            onclick="selectMomoNetwork(this)">
+                            <div class="network-logo airteltigo-logo">airteltigo</div>
+                            <strong>AirtelTigo</strong>
+                            <small>Money</small>
+                        </button>
+                    </div>
+
+                    <input type="hidden" id="momoNetwork" value="MTN">
+                </div>
+
+                <div class="momo-section">
+                    <h3><span>2.</span> Customer Phone Number</h3>
+
+                    <div class="momo-input-wrapper">
+                        <div class="momo-input-icon">☎</div>
+
+                        <input
+                            type="tel"
+                            id="momoPhone"
+                            placeholder="024 000 0000"
+                            maxlength="13"
+                            autocomplete="off"
+                            inputmode="tel">
+                    </div>
+
+                    <small class="momo-input-help">
+                        Enter the customer's mobile money number
+                    </small>
+                </div>
+
+                <div class="momo-section">
+                    <h3><span>3.</span> Transaction Reference</h3>
+
+                    <div class="momo-input-wrapper">
+                        <div class="momo-input-icon">#</div>
+
+                        <input
+                            type="text"
+                            id="momoReference"
+                            value=""
+                            readonly>
+                    </div>
+
+                    <small class="momo-input-help">
+                        Reference will be generated for this transaction
+                    </small>
+                </div>
+
+                <div class="momo-security-box">
+                    <div class="momo-security-icon">✓</div>
+
+                    <div>
+                        <strong>Secure payment processing</strong>
+                        <p>
+                            The payment must be verified before the sale is completed.
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    id="momoPaymentMessage"
+                    class="alert d-none mt-3"
+                    role="alert">
+                </div>
+            </div>
+
+            <div class="payment-modal-footer">
+                <button
+                    type="button"
+                    class="momo-cancel-btn"
+                    onclick="closePaymentModal('momoPaymentModal')">
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="momo-complete-btn"
+                    id="completeMomoPayment">
+                    ✓ Complete Sale
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD PAYMENT -->
+    <div
+        id="cardPaymentModal"
+        class="payment-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cardPaymentTitle">
+
+        <div class="payment-modal-content">
+            <div class="payment-modal-header">
+                <div>
+                    <h2 id="cardPaymentTitle">Card Payment</h2>
+                    <p>Record the card transaction details</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="close-payment-modal"
+                    onclick="closePaymentModal('cardPaymentModal')"
+                    aria-label="Close">
+                    ×
+                </button>
+            </div>
+
+            <div class="payment-modal-body">
+                <div class="payment-summary">
+                    <span>Amount Payable</span>
+                    <strong>
+                        GH₵ <span class="modal-grand-total">{{grandTotal}}</span>
+                    </strong>
+                </div>
+
+                <div class="modal-input-group">
+                    <label for="cardType">Card Type</label>
+
+                    <select id="cardType">
+                        <option value="">Select Card Type</option>
+                        <option value="Visa">Visa</option>
+                        <option value="Mastercard">Mastercard</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="modal-input-group">
+                    <label for="cardReference">Transaction Reference</label>
+
+                    <input
+                        type="text"
+                        id="cardReference"
+                        placeholder="Enter transaction reference"
+                        autocomplete="off">
+                </div>
+            </div>
+
+            <div class="payment-modal-footer">
+                <button
+                    type="button"
+                    class="modal-cancel-btn"
+                    onclick="closePaymentModal('cardPaymentModal')">
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="modal-complete-btn"
+                    id="completeCardPayment">
+                    ✓ Complete Sale
+                </button>
+            </div>
+        </div>
+    </div>
+<!-- ================================================================
+     SPLIT PAYMENT MODAL
+================================================================ -->
+
+<div id="splitPaymentModal" class="payment-modal" aria-hidden="true">
+    <div class="payment-modal-overlay" onclick="closePaymentModal('splitPaymentModal')"></div>
+    <div class="payment-modal-content split-payment-modal" role="dialog" aria-modal="true" aria-labelledby="splitPaymentTitle">
+
+        <!-- ============================================================
+             HEADER
+        ============================================================= -->
+
+        <div class="payment-modal-header">
+
+            <div>
+                <div class="payment-modal-icon">
+                    <i class="fa-solid fa-code-branch"></i>
+                </div>
+
+                <div>
+                    <h2 id="splitPaymentTitle">
+                        Split Payment
+                    </h2>
+
+                    <p>
+                        Accept payment using multiple payment methods.
+                    </p>
+                </div>
+            </div>
+
+
+            <button
+                type="button"
+                class="payment-modal-close"
+                onclick="closePaymentModal('splitPaymentModal')"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <!-- ============================================================
+             SALE INFORMATION
+        ============================================================= -->
+
+        <div class="split-sale-summary">
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Sale Total
+                </span>
+
+                <strong
+                    id="splitGrandTotal"
+                    data-grand-total="0"
+                >
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Total Paid
+                </span>
+
+                <strong id="splitTotalPaid">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Remaining
+                </span>
+
+                <strong id="splitRemaining">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================================
+             CUSTOMER
+        ============================================================= -->
+
+        <div class="split-form-section">
+
+            <div class="split-section-title">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>
+                    Customer
+                </span>
+
+            </div>
+
+           <div class="form-group">
+
+                <label>
+                    Customer
+                </label>
+
+                <!--
+                    Hidden value sent to JavaScript/backend.
+                -->
+
+                <input
+                    type="hidden"
+                    id="splitCustomerId"
+                    name="customer_id"
+                    value=""
+                >
+
+
+                <!--
+                    Customer actually displayed to cashier.
+                -->
+
+                <div
+                    id="splitCustomerDisplay"
+                    class="selected-customer-display"
+                >
+                    Walk-in Customer
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================================
+             PAYMENT METHODS
+        ============================================================= -->
+
+        <div class="split-form-section">
+
+            <div class="split-section-header">
+
+                <div class="split-section-title">
+
+                    <i class="fa-solid fa-money-bill-transfer"></i>
+
+                    <span>
+                        Payment Methods
+                    </span>
 
                 </div>
 
-            </form>
 
-        </div>
-    </div>
-</div>
-    
-<!-- =========================
-     CASH PAYMENT MODAL
-========================= -->
+                <button
+                    type="button"
+                    class="add-payment-btn"
+                    onclick="addSplitPaymentRow()"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Add Payment
+                </button>
 
-<div id="cashPaymentModal" class="payment-modal">
-    <div class="payment-modal-content">
-
-        <div class="payment-modal-header">
-            <div>
-                <h2>Cash Payment</h2>
-                <p>Complete the cash payment</p>
             </div>
 
-            <button
-                type="button"
-                class="close-payment-modal"
-                onclick="closePaymentModal('cashPaymentModal')">
-                &times;
-            </button>
-        </div>
 
-        <div class="payment-modal-body">
+            <div
+                id="splitPaymentRows"
+                class="split-payment-rows"
+            >
 
-            <div class="payment-summary">
-                <span>Amount Payable</span>
-                <strong>
-                    GH₵ <span class="modal-grand-total">
-                        {{grandTotal}}
-                    </span>
-                </strong>
+                <!-- Payment row is created by JavaScript -->
+
             </div>
 
-            <div class="modal-input-group">
-                <label for="cashAmountPaid">
-                    Amount Received
-                </label>
 
-                <input
-                    type="number"
-                    id="cashAmountPaid"
-                    
-                    step="0.01"
+            <div
+                id="splitPaymentError"
+                class="split-payment-error"
+                style="display:none;"
+            ></div>
+
+        </div>
+
+
+        <!-- ============================================================
+             PAY LATER
+        ============================================================= -->
+
+        <div class="split-form-section pay-later-section">
+
+            <div class="pay-later-header">
+
+                <label class="pay-later-toggle">
+
+                    <input
+                        type="checkbox"
+                        id="splitPayLater"
+                        onchange="toggleSplitPayLater()"
                     >
+
+                    <span class="custom-checkbox"></span>
+
+                    <span class="pay-later-label">
+
+                        <strong>
+                            Pay Later
+                        </strong>
+
+                        <small>
+                            Requires admin approval
+                        </small>
+
+                    </span>
+
+                </label>
+
             </div>
 
-            <div class="payment-summary change-summary">
-                <span>Change</span>
 
-                <strong>
-                    GH₵ <span id="cashModalChange">
-                        
+            <div
+                id="splitPayLaterFields"
+                class="pay-later-fields"
+                style="display:none;"
+            >
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="splitPayLaterAmount">
+                            Pay Later Amount
+                        </label>
+
+                        <div class="money-input">
+
+                            <span>
+                                GH₵
+                            </span>
+
+                            <input
+                                type="number"
+                                id="splitPayLaterAmount"
+                                min="0"
+                                step="0.01"
+                                placeholder="0.00"
+                                oninput="updateSplitPaymentSummary()"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="splitPayLaterNote">
+                            Note
+                        </label>
+
+                        <input
+                            type="text"
+                            id="splitPayLaterNote"
+                            maxlength="255"
+                            placeholder="Reason or payment agreement..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="pay-later-warning">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    <span>
+                        Pay Later does not count as money received.
+                        The request will be sent for admin approval.
                     </span>
-                </strong>
+
+                </div>
+
             </div>
 
         </div>
+
+
+        <!-- ============================================================
+             PAYMENT STATUS
+        ============================================================= -->
+
+        <div
+            id="splitPaymentStatus"
+            class="split-payment-status"
+        >
+
+            <div class="status-line">
+
+                <span>
+                    Confirmed payments
+                </span>
+
+                <strong id="splitConfirmedAmount">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="status-line">
+
+                <span>
+                    Pending Mobile Money
+                </span>
+
+                <strong id="splitPendingAmount">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="status-line">
+
+                <span>
+                    Pay Later
+                </span>
+
+                <strong id="splitCreditAmount">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div class="status-line total-line">
+
+                <span>
+                    Amount Covered
+                </span>
+
+                <strong id="splitCoveredAmount">
+                    GH₵0.00
+                </strong>
+
+            </div>
+
+
+            <div
+                id="splitCoverageMessage"
+                class="coverage-message"
+            >
+                Enter payment amounts.
+            </div>
+
+        </div>
+
+
+        <!-- ============================================================
+             ACTIONS
+        ============================================================= -->
 
         <div class="payment-modal-footer">
 
             <button
                 type="button"
-                class="modal-cancel-btn"
-                onclick="closePaymentModal('cashPaymentModal')">
+                class="btn-secondary"
+                onclick="closePaymentModal('splitPaymentModal')"
+            >
                 Cancel
             </button>
 
+
             <button
                 type="button"
-                class="modal-complete-btn">
-                Complete Sale
-            </button>
+                id="splitPaymentSubmit"
+                class="btn-primary split-submit-btn"
+                onclick="submitSplitPayment()"
+            >
 
+                <i class="fa-solid fa-check"></i>
+
+                <span>
+                    Complete Split Payment
+                </span>
+            </button>
         </div>
     </div>
 </div>
 
+    <!-- RECEIPT -->
+    <div
+        id="receiptModal"
+        class="receipt-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="receiptTitle">
 
-<!-- =========================
-     MOBILE MONEY MODAL
-========================= -->
+        <div class="receipt-modal-content">
+            <div class="receipt-top">
+                <button
+                    type="button"
+                    class="receipt-close"
+                    onclick="closeReceiptModal()"
+                    aria-label="Close">
+                    ×
+                </button>
 
-<div id="momoPaymentModal" class="payment-modal">
-
-    <div class="payment-modal-content">
-
-        <div class="payment-modal-header">
-
-            <div>
-                <h2>Mobile Money Payment</h2>
-                <p>Enter the payment information</p>
+                <div class="receipt-brand">
+                    <div class="receipt-logo">▣</div>
+                    <h2 id="receiptTitle">MarketFlow</h2>
+                    <p>Sales Receipt</p>
+                </div>
             </div>
 
-            <button
-                type="button"
-                class="close-payment-modal"
-                onclick="closePaymentModal('momoPaymentModal')">
-                &times;
-            </button>
+            <div class="receipt-info">
+                <div>
+                    <span>Invoice No.</span>
+                    <strong id="receiptInvoice">---</strong>
+                </div>
 
+                <div>
+                    <span>Date</span>
+                    <strong id="receiptDate">---</strong>
+                </div>
+
+                <div>
+                    <span>Cashier</span>
+                    <strong id="receiptCashier">---</strong>
+                </div>
+
+                <div>
+                    <span>Customer</span>
+                    <strong id="receiptCustomer">Walk-in Customer</strong>
+                </div>
+
+                <div>
+                    <span>Payment</span>
+                    <strong id="receiptPayment">---</strong>
+                </div>
+            </div>
+
+            <div class="receipt-items">
+                <div class="receipt-items-header">
+                    <span>Item</span>
+                    <span>Qty</span>
+                    <span>Total</span>
+                </div>
+
+                <div id="receiptItems"></div>
+            </div>
+
+            <div class="receipt-summary">
+                <div>
+                    <span>Subtotal</span>
+                    <strong id="receiptSubtotal">GH₵ 0.00</strong>
+                </div>
+
+                <div>
+                    <span>Discount</span>
+                    <strong id="receiptDiscount">GH₵ 0.00</strong>
+                </div>
+
+                <div>
+                    <span>Tax</span>
+                    <strong id="receiptTax">GH₵ 0.00</strong>
+                </div>
+
+                <div class="receipt-grand-total">
+                    <span>Grand Total</span>
+                    <strong id="receiptGrandTotal">GH₵ 0.00</strong>
+                </div>
+            </div>
+
+            <div class="receipt-payment">
+                <div>
+                    <span>Amount Paid</span>
+                    <strong id="receiptPaid">GH₵ 0.00</strong>
+                </div>
+
+                <div>
+                    <span>Change</span>
+                    <strong id="receiptChange">GH₵ 0.00</strong>
+                </div>
+            </div>
+
+            <div
+                id="mobileMoneyReceiptDetails"
+                class="mobile-money-receipt-details"
+                style="display:none;">
+
+                <div>
+                    <span>Network</span>
+                    <strong id="receiptNetwork">---</strong>
+                </div>
+
+                <div>
+                    <span>Phone</span>
+                    <strong id="receiptPhone">---</strong>
+                </div>
+
+                <div>
+                    <span>Transaction Ref.</span>
+                    <strong id="receiptTransactionRef">---</strong>
+                </div>
+
+                <div>
+                    <span>Status</span>
+                    <strong id="receiptPaymentStatus">PAID</strong>
+                </div>
+            </div>
+
+            <div class="receipt-footer">
+                <i class="fa-solid fa-circle-check" aria-hidden="true">✓</i>
+                <h4>Thank you for shopping with us!</h4>
+                <p>Please keep this receipt for your records.</p>
+            </div>
+
+            <div class="receipt-actions">
+                <button
+                    type="button"
+                    class="receipt-print-btn"
+                    onclick="printReceipt()">
+                    ▣ Print Receipt
+                </button>
+
+                <button
+                    type="button"
+                    class="receipt-new-sale-btn"
+                    onclick="startNewSale()">
+                    + New Sale
+                </button>
+            </div>
         </div>
-
-        <div class="payment-modal-body">
-
-            <div class="payment-summary">
-
-                <span>Amount Payable</span>
-
-                <strong>
-                    GH₵
-                    <span class="modal-grand-total">
-                        {{grandTotal}}
-                    </span>
-                </strong>
-
-            </div>
-
-            <div class="modal-input-group">
-
-                <label for="momoNetwork">
-                    Mobile Money Network
-                </label>
-
-                <select id="momoNetwork">
-
-                    <option value="">
-                        Select Network
-                    </option>
-
-                    <option value="MTN">
-                        MTN Mobile Money
-                    </option>
-
-                    <option value="Telecel">
-                        Telecel Cash
-                    </option>
-
-                    <option value="AirtelTigo">
-                        AirtelTigo Money
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="modal-input-group">
-
-                <label for="momoPhone">
-                    Customer Phone Number
-                </label>
-
-                <input
-                    type="tel"
-                    id="momoPhone"
-                    placeholder="024 000 0000">
-
-            </div>
-
-            <div class="modal-input-group">
-
-                <label for="momoReference">
-                    Transaction Reference
-                </label>
-
-                <input
-                    type="text"
-                    id="momoReference"
-                    placeholder="Enter transaction reference">
-
-            </div>
-
-        </div>
-
-        <div class="payment-modal-footer">
-
-            <button
-                type="button"
-                class="modal-cancel-btn"
-                onclick="closePaymentModal('momoPaymentModal')">
-                Cancel
-            </button>
-
-            <button
-                type="button"
-                class="modal-complete-btn">
-                Complete Sale
-            </button>
-
-        </div>
-
     </div>
 
-</div>
+    <!-- PROFILE -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title">♙ My Profile</h5>
+                        <small class="text-muted">Manage your MarketFlow account</small>
+                    </div>
 
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
 
-<!-- =========================
-     CARD PAYMENT MODAL
-========================= -->
+                <div class="modal-body">
+                    <div id="profileView">
+                        <div class="text-center mb-4">
+                            <div class="profile-avatar mx-auto">
+                                <span id="profileInitials"></span>
+                            </div>
 
-<div id="cardPaymentModal" class="payment-modal">
+                            <h4 id="profileName" class="mt-3 mb-1"></h4>
+                            <p id="profileJobTitle" class="text-muted mb-2"></p>
+                            <span id="profileStatus" class="badge"></span>
+                        </div>
 
-    <div class="payment-modal-content">
+                        <div class="profile-section">
+                            <h6 class="profile-section-title">♙ Personal Information</h6>
 
-        <div class="payment-modal-header">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label>First Name</label>
+                                    <div class="profile-value" id="profileFirstName"></div>
+                                </div>
 
-            <div>
-                <h2>Card Payment</h2>
-                <p>Enter the card transaction details</p>
+                                <div class="col-md-6">
+                                    <label>Last Name</label>
+                                    <div class="profile-value" id="profileLastName"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                    <div class="profile-value" id="profileEmail"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Phone</label>
+                                    <div class="profile-value" id="profilePhone"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-section mt-4">
+                            <h6 class="profile-section-title">▣ Business Information</h6>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label>Business Name</label>
+                                    <div class="profile-value" id="profileBusiness"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Business Location</label>
+                                    <div class="profile-value" id="profileLocation"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Job Title</label>
+                                    <div class="profile-value" id="profileJob"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Role</label>
+                                    <div class="profile-value" id="profileRole"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-section mt-4">
+                            <h6 class="profile-section-title">◈ Account Information</h6>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label>User ID</label>
+                                    <div class="profile-value" id="profileUserId"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Account Status</label>
+                                    <div class="profile-value" id="profileAccountStatus"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Account Created</label>
+                                    <div class="profile-value" id="profileCreatedAt"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Last Updated</label>
+                                    <div class="profile-value" id="profileUpdatedAt"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="editProfileForm" class="d-none">
+                        <div class="profile-section">
+                            <h6 class="profile-section-title">✎ Edit Personal Information</h6>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="editFirstName">First Name</label>
+                                    <input
+                                        type="text"
+                                        id="editFirstName"
+                                        class="form-control"
+                                        required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="editLastName">Last Name</label>
+                                    <input
+                                        type="text"
+                                        id="editLastName"
+                                        class="form-control"
+                                        required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="editEmail">Email</label>
+                                    <input
+                                        type="email"
+                                        id="editEmail"
+                                        class="form-control"
+                                        required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="editPhone">Phone</label>
+                                    <input
+                                        type="text"
+                                        id="editPhone"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            id="editProfileMessage"
+                            class="alert d-none mt-3">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="editProfileBtn">
+                        ✎ Edit Profile
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary d-none"
+                        id="cancelEditBtn">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        form="editProfileForm"
+                        class="btn btn-success d-none"
+                        id="saveProfileBtn">
+                        ✓ Save Changes
+                    </button>
+                </div>
             </div>
-
-            <button
-                type="button"
-                class="close-payment-modal"
-                onclick="closePaymentModal('cardPaymentModal')">
-                &times;
-            </button>
-
         </div>
-
-        <div class="payment-modal-body">
-
-            <div class="payment-summary">
-
-                <span>Amount Payable</span>
-
-                <strong>
-                    GH₵
-                    <span class="modal-grand-total">
-                        {{grandTotal}}
-                    </span>
-                </strong>
-
-            </div>
-
-            <div class="modal-input-group">
-
-                <label for="cardType">
-                    Card Type
-                </label>
-
-                <select id="cardType">
-
-                    <option value="">
-                        Select Card Type
-                    </option>
-
-                    <option value="Visa">
-                        Visa
-                    </option>
-
-                    <option value="Mastercard">
-                        Mastercard
-                    </option>
-
-                    <option value="Other">
-                        Other
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="modal-input-group">
-
-                <label for="cardReference">
-                    Transaction Reference
-                </label>
-
-                <input
-                    type="text"
-                    id="cardReference"
-                    placeholder="Enter transaction reference">
-
-            </div>
-
-        </div>
-
-        <div class="payment-modal-footer">
-
-            <button
-                type="button"
-                class="modal-cancel-btn"
-                onclick="closePaymentModal('cardPaymentModal')">
-                Cancel
-            </button>
-
-            <button
-                type="button"
-                class="modal-complete-btn">
-                Complete Sale
-            </button>
-
-        </div>
-
     </div>
 
-</div>
+    <!-- CHANGE PASSWORD -->
+    <div
+        id="changePasswordModal"
+        class="password-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="changePasswordTitle">
 
+        <div class="password-modal-content">
+            <div class="password-modal-header">
+                <div>
+                    <h2 id="changePasswordTitle">Change Password</h2>
+                    <p>Update your account password</p>
+                </div>
 
-<!-- =========================
-     SPLIT PAYMENT MODAL
-========================= -->
-
-<div id="splitPaymentModal" class="payment-modal">
-
-    <div class="payment-modal-content">
-
-        <div class="payment-modal-header">
-
-            <div>
-                <h2>Split Payment</h2>
-                <p>Pay using more than one method</p>
+                <button
+                    type="button"
+                    id="closeChangePasswordModal"
+                    class="password-modal-close"
+                    aria-label="Close">
+                    ×
+                </button>
             </div>
 
-            <button
-                type="button"
-                class="close-payment-modal"
-                onclick="closePaymentModal('splitPaymentModal')">
-                &times;
-            </button>
+            <form id="changePasswordForm">
+                <div class="password-input-group">
+                    <label for="currentPassword">Current Password</label>
 
+                    <div class="password-input-wrapper">
+                        <i class="fa-solid fa-lock" aria-hidden="true">●</i>
+
+                        <input
+                            type="password"
+                            id="currentPassword"
+                            name="currentPassword"
+                            placeholder="Enter your current password"
+                            autocomplete="current-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="currentPassword"
+                            aria-label="Show password">
+                            ◉
+                        </button>
+                    </div>
+                </div>
+
+                <div class="password-input-group">
+                    <label for="newPassword">New Password</label>
+
+                    <div class="password-input-wrapper">
+                        <i class="fa-solid fa-key" aria-hidden="true">⚿</i>
+
+                        <input
+                            type="password"
+                            id="newPassword"
+                            name="newPassword"
+                            placeholder="Enter your new password"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="newPassword"
+                            aria-label="Show password">
+                            ◉
+                        </button>
+                    </div>
+                </div>
+
+                <div class="password-input-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+
+                    <div class="password-input-wrapper">
+                        <i class="fa-solid fa-shield-halved" aria-hidden="true">◆</i>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Confirm your new password"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="confirmPassword"
+                            aria-label="Show password">
+                            ◉
+                        </button>
+                    </div>
+                </div>
+
+                <div id="changePasswordMessage" class="change-password-message"></div>
+
+                <div class="password-modal-actions">
+                    <button
+                        type="button"
+                        id="cancelChangePassword"
+                        class="password-cancel-btn">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="password-save-btn"
+                        id="changePasswordButton">
+                        ✓ Change Password
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div class="payment-modal-body">
-
-            <div class="payment-summary">
-
-                <span>Grand Total</span>
-
-                <strong>
-                    GH₵
-                    <span class="modal-grand-total">
-                        {{grandTotal}}
-                    </span>
-                </strong>
-
-            </div>
-
-            <div class="modal-input-group">
-
-                <label for="splitCash">
-                    Cash Amount
-                </label>
-
-                <input
-                    type="number"
-                    id="splitCash"
-                    placeholder="0.00"
-                    step="0.01"
-                    min="0">
-
-            </div>
-
-            <div class="modal-input-group">
-
-                <label for="splitMomo">
-                    Mobile Money Amount
-                </label>
-
-                <input
-                    type="number"
-                    id="splitMomo"
-                    placeholder="0.00"
-                    step="0.01"
-                    min="0">
-
-            </div>
-
-            <div class="payment-summary">
-
-                <span>Total Paid</span>
-
-                <strong>
-                    GH₵
-                    <span id="splitTotalPaid">
-                        0.00
-                    </span>
-                </strong>
-
-            </div>
-
-            <div class="payment-summary change-summary">
-
-                <span>Balance</span>
-
-                <strong>
-                    GH₵
-                    <span id="splitBalance">
-                        {{grandTotal}}
-                    </span>
-                </strong>
-
-            </div>
-
-        </div>
-
-        <div class="payment-modal-footer">
-
-            <button
-                type="button"
-                class="modal-cancel-btn"
-                onclick="closePaymentModal('splitPaymentModal')">
-                Cancel
-            </button>
-
-            <button
-                type="button"
-                class="modal-complete-btn">
-                Complete Sale
-            </button>
-
-        </div>
-
     </div>
 
-</div>
+    <!-- CUSTOMER MODAL -->
+    <div
+        class="modal fade"
+        id="customerModal"
+        tabindex="-1"
+        aria-labelledby="customerModalLabel"
+        aria-hidden="true">
 
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content customer-modal-content">
+
+                <div class="modal-header customer-modal-header">
+                    <div>
+                        <h5 class="modal-title" id="customerModalLabel">
+                            <i class="fa-solid fa-users"></i>
+                            Customers
+                        </h5>
+
+                        <p class="customer-modal-subtitle">
+                            Select a customer for this sale
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body customer-modal-body">
+                    <div class="current-customer-section">
+                        <div class="customer-section-label">
+                            Current customer
+                        </div>
+
+                        <div
+                            class="current-customer-card"
+                            id="currentCustomerCard">
+
+                            <div class="current-customer-icon">
+                                <i class="fa-solid fa-person-walking"></i>
+                            </div>
+
+                            <div class="current-customer-info">
+                                <strong id="currentCustomerName">
+                                    Walk-in Customer
+                                </strong>
+
+                                <span id="currentCustomerDetails">
+                                    No registered customer attached
+                                </span>
+                            </div>
+
+                            <span class="customer-status-badge">
+                                Default
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="customer-search-section">
+                        <label
+                            for="customerSearchInput"
+                            class="customer-section-label">
+                            Search customer
+                        </label>
+
+                        <div class="customer-search-wrapper">
+                            <i
+                                class="fa-solid fa-magnifying-glass"
+                                aria-hidden="true">
+                            </i>
+
+                            <input
+                                type="search"
+                                id="customerSearchInput"
+                                class="customer-search-input"
+                                placeholder="Search by phone, name or customer code"
+                                autocomplete="off">
+
+                            <button
+                                type="button"
+                                id="clearCustomerSearch"
+                                class="customer-search-clear"
+                                aria-label="Clear search"
+                                hidden>
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <small class="customer-search-hint">
+                            Phone number is the recommended search method.
+                        </small>
+                    </div>
+
+                    <div
+                        id="customerSearchResults"
+                        class="customer-search-results">
+
+                        <div class="customer-empty-state">
+                            <i class="fa-solid fa-user-magnifying-glass"></i>
+
+                            <strong>
+                                Search for a registered customer
+                            </strong>
+
+                            <span>
+                                Enter a phone number, name or customer code.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="customer-register-section">
+                        <div>
+                            <strong>New customer?</strong>
+
+                            <span>
+                                Register them before completing the sale.
+                            </span>
+                        </div>
+
+                        <div class="customer-register-option">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                id="openCustomerRegistration">
+                                <i class="fas fa-user-plus"></i>
+                                Register Customer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer customer-modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        class="customer-walkin-btn"
+                        id="continueWalkinCustomer">
+                        <i class="fa-solid fa-person-walking"></i>
+                        Continue as Walk-in
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMER REGISTRATION -->
+    <div
+        class="modal fade"
+        id="customerRegistrationModal"
+        tabindex="-1"
+        aria-labelledby="customerRegistrationModalLabel"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content customer-registration-modal">
+
+                <div class="modal-header">
+                    <div>
+                        <h5
+                            class="modal-title"
+                            id="customerRegistrationModalLabel">
+                            <i class="fas fa-user-plus"></i>
+                            Register Customer
+                        </h5>
+
+                        <p class="customer-registration-subtitle">
+                            Add a customer to MarketFlow
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+
+                <form id="customerRegistrationForm">
+                    <div class="modal-body">
+                        <div
+                            class="customer-form-message"
+                            id="customerRegistrationMessage"
+                            style="display:none;">
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label
+                                    for="registrationCustomerName"
+                                    class="form-label">
+                                    Customer Name <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="registrationCustomerName"
+                                    name="customer_name"
+                                    placeholder="Enter customer name"
+                                    maxlength="100"
+                                    required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label
+                                    for="registrationCustomerPhone"
+                                    class="form-label">
+                                    Phone Number <span>*</span>
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    class="form-control"
+                                    id="registrationCustomerPhone"
+                                    name="phone"
+                                    placeholder="e.g. 0241234567"
+                                    maxlength="30"
+                                    required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label
+                                    for="registrationCustomerEmail"
+                                    class="form-label">
+                                    Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="registrationCustomerEmail"
+                                    name="Email"
+                                    placeholder="customer@example.com"
+                                    maxlength="150">
+                            </div>
+
+                            <div class="col-12">
+                                <label
+                                    for="registrationCustomerAddress"
+                                    class="form-label">
+                                    Address
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="registrationCustomerAddress"
+                                    name="Address"
+                                    placeholder="Enter customer address"
+                                    maxlength="100">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label
+                                    for="registrationCustomerCity"
+                                    class="form-label">
+                                    City
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="registrationCustomerCity"
+                                    name="city"
+                                    placeholder="Enter city"
+                                    maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            id="cancelCustomerRegistration"
+                            data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            id="registerCustomerSubmit">
+                            <i class="fas fa-user-plus"></i>
+                            Register Customer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script src="/js/bootstrap.bundle.min.js"></script>
-    <script>        
-        
-        const AddProductPurchase = document.getElementById('productpurchasing');
-        const Addquantity = document.getElementById('quantity');
-
-        var price;
-
-            AddProductPurchase.addEventListener('show.bs.modal', function (event) {
-                const button = event.relatedTarget; 
-                const productId = button.getAttribute('data-id');
-                const productName = button.getAttribute('data-name');
-                const SellingPrice = button.getAttribute('data-selling');
-                price = Number(SellingPrice);
-                const quantity = Number(Addquantity.value);                
-                
-                document.getElementById('product_id').value = productId;
-                document.getElementById('product_name').value = productName;
-                document.getElementById('cost_price').value = SellingPrice;
-                document.getElementById('total_product').value = price * quantity;              
-            });
-
-            document.addEventListener("DOMContentLoaded", function (){
-            const productquantity = document.getElementById("quantity");
-            const productminus = document.getElementById("quantity-minus");
-            const productplus = document.getElementById("quantity-plus");
-
-            productplus.addEventListener("click", function() {
-                var newquantity = Number(productquantity.value) + 1;
-                productquantity.value = newquantity;
-                document.getElementById('total_product').value = price * newquantity;
-            });
-
-            productquantity.addEventListener("keyup", function() {
-                var newquantity = Number(productquantity.value);
-                productquantity.value = newquantity;
-                document.getElementById('total_product').value = price * newquantity;
-            });
-
-            productminus.addEventListener("click", function() {
-                if (Number(productquantity.value) > 0) {
-                   var newquantity = Number(productquantity.value) - 1;
-                   productquantity.value = newquantity;
-                   document.getElementById('total_product').value = price * newquantity;
-
-                }
-
-            });
-          productquantity.value = '';
-        });
-        
-
-    </script>
+    <script src="/js/main.js"></script>
+    <script src="/js/splitpayment.js"></script>
+    <script src="/js/profile_settings.js"></script>
 
     <script>
-    
-      function deleteitem(sales_id){
+        document.addEventListener("DOMContentLoaded", () => {
+            const holdForm = document.getElementById("holdSaleForm");
+            const holdMessage = document.getElementById("holdSaleMessage");
 
-        if(confirm('Do you want to delete this item')){
-            fetch(`/productpages/sales/delete/${sales_id}`,{
-                method:'DELETE'
-            })
-            .then(res => res.json())
-            .then(data =>{
-                alert(data.message);
-                location.reload();
-            })
-            .catch(err =>{
-               console.log(err)
-               alert('error whiles deleting this item')
-            })
-        }
-      }
+            if (holdForm) {
+                holdForm.addEventListener("submit", async (event) => {
+                    event.preventDefault();
 
+                    const button = holdForm.querySelector("button[type='submit']");
+
+                    if (button) {
+                        button.disabled = true;
+                    }
+
+                    try {
+                        const response = await fetch(holdForm.action, {
+                            method: "POST",
+                            headers: {
+                                "Accept": "application/json"
+                            }
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok || !data.success) {
+                            throw new Error(data.message || "Unable to hold sale.");
+                        }
+
+                        if (holdMessage) {
+                            holdMessage.className = "alert alert-success mt-3 mb-0";
+                            holdMessage.textContent =
+                                data.message || "Sale held successfully.";
+                        }
+
+                        setTimeout(() => {
+                            window.location.href = "/productpages/main";
+                        }, 700);
+                    } catch (error) {
+                        if (holdMessage) {
+                            holdMessage.className = "alert alert-danger mt-3 mb-0";
+                            holdMessage.textContent =
+                                error.message || "Unable to hold sale.";
+                        }
+
+                        if (button) {
+                            button.disabled = false;
+                        }
+                    }
+                });
+            }
+
+            const clearCartForm = document.getElementById("clearCartForm");
+
+            if (clearCartForm) {
+                clearCartForm.addEventListener("submit", (event) => {
+                    if (!confirm("Clear all items from the current cart?")) {
+                        event.preventDefault();
+                    }
+                });
+            }
+
+            const newSaleForm = document.getElementById("newSaleForm");
+
+            if (newSaleForm) {
+                newSaleForm.addEventListener("submit", (event) => {
+                    if (!confirm("Start a new sale and clear the current cart?")) {
+                        event.preventDefault();
+                    }
+                });
+            }
+        });
     </script>
-<script>
-    const priceSearch = document.getElementById("priceSearch");
+    <script>
 
-    priceSearch.addEventListener("keyup", function () {
-
-    const value = this.value.toLowerCase();
-
-    const rows = document.querySelectorAll("#priceTableBody tr");
-
-    rows.forEach(row => {
-
-        const productId = row.cells[0].textContent.toLowerCase();
-        const productName = row.cells[1].textContent.toLowerCase();
-
-        if (
-            productId.includes(value) ||
-            productName.includes(value)
-        ) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
-
-    });
-
-});
 </script>
-
-<script>
-    async function recallholdsale(invoiceNumber){
-
-    const response = await fetch(`/productpages/recall/${invoiceNumber}`,{
-        method:"POST"
-    });
-
-    const data = await response.json();
-
-    if(data.success){
-        location.reload();
-    }else{
-        alert(data.message);
-    }
-
-}
-</script>
-
-<script>
-    function ChangeAmount() {
-        const amountPaying = Number(
-            document.getElementById("paidAmount").value
-        );
-
-        const grandTotal = Number(
-            document.getElementById("amountPayable").textContent
-        );
-
-        const changeAmount = amountPaying - grandTotal;
-
-        document.getElementById("changeAmount").textContent =
-            changeAmount.toFixed(2);
-
-        document.getElementById("cashAmountPaid").value =  amountPaying.toFixed(2);
-
-        document.getElementById("cashModalChange").textContent = changeAmount.toFixed(2);
-
-    }
-</script>
-
-<script>
-    function openPaymentModal(modalId) {
-        document.getElementById(modalId).style.display = "flex";
-    }
-
-    function closePaymentModal(modalId) {
-        document.getElementById(modalId).style.display = "none";
-    }
-</script>
-
-
- <script>
-const productimagecard = document.querySelectorAll('.product-initial');
-
-productimagecard.forEach(productImage => {
-
-    const productimage = productImage.textContent.trim();
-
-    if (productimage) {
-
-        const firstletter = productimage
-            .split(/\s+/)
-            .map(word => word[0])
-            .join('')
-            .substring(0, 2)
-            .toUpperCase();
-
-        productImage.textContent = firstletter;
-
-    }
-
-});
-</script>
-
 </body>
-
 </html>

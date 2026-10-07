@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Performance | MarketFlow</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/product-performance.css">
+</head>
+
+<body>
+<div class="inventory-layout product-performance-layout">
+
+    <!-- =========================================================
+         SIDEBAR
+         ========================================================= -->
+    <aside class="inventory-sidebar" id="productPerformanceSidebar">
+        <div class="inventory-brand">
+            <div class="inventory-brand-mark">M</div>
+            <div>
+                <div class="inventory-brand-name">MarketFlow</div>
+                <div class="inventory-brand-subtitle">POINT OF SALE</div>
+            </div>
+        </div>
+
+        <nav class="inventory-nav">
+            <div class="inventory-nav-title">Main</div>
+
+            <a href="/productpages/products" class="inventory-nav-link">
+                <span class="inventory-nav-icon">▦</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/inventory" class="inventory-nav-link">
+                <span class="inventory-nav-icon">▤</span>
+                <span>Inventory</span>
+            </a>
+
+            <a href="/sales" class="inventory-nav-link">
+                <span class="inventory-nav-icon">▣</span>
+                <span>Sales</span>
+            </a>
+
+            <div class="inventory-nav-title">Analytics</div>
+
+            <a href="/stockanalysis/inventoryanalyst" class="inventory-nav-link">
+                <span class="inventory-nav-icon">◫</span>
+                <span>Inventory Analysis</span>
+            </a>
+
+            <a href="/product-performance" class="inventory-nav-link active">
+                <span class="inventory-nav-icon">◩</span>
+                <span>Product Performance</span>
+            </a>
+        </nav>
+
+        <div class="inventory-sidebar-footer">
+            <a href="/productpages/products" class="inventory-back-link">
+                ← Back to dashboard
+            </a>
+        </div>
+    </aside>
+
+    <!-- =========================================================
+         MAIN CONTENT
+         ========================================================= -->
+    <main class="inventory-main">
+
+        <!-- HEADER / SCOPE -->
+        <header class="inventory-header" id="overview">
+            <div class="inventory-header-copy">
+                <div class="inventory-eyebrow">01 / Product intelligence</div>
+                <h1>Product &amp; Commercial Performance</h1>
+                <p>
+                    Management view of product revenue, profitability, volume,
+                    category and brand performance, with current inventory exposure.
+                </p>
+            </div>
+
+            <div class="inventory-header-actions">
+                <button type="button" class="inventory-btn" id="printBtn">Print report</button>
+                <button type="button" class="inventory-btn inventory-btn-primary" id="refreshBtn">Refresh</button>
+            </div>
+        </header>
+
+        <section class="scope-bar" aria-label="Product performance scope">
+            <div class="scope-current">
+                <span class="scope-label">Current scope</span>
+
+                {{#if scope.branchName}}
+                    <strong>{{scope.branchName}}</strong>
+                    {{#if scope.branchLocation}}
+                        <span>{{scope.branchLocation}}</span>
+                    {{/if}}
+                {{else}}
+                    <strong>{{scope.businessName}}</strong>
+                    <span>All active branches</span>
+                {{/if}}
+            </div>
+
+            <div class="scope-actions">
+                <a href="/product-performance?scope=business" class="inventory-btn">
+                    Business
+                </a>
+
+                <button type="button" class="inventory-btn" onclick="showProductPerformanceBranchSelector()">
+                    Branch
+                </button>
+
+                <button type="button" class="inventory-btn" id="scopeRefreshBtn" title="Refresh this analysis">
+                    ↻ Refresh analysis
+                </button>
+            </div>
+        </section>
+
+        <section class="branch-selector-panel" id="productPerformanceBranchSelector" hidden>
+            <div>
+                <strong>Select branch</strong>
+                <p>View product performance for one active branch.</p>
+            </div>
+
+            <select id="productPerformanceBranchSelect" onchange="changeProductPerformanceScope(this.value)">
+                <option value="">Choose a branch</option>
+                {{#each branches}}
+                    <option value="{{branch_id}}">{{branch_name}}{{#if location}} — {{location}}{{/if}}</option>
+                {{/each}}
+            </select>
+        </section>
+
+        <!-- =========================================================
+             KPI SUMMARY
+             ========================================================= -->
+        <section class="analysis-section" id="commercial-overview">
+            <div class="section-intro">
+                <div class="section-kicker">02 / Commercial overview</div>
+                <h2>How products are performing</h2>
+                <p>
+                    These indicators come directly from completed sales in the selected
+                    business or branch scope. Net revenue reflects allocated discounts,
+                    while gross profit uses historical sales-item cost.
+                </p>
+            </div>
+
+            <div class="kpi-grid">
+                <article class="kpi-card">
+                    <div class="kpi-label">Net revenue</div>
+                    <div class="kpi-value" data-money="{{kpis.net_revenue}}">{{kpis.net_revenue}}</div>
+                    <div class="kpi-note">After allocated discounts</div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">Gross profit</div>
+                    <div class="kpi-value" data-money="{{kpis.gross_profit}}">{{kpis.gross_profit}}</div>
+                    <div class="kpi-note">Net revenue less historical COGS</div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">Gross margin</div>
+                    <div class="kpi-value">{{kpis.gross_profit_margin}}%</div>
+                    <div class="kpi-note">Gross profit / net revenue</div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">Units sold</div>
+                    <div class="kpi-value">{{kpis.total_units_sold}}</div>
+                    <div class="kpi-note">Completed sales only</div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">Products sold</div>
+                    <div class="kpi-value">{{kpis.products_sold}}</div>
+                    <div class="kpi-note">Products with completed sales</div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">Average revenue / unit</div>
+                    <div class="kpi-value" data-money="{{kpis.average_revenue_per_unit}}">{{kpis.average_revenue_per_unit}}</div>
+                    <div class="kpi-note">Net revenue per unit sold</div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">Average profit / unit</div>
+                    <div class="kpi-value" data-money="{{kpis.average_profit_per_unit}}">{{kpis.average_profit_per_unit}}</div>
+                    <div class="kpi-note">Gross profit per unit sold</div>
+                </article>
+
+                <article class="kpi-card">
+                    <div class="kpi-label">Total discount</div>
+                    <div class="kpi-value" data-money="{{kpis.total_discount}}">{{kpis.total_discount}}</div>
+                    <div class="kpi-note">Allocated across completed sales</div>
+                </article>
+            </div>
+        </section>
+
+        <!-- MANAGEMENT SNAPSHOT -->
+        <section class="dashboard-grid two-column" id="performance">
+            <article class="panel">
+                <div class="panel-kicker">Commercial leader</div>
+                <h3 id="snapshotTopProduct">—</h3>
+                <div class="panel-value" id="snapshotTopProductValue">—</div>
+                <p>Highest product net revenue in the current controller dataset.</p>
+            </article>
+
+            <article class="panel">
+                <div class="panel-kicker">Profit leader</div>
+                <h3 id="snapshotProfitProduct">—</h3>
+                <div class="panel-value" id="snapshotProfitValue">—</div>
+                <p>Highest gross-profit contribution among products.</p>
+            </article>
+
+            <article class="panel warning-panel">
+                <div class="panel-kicker">Profitability review</div>
+                <h3 id="snapshotLowProfit">—</h3>
+                <div class="panel-value">Lowest-profit group</div>
+                <p>Review pricing, discounting and historical product cost.</p>
+            </article>
+
+            <article class="panel danger-panel">
+                <div class="panel-kicker">Unsold catalogue</div>
+                <h3 id="snapshotNeverSold">—</h3>
+                <div class="panel-value">Never recorded a completed sale</div>
+                <p>Products requiring inventory, pricing or assortment review.</p>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             DEMAND / TRENDS
+             ========================================================= -->
+        <section class="analysis-section" id="demand">
+            <div class="section-intro">
+                <div class="section-kicker">03 / Demand &amp; trends</div>
+                <h2>Revenue and profit movement</h2>
+                <p>
+                    Trend views use the sales and profit datasets returned by the
+                    Product Performance controller.
+                </p>
+            </div>
+
+            <div class="dashboard-grid two-column">
+                <article class="panel chart-panel wide-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Monthly revenue trend</h3>
+                            <p>Monthly net product revenue</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="salesTrendChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Monthly profit trend</h3>
+                            <p>Monthly gross profit</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="profitTrendChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel wide-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Weekly performance</h3>
+                            <p>Seven completed Monday–Sunday weeks</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weeklyTrendChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Recent daily performance</h3>
+                            <p>Last seven calendar days</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="dailyTrendChart"></canvas>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             PRODUCT DRIVERS
+             ========================================================= -->
+        <section class="analysis-section" id="product-drivers">
+            <div class="section-intro">
+                <div class="section-kicker">04 / Product drivers</div>
+                <h2>Which products are driving the result?</h2>
+                <p>
+                    Revenue, profit and unit-volume rankings identify the products
+                    contributing most to commercial performance.
+                </p>
+            </div>
+
+            <div class="dashboard-grid two-column">
+                <article class="panel chart-panel wide-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Top products by revenue</h3>
+                            <p>Largest net-revenue generators</p>
+                        </div>
+                    </div>
+                    <div class="chart-container tall">
+                        <canvas id="topRevenueChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Top products by profit</h3>
+                            <p>Gross-profit leaders</p>
+                        </div>
+                    </div>
+                    <div class="chart-container tall">
+                        <canvas id="topProfitChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Top units sold</h3>
+                            <p>Volume leaders</p>
+                        </div>
+                    </div>
+                    <div class="chart-container tall">
+                        <canvas id="topUnitsChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel wide-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Product revenue vs profit</h3>
+                            <p>Commercial scale compared with gross-profit contribution</p>
+                        </div>
+                    </div>
+                    <div class="chart-container tall">
+                        <canvas id="productComparisonChart"></canvas>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             CATEGORY / BRAND
+             ========================================================= -->
+        <section class="analysis-section" id="mix">
+            <div class="section-intro">
+                <div class="section-kicker">05 / Category &amp; brand mix</div>
+                <h2>Where commercial performance is concentrated</h2>
+                <p>
+                    Category and brand views show where revenue, cost and gross profit
+                    are concentrated within the selected scope.
+                </p>
+            </div>
+
+            <div class="dashboard-grid two-column">
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Revenue by category</h3>
+                            <p>Net revenue contribution</p>
+                        </div>
+                    </div>
+                    <div class="chart-container category-chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Profit by category</h3>
+                            <p>Gross-profit contribution</p>
+                        </div>
+                    </div>
+                    <div class="chart-container category-chart-container">
+                        <canvas id="categoryProfitChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel wide-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Category revenue vs COGS</h3>
+                            <p>Where revenue is being consumed by product cost</p>
+                        </div>
+                    </div>
+                    <div class="chart-container tall">
+                        <canvas id="categoryComparisonChart"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Brand performance</h3>
+                            <p>Top brands ranked by net revenue</p>
+                        </div>
+                    </div>
+                    <div class="chart-container tall">
+                        <canvas id="brandChart"></canvas>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             PROFITABILITY / ATTENTION
+             ========================================================= -->
+        <section class="analysis-section" id="profitability">
+            <div class="section-intro">
+                <div class="section-kicker">06 / Profitability</div>
+                <h2>Where management attention is required</h2>
+                <p>
+                    Lowest-profit and highest-margin products provide the clearest
+                    starting points for pricing, cost and assortment decisions.
+                </p>
+            </div>
+
+            <div class="dashboard-grid three-column">
+                <article class="panel danger-panel">
+                    <div class="panel-kicker">Lowest profitability</div>
+                    <h3 id="attentionLossCount">—</h3>
+                    <p>Products at the bottom of the profit ranking should be reviewed for margin pressure, discounting and cost.</p>
+                </article>
+
+                <article class="panel warning-panel">
+                    <div class="panel-kicker">Never sold</div>
+                    <h3 id="attentionNeverSold">—</h3>
+                    <p>Products without completed sales may represent slow-moving or inactive assortment.</p>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-kicker">Current inventory exposure</div>
+                    <h3 id="inventoryExposureValue">GHS 0.00</h3>
+                    <p>Calculated from current stock and the controller's current product cost values.</p>
+                </article>
+            </div>
+
+            <div class="dashboard-grid two-column">
+                <article class="panel table-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Lowest-profit products</h3>
+                            <p>Immediate candidates for commercial review</p>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table id="lowestProfitTable">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Units</th>
+                                    <th>Revenue</th>
+                                    <th>Profit</th>
+                                    <th>Margin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each lowestProfit}}
+                                <tr>
+                                    <td class="product-name-cell">{{product_name}}</td>
+                                    <td>{{units_sold}}</td>
+                                    <td data-money="{{net_revenue}}">{{net_revenue}}</td>
+                                    <td class="negative" data-money="{{gross_profit}}">{{gross_profit}}</td>
+                                    <td>{{profit_margin}}%</td>
+                                </tr>
+                                {{else}}
+                                <tr><td colspan="5"><div class="empty-state">No low-profit data available.</div></td></tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="panel table-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Highest-margin products</h3>
+                            <p>Products with the strongest gross margin</p>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Revenue</th>
+                                    <th>Profit</th>
+                                    <th>Margin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each highestMargin}}
+                                <tr>
+                                    <td class="product-name-cell">{{product_name}}</td>
+                                    <td data-money="{{net_revenue}}">{{net_revenue}}</td>
+                                    <td class="positive" data-money="{{gross_profit}}">{{gross_profit}}</td>
+                                    <td>{{profit_margin}}%</td>
+                                </tr>
+                                {{else}}
+                                <tr><td colspan="4"><div class="empty-state">No margin data available.</div></td></tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             INVENTORY EXPOSURE
+             ========================================================= -->
+        <section class="analysis-section" id="inventory-exposure">
+            <div class="section-intro">
+                <div class="section-kicker">07 / Inventory exposure</div>
+                <h2>Current stock against product performance</h2>
+                <p>
+                    Current inventory is valued using the product's current cost price,
+                    while historical sales performance continues to use sales-item cost.
+                </p>
+            </div>
+
+            <article class="panel table-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Product performance &amp; current inventory</h3>
+                        <p>Current stock and inventory value alongside historical sales performance.</p>
+                    </div>
+                    <button class="inventory-btn detail-toggle" data-target="inventoryDetail">Show / hide detail</button>
+                </div>
+
+                <div id="inventoryDetail" class="detail-content open">
+                    <div class="table-wrap">
+                        <table id="inventoryPerformanceTable">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Units sold</th>
+                                    <th>Net revenue</th>
+                                    <th>COGS</th>
+                                    <th>Gross profit</th>
+                                    <th>Current stock</th>
+                                    <th>Inventory value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each inventoryPerformance}}
+                                <tr data-inventory-value="{{current_inventory_value}}">
+                                    <td class="product-name-cell">{{product_name}}</td>
+                                    <td>{{category}}</td>
+                                    <td>{{units_sold}}</td>
+                                    <td data-money="{{net_revenue}}">{{net_revenue}}</td>
+                                    <td data-money="{{cogs}}">{{cogs}}</td>
+                                    <td data-money="{{gross_profit}}">{{gross_profit}}</td>
+                                    <td><span class="badge">{{current_stock}}</span></td>
+                                    <td data-money="{{current_inventory_value}}">{{current_inventory_value}}</td>
+                                </tr>
+                                {{else}}
+                                <tr><td colspan="8"><div class="empty-state">No inventory performance data available.</div></td></tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             NEVER SOLD
+             ========================================================= -->
+        <section class="analysis-section" id="slow-stock">
+            <div class="section-intro">
+                <div class="section-kicker">08 / Unsold catalogue</div>
+                <h2>Products that have never sold</h2>
+                <p>
+                    These products have no completed sale in the controller's historical
+                    sales data for the selected scope.
+                </p>
+            </div>
+
+            <article class="panel table-panel danger-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Never-sold products</h3>
+                        <p>Potential assortment, pricing or inventory exposure.</p>
+                    </div>
+                    <span class="status-badge status-risk" id="neverSoldBadge">—</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table id="neverSoldTable">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>Unit</th>
+                                <th>Current stock</th>
+                                <th>Inventory value</th>
+                                <th>Potential sales value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each neverSold}}
+                            <tr data-inventory-value="{{inventory_value}}">
+                                <td class="product-name-cell">{{product_name}}</td>
+                                <td>{{category}}</td>
+                                <td>{{brand}}</td>
+                                <td>{{unit}}</td>
+                                <td>{{current_stock}}</td>
+                                <td data-money="{{inventory_value}}">{{inventory_value}}</td>
+                                <td data-money="{{potential_sales_value}}">{{potential_sales_value}}</td>
+                            </tr>
+                            {{else}}
+                            <tr><td colspan="7"><div class="empty-state">All products have recorded completed sales.</div></td></tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             PRODUCT DETAIL
+             ========================================================= -->
+        <section class="analysis-section" id="product-detail">
+            <div class="section-intro">
+                <div class="section-kicker">09 / Executive drill-down</div>
+                <h2>Detailed product performance</h2>
+                <p>
+                    Use the detailed product table to investigate revenue, discounts,
+                    historical cost, profit, margin and revenue contribution.
+                </p>
+            </div>
+
+            <article class="panel table-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Product performance</h3>
+                        <p>Revenue, cost, profit, margin and revenue contribution.</p>
+                    </div>
+                    <button class="inventory-btn detail-toggle" data-target="productDetail">Show / hide detail</button>
+                </div>
+
+                <div id="productDetail" class="detail-content open">
+                    <div class="table-wrap">
+                        <table id="productPerformanceTable">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Brand</th>
+                                    <th>Units</th>
+                                    <th>Gross sales</th>
+                                    <th>Discount</th>
+                                    <th>Net revenue</th>
+                                    <th>COGS</th>
+                                    <th>Gross profit</th>
+                                    <th>Margin</th>
+                                    <th>Revenue contribution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each products}}
+                                <tr
+                                    data-product-name="{{product_name}}"
+                                    data-revenue="{{net_revenue}}"
+                                    data-profit="{{gross_profit}}">
+                                    <td class="product-name-cell">{{product_name}}</td>
+                                    <td>{{category}}</td>
+                                    <td>{{brand}}</td>
+                                    <td>{{units_sold}}</td>
+                                    <td data-money="{{gross_sales}}">{{gross_sales}}</td>
+                                    <td data-money="{{discount}}">{{discount}}</td>
+                                    <td data-money="{{net_revenue}}">{{net_revenue}}</td>
+                                    <td data-money="{{cogs}}">{{cogs}}</td>
+                                    <td class="{{#if profit_positive}}positive{{else}}negative{{/if}}" data-money="{{gross_profit}}">{{gross_profit}}</td>
+                                    <td>{{profit_margin}}%</td>
+                                    <td>{{revenue_contribution_percent}}%</td>
+                                </tr>
+                                {{else}}
+                                <tr><td colspan="11"><div class="empty-state">No product performance data available.</div></td></tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- CATEGORY / BRAND TABLES -->
+        <section class="dashboard-grid two-column">
+            <article class="panel table-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Category performance</h3>
+                        <p>Commercial and cost view by category.</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="categoryPerformanceTable">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Units</th>
+                                <th>Net revenue</th>
+                                <th>COGS</th>
+                                <th>Gross profit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each categories}}
+                            <tr
+                                data-category="{{category}}"
+                                data-units="{{units_sold}}"
+                                data-revenue="{{net_revenue}}"
+                                data-cogs="{{cogs}}"
+                                data-profit="{{gross_profit}}">
+                                <td class="product-name-cell">{{category}}</td>
+                                <td>{{units_sold}}</td>
+                                <td data-money="{{net_revenue}}">{{net_revenue}}</td>
+                                <td data-money="{{cogs}}">{{cogs}}</td>
+                                <td data-profit-value="{{gross_profit}}" data-money="{{gross_profit}}">{{gross_profit}}</td>
+                            </tr>
+                            {{else}}
+                            <tr><td colspan="5"><div class="empty-state">No category data available.</div></td></tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="panel table-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Brand performance</h3>
+                        <p>Revenue, cost and profit by brand.</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="brandPerformanceTable">
+                        <thead>
+                            <tr>
+                                <th>Brand</th>
+                                <th>Units</th>
+                                <th>Net revenue</th>
+                                <th>COGS</th>
+                                <th>Gross profit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each brands}}
+                            <tr
+                                data-brand="{{brand}}"
+                                data-units="{{units_sold}}"
+                                data-revenue="{{net_revenue}}"
+                                data-cogs="{{cogs}}"
+                                data-profit="{{gross_profit}}">
+                                <td class="product-name-cell">{{brand}}</td>
+                                <td>{{units_sold}}</td>
+                                <td data-money="{{net_revenue}}">{{net_revenue}}</td>
+                                <td data-money="{{cogs}}">{{cogs}}</td>
+                                <td data-money="{{gross_profit}}">{{gross_profit}}</td>
+                            </tr>
+                            {{else}}
+                            <tr><td colspan="5"><div class="empty-state">No brand data available.</div></td></tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <!-- =========================================================
+             HIDDEN CHART SOURCES
+             ========================================================= -->
+        <div class="chart-source" aria-hidden="true">
+            <div id="salesTrendSource">
+                {{#each salesTrend}}
+                <span
+                    data-month="{{month}}"
+                    data-product="{{product_name}}"
+                    data-product-id="{{product_id}}"
+                    data-units="{{units_sold}}"
+                    data-revenue="{{net_revenue}}"></span>
+                {{/each}}
+            </div>
+
+            <div id="profitTrendSource">
+                {{#each profitTrend}}
+                <span
+                    data-month="{{month}}"
+                    data-product="{{product_name}}"
+                    data-product-id="{{product_id}}"
+                    data-revenue="{{net_revenue}}"
+                    data-cogs="{{cogs}}"
+                    data-profit="{{gross_profit}}"></span>
+                {{/each}}
+            </div>
+
+            <div id="dailyTrendSource">
+                {{#each dailyTrend}}
+                <span
+                    data-day="{{day_name}}"
+                    data-date="{{display_date}}"
+                    data-sales="{{net_revenue}}"
+                    data-profit="{{gross_profit}}"></span>
+                {{/each}}
+            </div>
+
+            <div id="weeklyTrendSource">
+                {{#each weeklyTrend}}
+                <span
+                    data-week="{{week_label}}"
+                    data-sales="{{net_revenue}}"
+                    data-profit="{{gross_profit}}"></span>
+                {{/each}}
+            </div>
+
+            <div id="topUnitsSource">
+                {{#each topUnits}}
+                <span data-name="{{product_name}}" data-units="{{units_sold}}"></span>
+                {{/each}}
+            </div>
+
+            <div id="topRevenueSource">
+                {{#each topRevenue}}
+                <span data-name="{{product_name}}" data-revenue="{{net_revenue}}"></span>
+                {{/each}}
+            </div>
+
+            <div id="topProfitSource">
+                {{#each topProfit}}
+                <span data-name="{{product_name}}" data-profit="{{gross_profit}}"></span>
+                {{/each}}
+            </div>
+        </div>
+
+        <footer class="inventory-footer">
+            <span>MarketFlow Product Performance</span>
+            <span>Completed sales • Product revenue • Gross profit • Current inventory exposure</span>
+        </footer>
+    </main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    "use strict";
+
+    const safeNumber = (value) => {
+        if (value === null || value === undefined || value === "") return 0;
+        const n = Number(String(value).replace(/,/g, "").replace(/%/g, "").trim());
+        return Number.isFinite(n) ? n : 0;
+    };
+
+    const cleanText = (value) => value === null || value === undefined ? "" : String(value).trim();
+
+    const money = (value) => new Intl.NumberFormat("en-GH", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(safeNumber(value));
+
+    const shortMoney = (value) => {
+        const n = safeNumber(value);
+        if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(1) + "M";
+        if (Math.abs(n) >= 1000) return (n / 1000).toFixed(1) + "K";
+        return n.toFixed(0);
+    };
+
+    const number = (value) => new Intl.NumberFormat("en-GH", {
+        maximumFractionDigits: 0
+    }).format(safeNumber(value));
+
+    document.querySelectorAll("[data-money]").forEach((el) => {
+        el.textContent = money(el.dataset.money);
+    });
+
+    const chartFont = {
+        family: 'Inter, "Segoe UI", Arial, sans-serif'
+    };
+
+    const gridColor = "rgba(148,163,184,.14)";
+
+    const tooltipCurrency = {
+        callbacks: {
+            label: function (context) {
+                const label = context.dataset.label || "";
+                return label + ": GHS " + money(context.raw);
+            }
+        }
+    };
+
+    const makeChart = (id, config) => {
+        const canvas = document.getElementById(id);
+        if (!canvas || typeof Chart === "undefined") return null;
+
+        return new Chart(canvas, {
+            ...config,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 500 },
+                interaction: {
+                    intersect: false,
+                    mode: "index"
+                },
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 8,
+                            padding: 16,
+                            font: { ...chartFont, size: 10, weight: "600" }
+                        }
+                    },
+                    tooltip: {
+                        ...tooltipCurrency,
+                        backgroundColor: "#0f172a",
+                        titleFont: { ...chartFont, size: 11, weight: "700" },
+                        bodyFont: { ...chartFont, size: 11 },
+                        padding: 10,
+                        cornerRadius: 8
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: "#64748b", font: { ...chartFont, size: 9 } }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gridColor },
+                        ticks: { color: "#64748b", font: { ...chartFont, size: 9 } }
+                    }
+                },
+                ...config.options
+            }
+        });
+    };
+
+    const readRows = (selector) => Array.from(document.querySelectorAll(selector));
+
+    const salesTrend = readRows("#salesTrendSource [data-month]").map(el => ({
+        month: cleanText(el.dataset.month),
+        product: cleanText(el.dataset.product),
+        revenue: safeNumber(el.dataset.revenue),
+        units: safeNumber(el.dataset.units)
+    }));
+
+    const profitTrend = readRows("#profitTrendSource [data-month]").map(el => ({
+        month: cleanText(el.dataset.month),
+        profit: safeNumber(el.dataset.profit),
+        revenue: safeNumber(el.dataset.revenue),
+        cogs: safeNumber(el.dataset.cogs)
+    }));
+
+    const dailyTrend = readRows("#dailyTrendSource [data-day]").map(el => ({
+        day: cleanText(el.dataset.day),
+        date: cleanText(el.dataset.date),
+        sales: safeNumber(el.dataset.sales),
+        profit: safeNumber(el.dataset.profit)
+    }));
+
+    const weeklyTrend = readRows("#weeklyTrendSource [data-week]").map(el => ({
+        week: cleanText(el.dataset.week),
+        sales: safeNumber(el.dataset.sales),
+        profit: safeNumber(el.dataset.profit)
+    }));
+
+    const topUnits = readRows("#topUnitsSource [data-name]").map(el => ({
+        name: cleanText(el.dataset.name),
+        units: safeNumber(el.dataset.units)
+    }));
+
+    const topRevenue = readRows("#topRevenueSource [data-name]").map(el => ({
+        name: cleanText(el.dataset.name),
+        revenue: safeNumber(el.dataset.revenue)
+    }));
+
+    const topProfit = readRows("#topProfitSource [data-name]").map(el => ({
+        name: cleanText(el.dataset.name),
+        profit: safeNumber(el.dataset.profit)
+    }));
+
+    const categoryData = readRows("#categoryPerformanceTable tbody tr[data-category]")
+        .map(el => ({
+            name: cleanText(el.dataset.category),
+            units: safeNumber(el.dataset.units),
+            revenue: safeNumber(el.dataset.revenue),
+            cogs: safeNumber(el.dataset.cogs),
+            profit: safeNumber(el.dataset.profit)
+        }))
+        .filter(x => x.name);
+
+    document.querySelectorAll("#categoryPerformanceTable tbody tr[data-category]").forEach((row) => {
+        const profitCell = row.querySelector("[data-profit-value]");
+        if (!profitCell) return;
+
+        profitCell.classList.add(
+            safeNumber(profitCell.dataset.profitValue) > 0 ? "positive" : "negative"
+        );
+    });
+
+    const brandData = readRows("#brandPerformanceTable tbody tr[data-brand]")
+        .map(el => ({
+            name: cleanText(el.dataset.brand),
+            units: safeNumber(el.dataset.units),
+            revenue: safeNumber(el.dataset.revenue),
+            cogs: safeNumber(el.dataset.cogs),
+            profit: safeNumber(el.dataset.profit)
+        }))
+        .filter(x => x.name);
+
+    const productData = readRows("#productPerformanceTable tbody tr[data-product-name]")
+        .map(el => ({
+            name: cleanText(el.dataset.productName),
+            revenue: safeNumber(el.dataset.revenue),
+            profit: safeNumber(el.dataset.profit)
+        }))
+        .filter(x => x.name);
+
+    const aggregate = (rows, valueKey) => {
+        const map = new Map();
+        rows.forEach(row => {
+            const label = cleanText(row.month);
+            if (!label) return;
+            map.set(label, (map.get(label) || 0) + safeNumber(row[valueKey]));
+        });
+        const sortedEntries = Array.from(map.entries())
+            .sort(([a], [b]) => a.localeCompare(b));
+
+        return {
+            labels: sortedEntries.map(([label]) => label),
+            values: sortedEntries.map(([, value]) => value)
+        };
+    };
+
+    const monthlyRevenue = aggregate(salesTrend, "revenue");
+    const monthlyProfit = aggregate(profitTrend, "profit");
+
+    /* =========================================================
+       TREND CHARTS
+       ========================================================= */
+
+    makeChart("salesTrendChart", {
+        type: "line",
+        data: {
+            labels: monthlyRevenue.labels,
+            datasets: [{
+                label: "Net revenue",
+                data: monthlyRevenue.values,
+                borderColor: "#2563eb",
+                backgroundColor: "rgba(37,99,235,.08)",
+                borderWidth: 2.5,
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                fill: true,
+                tension: .32
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: gridColor },
+                    ticks: {
+                        callback: value => "GHS " + shortMoney(value),
+                        color: "#64748b",
+                        font: { ...chartFont, size: 9 }
+                    }
+                }
+            }
+        }
+    });
+
+    makeChart("profitTrendChart", {
+        type: "bar",
+        data: {
+            labels: monthlyProfit.labels,
+            datasets: [{
+                label: "Gross profit",
+                data: monthlyProfit.values,
+                backgroundColor: "#15803d",
+                borderRadius: 5,
+                maxBarThickness: 34
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: gridColor },
+                    ticks: {
+                        callback: value => "GHS " + shortMoney(value),
+                        color: "#64748b",
+                        font: { ...chartFont, size: 9 }
+                    }
+                }
+            }
+        }
+    });
+
+    makeChart("weeklyTrendChart", {
+        type: "line",
+        data: {
+            labels: weeklyTrend.map(x => x.week),
+            datasets: [
+                {
+                    label: "Revenue",
+                    data: weeklyTrend.map(x => x.sales),
+                    borderColor: "#2563eb",
+                    borderWidth: 2.5,
+                    pointRadius: 3,
+                    tension: .3
+                },
+                {
+                    label: "Profit",
+                    data: weeklyTrend.map(x => x.profit),
+                    borderColor: "#15803d",
+                    borderWidth: 2.5,
+                    pointRadius: 3,
+                    tension: .3
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: gridColor },
+                    ticks: {
+                        callback: value => "GHS " + shortMoney(value),
+                        color: "#64748b",
+                        font: { ...chartFont, size: 9 }
+                    }
+                }
+            }
+        }
+    });
+
+    makeChart("dailyTrendChart", {
+        type: "line",
+        data: {
+            labels: dailyTrend.map(x => x.day),
+            datasets: [
+                {
+                    label: "Revenue",
+                    data: dailyTrend.map(x => x.sales),
+                    borderColor: "#2563eb",
+                    backgroundColor: "rgba(37,99,235,.06)",
+                    fill: true,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    tension: .3
+                },
+                {
+                    label: "Profit",
+                    data: dailyTrend.map(x => x.profit),
+                    borderColor: "#15803d",
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    tension: .3
+                }
+            ]
+        }
+    });
+
+    /* =========================================================
+       PRODUCT RANKINGS
+       ========================================================= */
+
+    makeChart("topRevenueChart", {
+        type: "bar",
+        data: {
+            labels: topRevenue.map(x => x.name),
+            datasets: [{
+                label: "Revenue",
+                data: topRevenue.map(x => x.revenue),
+                backgroundColor: "#2563eb",
+                borderRadius: 5,
+                barThickness: 22
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => "GHS " + shortMoney(value),
+                        color: "#64748b"
+                    }
+                },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+
+    makeChart("topProfitChart", {
+        type: "bar",
+        data: {
+            labels: topProfit.map(x => x.name),
+            datasets: [{
+                label: "Gross profit",
+                data: topProfit.map(x => x.profit),
+                backgroundColor: "#15803d",
+                borderRadius: 5,
+                barThickness: 22
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => "GHS " + shortMoney(value),
+                        color: "#64748b"
+                    }
+                },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+
+    makeChart("topUnitsChart", {
+        type: "bar",
+        data: {
+            labels: topUnits.map(x => x.name),
+            datasets: [{
+                label: "Units sold",
+                data: topUnits.map(x => x.units),
+                backgroundColor: "#0ea5e9",
+                borderRadius: 5,
+                barThickness: 22
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return "Units sold: " + number(context.raw);
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => number(value),
+                        color: "#64748b"
+                    }
+                },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+
+    const comparisonData = productData.slice().sort((a, b) => b.revenue - a.revenue).slice(0, 12);
+
+    makeChart("productComparisonChart", {
+        type: "bar",
+        data: {
+            labels: comparisonData.map(x => x.name),
+            datasets: [
+                {
+                    label: "Revenue",
+                    data: comparisonData.map(x => x.revenue),
+                    backgroundColor: "#2563eb",
+                    borderRadius: 4
+                },
+                {
+                    label: "Gross profit",
+                    data: comparisonData.map(x => x.profit),
+                    backgroundColor: "#15803d",
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => "GHS " + shortMoney(value),
+                        color: "#64748b"
+                    }
+                }
+            }
+        }
+    });
+
+    /* =========================================================
+       CATEGORY / BRAND CHARTS
+       ========================================================= */
+
+    const revenueCategories = categoryData.slice().sort((a, b) => b.revenue - a.revenue);
+
+    makeChart("categoryChart", {
+        type: "bar",
+        data: {
+            labels: revenueCategories.map(x => x.name),
+            datasets: [{
+                label: "Net revenue",
+                data: revenueCategories.map(x => x.revenue),
+                backgroundColor: "#2563eb",
+                borderRadius: 6,
+                maxBarThickness: 26
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { callback: value => "GHS " + shortMoney(value) }
+                },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+
+    const profitCategories = categoryData.slice().sort((a, b) => b.profit - a.profit);
+
+    makeChart("categoryProfitChart", {
+        type: "bar",
+        data: {
+            labels: profitCategories.map(x => x.name),
+            datasets: [{
+                label: "Gross profit",
+                data: profitCategories.map(x => x.profit),
+                backgroundColor: "#15803d",
+                borderRadius: 6,
+                maxBarThickness: 26
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { callback: value => "GHS " + shortMoney(value) }
+                },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+
+    makeChart("categoryComparisonChart", {
+        type: "bar",
+        data: {
+            labels: categoryData.map(x => x.name),
+            datasets: [
+                {
+                    label: "Revenue",
+                    data: categoryData.map(x => x.revenue),
+                    backgroundColor: "#2563eb",
+                    borderRadius: 4
+                },
+                {
+                    label: "COGS",
+                    data: categoryData.map(x => x.cogs),
+                    backgroundColor: "#94a3b8",
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: value => "GHS " + shortMoney(value) }
+                }
+            }
+        }
+    });
+
+    const sortedBrands = brandData.slice().sort((a, b) => b.revenue - a.revenue).slice(0, 10);
+
+    makeChart("brandChart", {
+        type: "bar",
+        data: {
+            labels: sortedBrands.map(x => x.name),
+            datasets: [{
+                label: "Net revenue",
+                data: sortedBrands.map(x => x.revenue),
+                backgroundColor: "#475569",
+                borderRadius: 6,
+                barThickness: 24,
+                maxBarThickness: 28
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            plugins: { legend: { display: false } },
+            interaction: { mode: "nearest", intersect: true },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { callback: value => "GHS " + shortMoney(value) }
+                },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+
+    /* =========================================================
+       MANAGEMENT SNAPSHOT
+       ========================================================= */
+
+    const neverSoldCount = document.querySelectorAll(
+        "#neverSoldTable tbody tr[data-inventory-value]"
+    ).length;
+
+    const topRevenueItem = topRevenue[0];
+    const topProfitItem = topProfit[0];
+    const lowProfitRow = document.querySelector("#lowestProfitTable tbody tr");
+
+    if (topRevenueItem) {
+        document.getElementById("snapshotTopProduct").textContent = topRevenueItem.name || "—";
+        document.getElementById("snapshotTopProductValue").textContent = "GHS " + money(topRevenueItem.revenue);
+    }
+
+    if (topProfitItem) {
+        document.getElementById("snapshotProfitProduct").textContent = topProfitItem.name || "—";
+        document.getElementById("snapshotProfitValue").textContent = "GHS " + money(topProfitItem.profit);
+    }
+
+    if (lowProfitRow && lowProfitRow.querySelector(".product-name-cell")) {
+        document.getElementById("snapshotLowProfit").textContent =
+            lowProfitRow.querySelector(".product-name-cell").textContent.trim();
+    } else {
+        document.getElementById("snapshotLowProfit").textContent = "No low-profit data";
+    }
+
+    document.getElementById("snapshotNeverSold").textContent = number(neverSoldCount) + " products";
+    document.getElementById("attentionLossCount").textContent = lowProfitRow ? "Review low-profit items" : "No low-profit data";
+    document.getElementById("attentionNeverSold").textContent = number(neverSoldCount) + " products";
+    document.getElementById("neverSoldBadge").textContent = number(neverSoldCount) + " products";
+
+    const inventoryExposure = readRows("#inventoryPerformanceTable tbody tr[data-inventory-value]")
+        .reduce((total, row) => total + safeNumber(row.dataset.inventoryValue), 0);
+
+    document.getElementById("inventoryExposureValue").textContent = "GHS " + money(inventoryExposure);
+
+    /* =========================================================
+       DETAIL TOGGLES
+       ========================================================= */
+
+    document.querySelectorAll(".detail-toggle").forEach(button => {
+        button.addEventListener("click", function () {
+            const target = document.getElementById(this.dataset.target);
+            if (!target) return;
+
+            target.classList.toggle("open");
+            this.textContent = target.classList.contains("open")
+                ? "Hide detail"
+                : "Show / hide detail";
+        });
+    });
+
+    /* =========================================================
+       ACTIONS
+       ========================================================= */
+
+    document.getElementById("printBtn")?.addEventListener("click", () => window.print());
+    document.getElementById("refreshBtn")?.addEventListener("click", () => window.location.reload());
+    document.getElementById("scopeRefreshBtn")?.addEventListener("click", () => window.location.reload());
+
+    console.log("MarketFlow Product Performance dashboard loaded.");
+});
+
+/* =============================================================
+   SCOPE CONTROLS
+   ============================================================= */
+
+function showProductPerformanceBranchSelector() {
+    const panel = document.getElementById("productPerformanceBranchSelector");
+    if (!panel) return;
+    panel.hidden = !panel.hidden;
+}
+
+function changeProductPerformanceScope(branchId) {
+    if (!branchId) return;
+    window.location.href =
+        "/product-performance?scope=branch&branch_id=" + encodeURIComponent(branchId);
+}
+</script>
+
+</body>
+</html>

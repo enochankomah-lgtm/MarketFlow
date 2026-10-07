@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Inventory Analysis | MarketFlow</title>
+
+<link rel="stylesheet" href="/inventory-analysis.css">
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+```
+
+</head>
+
+<body>
+
+<div class="inventory-layout">
+
+```
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<aside class="inventory-sidebar">
+
+    <div class="sidebar-brand">
+
+        <div class="brand-icon">
+            <i class="fa-solid fa-boxes-stacked"></i>
+        </div>
+
+        <div>
+            <strong>MarketFlow</strong>
+            <span>Inventory Intelligence</span>
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <a href="#overview" class="nav-link active">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Overview</span>
+        </a>
+
+        <a href="#current-inventory" class="nav-link">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <span>Current Inventory</span>
+        </a>
+
+        <a href="#demand" class="nav-link">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <span>Demand &amp; Sales</span>
+        </a>
+
+        <a href="#stock-risk" class="nav-link">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Stock Risk</span>
+        </a>
+
+        <a href="#replenishment" class="nav-link">
+            <i class="fa-solid fa-cart-flatbed"></i>
+            <span>Replenishment</span>
+        </a>
+
+        <a href="#slow-stock" class="nav-link">
+            <i class="fa-solid fa-box-open"></i>
+            <span>Slow &amp; Dead Stock</span>
+        </a>
+
+        <a href="#expiry" class="nav-link">
+            <i class="fa-solid fa-calendar-xmark"></i>
+            <span>Expiry</span>
+        </a>
+
+        <a href="#performance" class="nav-link">
+            <i class="fa-solid fa-ranking-star"></i>
+            <span>Performance</span>
+        </a>
+
+        <a href="#recommendations" class="nav-link">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>Recommendations</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <a href="/productpages/products">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            <span>Back to Dashboard</span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+<main class="inventory-main">
+
+
+
+<header class="page-header" id="overview">
+
+    <div>
+
+        <span class="eyebrow">
+            INVENTORY INTELLIGENCE
+        </span>
+
+        <h1>Inventory Analysis</h1>
+
+        <p class="page-subtitle">
+            A complete view of stock levels, demand,
+            inventory risk, product performance and
+            recommended actions.
+        </p>
+
+    </div>
+
+                <!-- =====================================================
+            SCOPE CONTROLS
+            ===================================================== -->
+
+        <div class="header-actions">
+
+            <div class="scope-selector">
+
+                <span class="scope-label">
+                    <i class="fa-solid fa-layer-group"></i>
+                    INVENTORY VIEW
+                </span>
+
+
+                <div class="scope-buttons">
+
+                    <a href="/stockanalysis/inventoryanalyst?scope=business"
+                    class="scope-btn {{#if (eq scope.mode "business")}}active{{/if}}">
+
+                        <i class="fa-solid fa-building"></i>
+
+                        Business
+
+                    </a>
+
+
+                    <button type="button"
+                            class="scope-btn {{#if (eq scope.mode "branch")}}active{{/if}}"
+                            onclick="showBranchSelector()">
+
+                        <i class="fa-solid fa-code-branch"></i>
+
+                        Branch
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="scope-display">
+
+                <span class="scope-label">
+                    <i class="fa-solid fa-filter"></i>
+                    VIEWING
+                </span>
+
+                {{#if (eq scope.mode "branch")}}
+
+                    <strong>
+                        {{scope.branchName}}
+                    </strong>
+
+                    {{#if scope.branchLocation}}
+
+                        <small>
+                            {{scope.branchLocation}}
+                        </small>
+
+                    {{/if}}
+
+                {{else}}
+
+                    <strong>
+                        {{scope.businessName}}
+                    </strong>
+
+                    <small>
+                        All Branches
+                    </small>
+
+                {{/if}}
+
+            </div>
+
+
+            <span class="analysis-date">
+
+                <i class="fa-regular fa-clock"></i>
+
+                Updated just now
+
+            </span>
+
+
+            <button type="button"
+                    class="refresh-btn"
+                    onclick="window.location.reload()">
+
+                <i class="fa-solid fa-rotate"></i>
+
+                Refresh
+
+            </button>
+
+        </div>
+
+                <div class="branch-selector-panel"
+            id="branchSelectorPanel"
+            hidden>
+
+            <div class="branch-selector-content">
+
+                <div>
+
+                    <span class="scope-label">
+                        <i class="fa-solid fa-code-branch"></i>
+                        SELECT BRANCH
+                    </span>
+
+                    <strong>
+                        Choose the branch you want to analyse.
+                    </strong>
+
+                </div>
+
+
+                <select id="inventoryBranchSelect"
+                        onchange="changeInventoryScope(this.value)">
+
+                    <option value="">
+                        Select a branch
+                    </option>
+
+                    {{#each branches}}
+
+                        <option value="{{branch_id}}">
+
+                            {{branch_name}}
+
+                            {{#if location}}
+                                — {{location}}
+                            {{/if}}
+
+                        </option>
+
+                    {{/each}}
+
+                </select>
+
+            </div>
+
+        </div>
+
+</header>
+
+
+
+      <!-- =====================================================
+         1. CURRENT INVENTORY
+         ===================================================== -->
+
+    <section class="analysis-section"
+             id="current-inventory">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    01 · CURRENT INVENTORY
+                </span>
+
+                <h2>Inventory Position</h2>
+
+                <p>
+                    The current value and availability of products
+                    across all stock records.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- KPI CARDS -->
+
+        <div class="kpi-grid">
+
+
+            <article class="kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+
+                <div>
+
+                    <span>Total Products</span>
+
+                    <strong>
+                        {{summary.total_products}}
+                    </strong>
+
+                    <small>
+                        Products registered in MarketFlow
+                    </small>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+
+                <div>
+
+                    <span>Products In Stock</span>
+
+                    <strong>
+                        {{summary.products_in_stock}}
+                    </strong>
+
+                    <small>
+                        Products currently holding stock
+                    </small>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+
+                <div>
+
+                    <span>Out Of Stock</span>
+
+                    <strong>
+                        {{summary.out_of_stock_products}}
+                    </strong>
+
+                    <small>
+                        Products with no available stock
+                    </small>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+
+                <div>
+
+                    <span>Inventory Cost Value</span>
+
+                    <strong>
+                        GH₵ {{summary.inventory_cost_value}}
+                    </strong>
+
+                    <small>
+                        Current stock at cost
+                    </small>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                </div>
+
+                <div>
+
+                    <span>Potential Sales Value</span>
+
+                    <strong>
+                        GH₵ {{summary.potential_sales_value}}
+                    </strong>
+
+                    <small>
+                        Current stock at selling price
+                    </small>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="kpi-card">
+
+                <div class="kpi-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+
+                <div>
+
+                    <span>Potential Gross Profit</span>
+
+                    <strong>
+                        GH₵ {{summary.potential_gross_profit}}
+                    </strong>
+
+                    <small>
+                        Potential value before other expenses
+                    </small>
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+
+        <!-- CATEGORY / UNIT / SUPPLIER -->
+
+        <div class="dashboard-grid three-column">
+
+
+            <!-- CATEGORY -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>BY CATEGORY</span>
+
+                        <h3>Inventory by Category</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-layer-group"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each byCategory}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{category}}
+                                </strong>
+
+                                <small>
+                                    {{total_products}} products
+                                    · {{products_in_stock}} in stock
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    GH₵ {{inventory_cost_value}}
+                                </strong>
+
+                                <small>
+                                    {{quantity_available}} units
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No category inventory data available.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+
+
+            <!-- UNIT -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>BY UNIT</span>
+
+                        <h3>Stock by Unit</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-cubes"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each byUnit}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{unit}}
+                                </strong>
+
+                                <small>
+                                    {{products_with_stock}} products
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    {{total_quantity}}
+                                </strong>
+
+                                <small>
+                                    GH₵ {{inventory_cost_value}}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No unit inventory data available.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+
+
+            <!-- SUPPLIER -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>BY SUPPLIER</span>
+
+                        <h3>Supplier Exposure</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-truck-field"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each bySupplier}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{supplier}}
+                                </strong>
+
+                                <small>
+                                    {{total_products}} products
+                                    · {{products_in_stock}} in stock
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    GH₵ {{inventory_cost_value}}
+                                </strong>
+
+                                <small>
+                                    {{quantity_available}} units
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No supplier data available.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         2. PRODUCT LEVEL INVENTORY
+         ===================================================== -->
+
+    <section class="analysis-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    02 · PRODUCT MONITORING
+                </span>
+
+                <h2>Inventory at Product Level</h2>
+
+                <p>
+                    The master inventory view combines stock,
+                    demand, risk, ABC classification, turnover
+                    and inventory health.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel table-panel">
+
+            <div class="table-wrapper">
+
+                <table class="analysis-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Stock</th>
+                            <th>30-Day Sales</th>
+                            <th>Days of Inventory</th>
+                            <th>Stock Risk</th>
+                            <th>Reorder</th>
+                            <th>ABC</th>
+                            <th>Health</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {{#each products}}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    {{brand}}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+                                {{category}}
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{quantity_available}}
+                                </strong>
+
+                                <small>
+                                    {{unit}}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+                                {{quantity_sold_30d}}
+                            </td>
+
+
+                            <td>
+                                {{days_of_inventory}}
+                            </td>
+
+
+                            <td>
+                                {{stockout_risk}}
+                            </td>
+
+
+                            <td>
+                                {{reorder_status}}
+                            </td>
+
+
+                            <td>
+                                {{abc_class}}
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{health_score}}
+                                </strong>
+
+                            </td>
+
+                        </tr>
+
+                    {{else}}
+
+                        <tr>
+
+                            <td colspan="9"
+                                class="empty-table">
+
+                                No inventory products found.
+
+                            </td>
+
+                        </tr>
+
+                    {{/each}}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         3. DEMAND & SALES
+         ===================================================== -->
+
+    <section class="analysis-section"
+             id="demand">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    03 · DEMAND ANALYSIS
+                </span>
+
+                <h2>Sales Demand &amp; Inventory Duration</h2>
+
+                <p>
+                    Demand is measured from completed sales over
+                    the last 30 days.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-grid two-column">
+
+
+            <!-- SALES -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>COMPLETED SALES</span>
+
+                        <h3>Daily Sales Activity</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each salesByDate}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{sale_date}}
+                                </strong>
+
+                                <small>
+                                    {{quantity_sold}} units sold
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    GH₵ {{sales_revenue}}
+                                </strong>
+
+                                <small>
+                                    Profit: GH₵ {{gross_profit}}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No completed sales data available.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+
+
+            <!-- STOCK RECEIVED -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>STOCK RECEIPTS</span>
+
+                        <h3>Daily Stock Received</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each stockReceivedByDate}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{stock_date}}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    {{quantity_received}}
+                                </strong>
+
+                                <small>
+                                    units received
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No stock receipt data available.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         4. STOCK-OUT RISK
+         ===================================================== -->
+
+    <section class="analysis-section"
+             id="stock-risk">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    04 · STOCK-OUT RISK
+                </span>
+
+                <h2>Products at Risk of Running Out</h2>
+
+                <p>
+                    Products are prioritized using current stock
+                    and recent sales velocity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel table-panel">
+
+            <div class="table-wrapper">
+
+                <table class="analysis-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Product</th>
+                            <th>Stock</th>
+                            <th>30-Day Sales</th>
+                            <th>Daily Sales</th>
+                            <th>Days of Inventory</th>
+                            <th>Risk</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {{#each stockoutRisk}}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    {{category}}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+                                {{quantity_available}}
+                                {{unit}}
+                            </td>
+
+
+                            <td>
+                                {{quantity_sold_30d}}
+                            </td>
+
+
+                            <td>
+                                {{average_daily_quantity_sold}}
+                            </td>
+
+
+                            <td>
+                                {{days_of_inventory}}
+                            </td>
+
+
+                            <td>
+                                {{stockout_risk}}
+                            </td>
+
+                        </tr>
+
+                    {{else}}
+
+                        <tr>
+
+                            <td colspan="6"
+                                class="empty-table">
+
+                                No stock-out risk data available.
+
+                            </td>
+
+                        </tr>
+
+                    {{/each}}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         5. REPLENISHMENT & OVERSTOCK
+         ===================================================== -->
+
+    <section class="analysis-section"
+             id="replenishment">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    05 · REPLENISHMENT
+                </span>
+
+                <h2>Replenishment &amp; Overstock</h2>
+
+                <p>
+                    Identify products that need purchasing and
+                    products where inventory may be too high.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-grid two-column">
+
+
+            <!-- REORDER -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>REORDER POINT</span>
+
+                        <h3>Products Requiring Replenishment</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each reorderPoint}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    Current:
+                                    {{quantity_available}}
+                                    {{unit}}
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    {{reorder_status}}
+                                </strong>
+
+                                <small>
+                                    Reorder point:
+                                    {{reorder_point}}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No products require replenishment.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+
+
+            <!-- OVERSTOCK -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>OVERSTOCK MONITORING</span>
+
+                        <h3>Inventory Above Demand</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-boxes-stacked"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each overstock}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    {{quantity_available}}
+                                    {{unit}}
+                                    ·
+                                    {{quantity_sold_30d}}
+                                    sold in 30 days
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    {{overstock_status}}
+                                </strong>
+
+                                <small>
+                                    GH₵ {{inventory_cost_value}}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No overstock items require attention.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         6. SLOW & DEAD STOCK
+         ===================================================== -->
+
+    <section class="analysis-section"
+             id="slow-stock">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    06 · STOCK MOVEMENT
+                </span>
+
+                <h2>Slow &amp; Dead Stock</h2>
+
+                <p>
+                    Products with weak or absent recent sales can
+                    tie up capital and storage space.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-grid two-column">
+
+
+            <!-- DEAD STOCK -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>DEAD STOCK</span>
+
+                        <h3>No Completed Sale in 30 Days</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-box-open"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each deadStock}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    {{quantity_available}}
+                                    {{unit}}
+
+                                    ·
+
+                                    {{#if last_sale_date}}
+                                        Last sale:
+                                        {{last_sale_date}}
+                                    {{else}}
+                                        Never sold
+                                    {{/if}}
+
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    {{stock_status}}
+                                </strong>
+
+                                <small>
+                                    GH₵ {{inventory_cost_value}}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No dead stock found.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+
+
+            <!-- NEVER SOLD -->
+
+            <article class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>NEVER SOLD</span>
+
+                        <h3>Products With No Completed Sale</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-ban"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each neverSoldProducts}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    {{category}}
+                                    ·
+                                    {{unit}}
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    GH₵ {{selling_price}}
+                                </strong>
+
+                                <small>
+                                    Cost:
+                                    GH₵ {{cost_price}}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            All products have at least one completed sale.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         7. AGING
+         ===================================================== -->
+
+    <section class="analysis-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    07 · INVENTORY AGING
+                </span>
+
+                <h2>How Long Stock Has Been Held</h2>
+
+                <p>
+                    Inventory is grouped according to the age of
+                    each available stock batch.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- AGING SUMMARY -->
+
+        <div class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span>AGING SUMMARY</span>
+
+                    <h3>Inventory Age Distribution</h3>
+
+                </div>
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+            </div>
+
+
+            <div class="summary-grid">
+
+                {{#each agingSummary}}
+
+                    <div class="summary-item">
+
+                        <span>
+                            {{aging_bucket}}
+                        </span>
+
+                        <strong>
+                            {{product_count}}
+                        </strong>
+
+                        <small>
+                            {{quantity_available}} units
+                            ·
+                            GH₵ {{inventory_cost_value}}
+                        </small>
+
+                    </div>
+
+                {{else}}
+
+                    <div class="empty-state">
+                        No aging summary available.
+                    </div>
+
+                {{/each}}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- AGING DETAIL -->
+
+        <div class="panel table-panel">
+
+            <div class="table-wrapper">
+
+                <table class="analysis-table">
+
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Batch</th>
+                            <th>Stock Date</th>
+                            <th>Age</th>
+                            <th>Quantity</th>
+                            <th>Inventory Cost</th>
+                            <th>Age Group</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {{#each aging}}
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        {{product_name}}
+                                    </strong>
+
+                                    <small>
+                                        {{category}}
+                                        ·
+                                        {{unit}}
+                                    </small>
+                                </td>
+
+                                <td>
+                                    {{batch_number}}
+                                </td>
+
+                                <td>
+                                    {{oldest_stock_date}}
+                                </td>
+
+                                <td>
+                                    {{stock_age_days}} days
+                                </td>
+
+                                <td>
+                                    {{quantity_available}}
+                                </td>
+
+                                <td>
+                                    GH₵ {{inventory_cost_value}}
+                                </td>
+
+                                <td>
+                                    {{aging_bucket}}
+                                </td>
+
+                            </tr>
+
+                        {{else}}
+
+                            <tr>
+                                <td colspan="7">
+                                    No aging inventory found.
+                                </td>
+                            </tr>
+
+                        {{/each}}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         8. EXPIRY
+         ===================================================== -->
+
+    <section class="analysis-section"
+             id="expiry">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    08 · EXPIRY CONTROL
+                </span>
+
+                <h2>Expired &amp; Expiring Inventory</h2>
+
+                <p>
+                    Protect inventory value by identifying stock
+                    that has already expired or is approaching expiry.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-grid two-column">
+
+
+            <!-- EXPIRED -->
+
+            <article class="panel danger-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>EXPIRED</span>
+
+                        <h3>Expired Inventory</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-calendar-xmark"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each expired}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    Expired:
+                                    {{expiry_date}}
+                                    ·
+                                    {{quantity_available}} units
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    {{days_expired}} days
+                                </strong>
+
+                                <small>
+                                    GH₵ {{inventory_cost_value}}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No expired inventory found.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+
+
+            <!-- EXPIRING -->
+
+            <article class="panel warning-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span>EXPIRING SOON</span>
+
+                        <h3>Within 30 Days</h3>
+
+                    </div>
+
+                    <i class="fa-solid fa-hourglass-half"></i>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    {{#each expiring}}
+
+                        <div class="data-row">
+
+                            <div>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    Expires:
+                                    {{expiry_date}}
+                                    ·
+                                    {{quantity_available}} units
+                                </small>
+
+                            </div>
+
+
+                            <div class="data-value">
+
+                                <strong>
+                                    {{days_until_expiry}} days
+                                </strong>
+
+                                <small>
+                                    GH₵ {{inventory_cost_value}}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {{else}}
+
+                        <div class="empty-state">
+                            No products are expiring within 30 days.
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+
+        <!-- EXPIRY SUMMARY -->
+
+        <div class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span>EXPIRY SUMMARY</span>
+
+                    <h3>Inventory Exposure</h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-grid">
+
+                {{#each expirySummary}}
+
+                    <div class="summary-item">
+
+                        <span>
+                            {{expiry_bucket}}
+                        </span>
+
+                        <strong>
+                            {{product_count}}
+                        </strong>
+
+                        <small>
+                            {{quantity_available}} units
+                            ·
+                            GH₵ {{inventory_cost_value}}
+                        </small>
+
+                    </div>
+
+                {{else}}
+
+                    <div class="empty-state">
+                        No expiry summary available.
+                    </div>
+
+                {{/each}}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         9. TURNOVER & ABC
+         ===================================================== -->
+
+    <section class="analysis-section"
+             id="performance">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    09 · INVENTORY PERFORMANCE
+                </span>
+
+                <h2>Turnover &amp; ABC Analysis</h2>
+
+                <p>
+                    Understand how inventory is performing and
+                    which products contribute most to annual
+                    inventory cost activity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- TURNOVER -->
+
+        <div class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span>12-MONTH TURNOVER PROXY</span>
+
+                    <h3>Inventory Turnover</h3>
+
+                </div>
+
+                <i class="fa-solid fa-arrows-rotate"></i>
+
+            </div>
+
+
+            <div class="info-banner">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <p>
+                    MarketFlow currently uses a turnover proxy:
+                    12-month COGS divided by current inventory
+                    cost value.
+                </p>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="analysis-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Product</th>
+                            <th>12-Month COGS</th>
+                            <th>Current Inventory Cost</th>
+                            <th>Turnover Proxy</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {{#each turnover}}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    {{category}}
+                                    ·
+                                    {{unit}}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+                                GH₵ {{cogs_12m}}
+                            </td>
+
+
+                            <td>
+                                GH₵ {{inventory_cost_value}}
+                            </td>
+
+                            <td>
+                                {{inventory_turnover}}
+                            </td>
+
+                            <td>
+                                {{turnover_status}}
+                            </td>
+                        </tr>
+
+                    {{else}}
+
+                        <tr>
+
+                            <td colspan="4"
+                                class="empty-table">
+
+                                No turnover data available.
+
+                            </td>
+
+                        </tr>
+
+                    {{/each}}
+
+                    </tbody>
+                    
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ABC -->
+
+        <div class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span>12-MONTH ABC ANALYSIS</span>
+
+                    <h3>Inventory Value Classification</h3>
+
+                </div>
+
+                <i class="fa-solid fa-ranking-star"></i>
+
+            </div>
+
+
+            <div class="abc-guide">
+
+                <div class="abc-card">
+
+                    <strong>A</strong>
+
+                    <span>
+                        Highest cumulative inventory cost contribution
+                    </span>
+
+                </div>
+
+
+                <div class="abc-card">
+
+                    <strong>B</strong>
+
+                    <span>
+                        Medium cumulative inventory cost contribution
+                    </span>
+
+                </div>
+
+
+                <div class="abc-card">
+
+                    <strong>C</strong>
+
+                    <span>
+                        Lower cumulative inventory cost contribution
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="analysis-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>12-Month COGS</th>
+                            <th>Individual Contribution</th>
+                            <th>Cumulative Contribution</th>
+                            <th>Class</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {{#each abc}}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{category}}
+                            </td>
+
+                            <td>
+                                GH₵ {{cogs_12m}}
+                            </td>
+
+                            <td>
+                                {{cogs_contribution_percent}}%
+                            </td>
+
+                            <td>
+                                {{cumulative_cogs_percent}}%
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{abc_class}}
+                                </strong>
+                            </td>
+
+                        </tr>
+
+                    {{else}}
+
+                        <tr>
+
+                            <td colspan="6"
+                                class="empty-table">
+
+                                No ABC analysis data available.
+
+                            </td>
+
+                        </tr>
+
+                    {{/each}}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         10. INVENTORY HEALTH
+         ===================================================== -->
+
+    <section class="analysis-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    10 · INVENTORY HEALTH
+                </span>
+
+                <h2>Overall Product Health</h2>
+
+                <p>
+                    Health combines stock availability,
+                    stock-out risk, overstock exposure
+                    and sales movement.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel table-panel">
+
+            <div class="table-wrapper">
+
+                <table class="analysis-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Product</th>
+                            <th>Stock</th>
+                            <th>Stock Risk</th>
+                            <th>Overstock</th>
+                            <th>Movement</th>
+                            <th>ABC</th>
+                            <th>Health Score</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {{#each products}}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{product_name}}
+                                </strong>
+
+                                <small>
+                                    {{category}}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+                                {{quantity_available}}
+                                {{unit}}
+                            </td>
+
+
+                            <td>
+                                {{stockout_risk}}
+                            </td>
+
+
+                            <td>
+                                {{overstock_status}}
+                            </td>
+
+
+                            <td>
+                                {{stock_movement_status}}
+                            </td>
+
+
+                            <td>
+                                {{abc_class}}
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{health_score}}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+                                {{health_status}}
+                            </td>
+
+                        </tr>
+
+                    {{else}}
+
+                        <tr>
+
+                            <td colspan="8"
+                                class="empty-table">
+
+                                No inventory health data available.
+
+                            </td>
+
+                        </tr>
+
+                    {{/each}}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         11. MANAGEMENT RECOMMENDATIONS
+         ===================================================== -->
+
+    <section class="analysis-section"
+             id="recommendations">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    11 · MANAGEMENT ACTIONS
+                </span>
+
+                <h2>What MarketFlow Recommends</h2>
+
+                <p>
+                    These recommendations turn the inventory
+                    analysis into practical actions.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="recommendation-grid">
+
+            {{#each products}}
+
+                <article class="recommendation-card">
+
+                    <div class="recommendation-top">
+
+                        <div class="recommendation-icon">
+
+                            <i class="fa-solid fa-lightbulb"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                {{health_status}}
+                            </span>
+
+                            <h3>
+                                {{product_name}}
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="recommendation-body">
+
+                        <p>
+                            {{management_recommendation}}
+                        </p>
+
+
+                        <div class="recommendation-meta">
+
+                            <span>
+
+                                Stock:
+
+                                <strong>
+                                    {{quantity_available}}
+                                </strong>
+
+                            </span>
+
+
+                            <span>
+
+                                Health:
+
+                                <strong>
+                                    {{health_score}}
+                                </strong>
+
+                            </span>
+
+
+                            <span>
+
+                                ABC:
+
+                                <strong>
+                                    {{abc_class}}
+                                </strong>
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            {{else}}
+
+                <div class="empty-state">
+                    No management recommendations are available.
+                </div>
+
+            {{/each}}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         12. DAILY INVENTORY MOVEMENT
+         ===================================================== -->
+
+    <section class="analysis-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    12 · INVENTORY MOVEMENT
+                </span>
+
+                <h2>Daily Stock Movement</h2>
+
+                <p>
+                    Stock received and completed sales are combined
+                    into one daily movement view.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel table-panel">
+
+            <div class="table-wrapper">
+
+                <table class="analysis-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+                            <th>Stock Received</th>
+                            <th>Quantity Sold</th>
+                            <th>Net Movement</th>
+                            <th>Sales Revenue</th>
+                            <th>Gross Profit</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {{#each movement}}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{movement_date}}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+                                {{quantity_received}}
+                            </td>
+
+
+                            <td>
+                                {{quantity_sold}}
+                            </td>
+
+
+                            <td>
+                                {{net_quantity_movement}}
+                            </td>
+
+
+                            <td>
+                                GH₵ {{sales_revenue}}
+                            </td>
+
+
+                            <td>
+                                GH₵ {{gross_profit}}
+                            </td>
+
+                        </tr>
+
+                    {{else}}
+
+                        <tr>
+
+                            <td colspan="6"
+                                class="empty-table">
+
+                                No inventory movement data available.
+
+                            </td>
+
+                        </tr>
+
+                    {{/each}}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="inventory-footer">
+
+        <div>
+
+            <strong>MarketFlow</strong>
+
+            <span>
+                Inventory Intelligence
+            </span>
+
+        </div>
+
+
+        <p>
+            Inventory analysis is based on completed sales,
+            current stock and the configured MarketFlow
+            business rules.
+        </p>
+
+    </footer>
+
+
+</main>
+```
+
+</div>
+
+<!-- =============================================================
+     CLIENT SCRIPT
+     ============================================================= -->
+<script>
+
+    document.querySelectorAll(".nav-link").forEach(function (link) {
+
+        link.addEventListener("click", function () {
+
+            document
+                .querySelectorAll(".nav-link")
+                .forEach(function (item) {
+
+                    item.classList.remove("active");
+
+                });
+
+            this.classList.add("active");
+
+        });
+
+    });
+
+
+    function showBranchSelector() {
+
+        const panel = document.getElementById(
+            "branchSelectorPanel"
+        );
+
+        if (!panel) {
+            return;
+        }
+
+        panel.hidden = !panel.hidden;
+    }
+
+
+    function changeInventoryScope(branchId) {
+
+        if (!branchId) {
+            return;
+        }
+
+        window.location.href =
+            "/stockanalysis/inventoryanalyst?scope=branch&branch_id=" +
+            encodeURIComponent(branchId);
+    }
+
+</script>
+
+</body>
+
+</html>

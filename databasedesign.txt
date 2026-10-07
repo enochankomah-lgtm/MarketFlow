@@ -230,3 +230,12 @@ event.stopPropagation(); // This will prevent bubbling the event higher in the h
     rgba(229, 244, 232, 1) 50%,
     rgba(233, 245, 236, 1) 100%
 );
+
+
+    total, 
+   amount_paid, 
+   change_given, 
+   payment_method,
+
+
+ 0551234987                

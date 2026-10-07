@@ -1,0 +1,4055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stock Movements - MarketFlow</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- Stock Movement Styles -->
+    <link rel="stylesheet" href="/stockMovement.css">
+
+</head>
+
+<body>
+
+<div class="stock-movement-page">
+
+    <!-- =========================================================
+         PAGE HEADER
+         ========================================================= -->
+    <header class="page-header">
+
+        <div class="page-heading">
+
+            <div class="page-heading-icon">
+                <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+
+            <div>
+                <span class="page-eyebrow">
+                    INVENTORY MANAGEMENT
+                </span>
+
+                <h1>
+                    Stock Movements
+                </h1>
+
+                <p>
+                    Move, adjust and manage inventory across your business.
+                </p>
+            </div>
+
+        </div>
+
+        <a href="/dashboard" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Dashboard</span>
+        </a>
+
+    </header>
+
+
+    <main class="movement-container">
+
+
+        <!-- =========================================================
+             LOAD VEHICLE
+             ========================================================= -->
+        <section
+            class="movement-card load-vehicle-card"
+            id="loadVehicleSection"
+        >
+
+            <!-- Section Header -->
+            <div class="movement-card-header">
+
+                <div class="movement-card-title">
+
+                    <div class="movement-icon load-icon">
+                        <i class="fa-solid fa-truck-ramp-box"></i>
+                    </div>
+
+                    <div>
+
+                        <span class="section-eyebrow">
+                            INVENTORY TRANSFER
+                        </span>
+
+                        <h2>
+                            Load Vehicle
+                        </h2>
+
+                        <p>
+                            Move stock from a branch into a vehicle or mobile
+                            selling location.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="movement-header-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-action-btn"
+                        id="viewVehicleStockBtn"
+                    >
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Vehicle Stock</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="secondary-action-btn"
+                        id="viewLoadHistoryBtn"
+                    >
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>Load History</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 LOAD VEHICLE BODY
+                 ===================================================== -->
+            <div class="load-vehicle-body">
+
+
+                <!-- =================================================
+                     SOURCE BRANCH
+                     ================================================= -->
+                <div class="form-group">
+
+                    <label for="loadSourceBranch">
+
+                        <span>
+                            <i class="fa-solid fa-code-branch"></i>
+                            Source Branch
+                        </span>
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <div class="input-action-wrapper">
+
+                        <select
+                            id="loadSourceBranch"
+                            name="source_branch_id"
+                            class="form-control"
+                            required
+                        >
+
+                            <option value="">
+                                Select source branch
+                            </option>
+
+                            {{#each branches}}
+
+                                <option value="{{this.branch_id}}">
+                                    {{this.branch_name}}
+                                </option>
+
+                            {{/each}}
+
+                        </select>
+
+
+                        <span
+                            class="field-status-icon"
+                            id="sourceBranchStatus"
+                        >
+                            <i class="fa-solid fa-code-branch"></i>
+                        </span>
+
+                    </div>
+
+
+                    <small class="form-help">
+                        Select the branch where the stock will be taken from.
+                    </small>
+
+                </div>
+
+
+                <!-- =================================================
+                     VEHICLE
+                     ================================================= -->
+                <div class="form-group">
+
+                    <div class="form-label-row">
+
+                        <label for="loadVehicle">
+
+                            <span>
+                                <i class="fa-solid fa-truck"></i>
+                                Vehicle
+                            </span>
+
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <button
+                            type="button"
+                            class="inline-add-btn"
+                            id="registerVehicleBtn"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            Register Vehicle
+                        </button>
+
+                    </div>
+
+
+                    <div class="select-action-group">
+
+                        <select
+                            id="loadVehicle"
+                            name="vehicle_location_id"
+                            class="form-control"
+                            required
+                        >
+
+                            <option value="">
+                                Select vehicle
+                            </option>
+
+                            {{#each vehicles}}
+
+                                <option
+                                    value="{{this.location_id}}"
+                                    data-vehicle-name="{{this.location_name}}"
+                                    data-status="{{this.is_active}}"
+                                >
+                                    {{this.location_name}}
+                                </option>
+
+                            {{/each}}
+
+                        </select>
+
+
+                        <button
+                            type="button"
+                            class="select-management-btn"
+                            id="manageVehiclesBtn"
+                            title="Manage Vehicles"
+                            aria-label="Manage Vehicles"
+                        >
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+
+                    </div>
+
+
+                    <small class="form-help">
+                        Select the vehicle that will receive the stock.
+                    </small>
+
+                </div>
+
+
+                <!-- =================================================
+                     PRODUCT SELECTION
+                     ================================================= -->
+                <div class="form-group product-selection-group">
+
+                    <div class="form-label-row">
+
+                        <label>
+
+                            <span>
+                                <i class="fa-solid fa-boxes-stacked"></i>
+                                Products
+                            </span>
+
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <span
+                            class="selected-count-badge"
+                            id="selectedProductCount"
+                        >
+                            0 products
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-selector-box">
+
+                        <button
+                            type="button"
+                            class="product-picker-btn"
+                            id="openProductPickerBtn"
+                        >
+
+                            <span class="product-picker-left">
+
+                                <span class="product-picker-icon">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </span>
+
+                                <span>
+
+                                    <strong>
+                                        Select Products
+                                    </strong>
+
+                                    <small>
+                                        Search and add products to this
+                                        vehicle load
+                                    </small>
+
+                                </span>
+
+                            </span>
+
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SELECTED PRODUCTS SUMMARY
+                     ================================================= -->
+                <div
+                    class="selected-products-panel"
+                    id="selectedProductsPanel"
+                    style="display:none;"
+                >
+
+                    <div class="selected-products-header">
+
+                        <div>
+
+                            <h3>
+                                <i class="fa-solid fa-clipboard-list"></i>
+                                Products to Load
+                            </h3>
+
+                            <span id="selectedProductsSubtext">
+                                Review the products before loading.
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="edit-products-btn"
+                            id="editSelectedProductsBtn"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Edit Products
+                        </button>
+
+                    </div>
+
+
+                    <div class="selected-products-table-wrapper">
+
+                        <table class="selected-products-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Batch</th>
+                                    <th>Available</th>
+                                    <th>Load Qty</th>
+                                    <th>Cost Value</th>
+                                    <th>Potential Sales</th>
+                                    <th></th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="selectedProductsTableBody">
+                                <!-- Products inserted by JavaScript -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- Load Totals -->
+                    <div class="load-totals">
+
+                        <div class="load-total-item">
+
+                            <span>
+                                <i class="fa-solid fa-box"></i>
+                                Total Products
+                            </span>
+
+                            <strong id="totalProductsValue">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="load-total-item">
+
+                            <span>
+                                <i class="fa-solid fa-cubes"></i>
+                                Total Quantity
+                            </span>
+
+                            <strong id="totalLoadQuantity">
+                                0.000
+                            </strong>
+
+                        </div>
+
+
+                        <div class="load-total-item">
+
+                            <span>
+                                <i class="fa-solid fa-coins"></i>
+                                Total Cost Value
+                            </span>
+
+                            <strong id="totalLoadCost">
+                                0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div class="load-total-item">
+
+                            <span>
+                                <i class="fa-solid fa-chart-line"></i>
+                                Potential Sales Value
+                            </span>
+
+                            <strong id="totalPotentialSales">
+                                0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div class="load-total-item profit-preview">
+
+                            <span>
+                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                                Potential Gross Profit
+                            </span>
+
+                            <strong id="totalPotentialProfit">
+                                0.00
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     LOAD NOTES
+                     ================================================= -->
+                <div class="form-group">
+
+                    <label for="loadVehicleNotes">
+
+                        <span>
+                            <i class="fa-regular fa-note-sticky"></i>
+                            Loading Notes
+                        </span>
+
+                        <span class="optional-label">
+                            Optional
+                        </span>
+
+                    </label>
+
+
+                    <textarea
+                        id="loadVehicleNotes"
+                        name="notes"
+                        class="form-control"
+                        rows="3"
+                        maxlength="500"
+                        placeholder="Add notes about this vehicle loading..."
+                    ></textarea>
+
+
+                    <div class="character-counter">
+                        <span id="loadNotesCounter">0</span>/500
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     LOAD ACTION BAR
+                     ================================================= -->
+                <div class="load-action-bar">
+
+                    <div class="load-action-information">
+
+                        <div class="load-action-icon">
+                            <i class="fa-solid fa-truck-ramp-box"></i>
+                        </div>
+
+
+                        <div>
+
+                            <strong id="loadActionVehicle">
+                                No vehicle selected
+                            </strong>
+
+                            <span id="loadActionSummary">
+                                Add products to begin loading.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="load-action-buttons">
+
+                        <button
+                            type="button"
+                            class="secondary-action-btn"
+                            id="clearVehicleLoadBtn"
+                        >
+                            <i class="fa-solid fa-eraser"></i>
+                            Clear
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="summary-action-btn"
+                            id="viewLoadSummaryBtn"
+                        >
+                            <i class="fa-solid fa-chart-pie"></i>
+                            Load Summary
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="primary-action-btn"
+                            id="loadVehicleBtn"
+                        >
+                            <i class="fa-solid fa-truck-ramp-box"></i>
+                            Load Vehicle
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================================
+             REGISTER VEHICLE MODAL
+             ========================================================= -->
+        <div
+            class="movement-modal"
+            id="registerVehicleModal"
+            aria-hidden="true"
+        >
+
+            <div class="movement-modal-overlay"></div>
+
+
+            <div class="movement-modal-container">
+
+                <div class="movement-modal-header">
+
+                    <div class="modal-heading">
+
+                        <span class="modal-icon">
+                            <i class="fa-solid fa-truck"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Register Vehicle
+                            </h3>
+
+                            <p>
+                                Add a vehicle or mobile selling location.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close-btn"
+                        data-close-modal="registerVehicleModal"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <form id="registerVehicleForm">
+
+                    <div class="movement-modal-body">
+
+                        <div class="form-group">
+
+                            <label for="vehicleName">
+
+                                <span>
+                                    Vehicle Name
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="vehicleName"
+                                name="location_name"
+                                class="form-control"
+                                maxlength="150"
+                                placeholder="e.g. MF Delivery Van 01"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="vehicleDescription">
+
+                                <span>
+                                    Description
+                                </span>
+
+                                <span class="optional-label">
+                                    Optional
+                                </span>
+
+                            </label>
+
+
+                            <textarea
+                                id="vehicleDescription"
+                                name="description"
+                                class="form-control"
+                                rows="3"
+                                maxlength="255"
+                                placeholder="Vehicle description..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="vehicle-registration-info">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            <div>
+
+                                <strong>
+                                    Vehicle inventory
+                                </strong>
+
+                                <p>
+                                    Stock loaded into this vehicle will be
+                                    tracked separately from the source branch.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="movement-modal-footer">
+
+                        <button
+                            type="button"
+                            class="secondary-action-btn"
+                            data-close-modal="registerVehicleModal"
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="primary-action-btn"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            Register Vehicle
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             MANAGE VEHICLES MODAL
+             ========================================================= -->
+        <div
+            class="movement-modal"
+            id="manageVehiclesModal"
+            aria-hidden="true"
+        >
+
+            <div class="movement-modal-overlay"></div>
+
+
+            <div class="movement-modal-container large-modal">
+
+                <div class="movement-modal-header">
+
+                    <div class="modal-heading">
+
+                        <span class="modal-icon">
+                            <i class="fa-solid fa-truck"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Manage Vehicles
+                            </h3>
+
+                            <p>
+                                View and manage vehicles belonging to your
+                                business.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close-btn"
+                        data-close-modal="manageVehiclesModal"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="movement-modal-body">
+
+                    <div class="modal-toolbar">
+
+                        <div class="modal-search-box">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="vehicleSearchInput"
+                                placeholder="Search vehicles..."
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="primary-action-btn"
+                            id="modalRegisterVehicleBtn"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            Register Vehicle
+                        </button>
+
+                    </div>
+
+
+                    <div class="vehicle-list-wrapper">
+
+                        <table class="management-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Vehicle</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Current Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="vehicleManagementTableBody">
+                                <!-- Vehicles populated by JavaScript -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             PRODUCT PICKER MODAL
+             ========================================================= -->
+        <div
+            class="movement-modal"
+            id="productPickerModal"
+            aria-hidden="true"
+        >
+
+            <div class="movement-modal-overlay"></div>
+
+
+            <div class="movement-modal-container extra-large-modal">
+
+                <div class="movement-modal-header">
+
+                    <div class="modal-heading">
+
+                        <span class="modal-icon">
+                            <i class="fa-solid fa-box-open"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Select Products
+                            </h3>
+
+                            <p>
+                                Search available stock and add products to this
+                                vehicle load.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close-btn"
+                        data-close-modal="productPickerModal"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="movement-modal-body">
+
+                    <div class="product-search-toolbar">
+
+                        <div class="large-search-box">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="productSearchInput"
+                                autocomplete="off"
+                                placeholder="Search product by name, code, category or brand..."
+                            >
+
+
+                            <button
+                                type="button"
+                                id="clearProductSearchBtn"
+                                class="search-clear-btn"
+                                style="display:none;"
+                                aria-label="Clear search"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                        </div>
+
+
+                        <div class="product-filter">
+
+                            <select
+                                id="productCategoryFilter"
+                                class="form-control"
+                            >
+                                <option value="">
+                                    All Categories
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-results-info">
+
+                        <span>
+                            <strong id="availableProductCount">
+                                0
+                            </strong>
+                            products available
+                        </span>
+
+
+                        <span>
+                            Source:
+                            <strong id="selectedSourceBranchName">
+                                No branch selected
+                            </strong>
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-picker-table-wrapper">
+
+                        <table class="product-picker-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Batch</th>
+                                    <th>Expiry</th>
+                                    <th>Available</th>
+                                    <th>Cost</th>
+                                    <th>Selling Price</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="productPickerTableBody">
+                                <!-- Products populated by JavaScript -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="movement-modal-footer">
+
+                    <div class="modal-footer-summary">
+
+                        <strong id="pickerSelectedCount">
+                            0 selected
+                        </strong>
+
+                        <span id="pickerSelectedQuantity">
+                            0.000 quantity
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="secondary-action-btn"
+                        data-close-modal="productPickerModal"
+                    >
+                        Done
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             EDIT PRODUCT QUANTITY MODAL
+             ========================================================= -->
+        <div
+            class="movement-modal"
+            id="editLoadProductModal"
+            aria-hidden="true"
+        >
+
+            <div class="movement-modal-overlay"></div>
+
+
+            <div class="movement-modal-container">
+
+                <div class="movement-modal-header">
+
+                    <div class="modal-heading">
+
+                        <span class="modal-icon">
+                            <i class="fa-solid fa-box"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Edit Product Quantity
+                            </h3>
+
+                            <p>
+                                Set the quantity that should be loaded.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close-btn"
+                        data-close-modal="editLoadProductModal"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="movement-modal-body">
+
+                    <div class="selected-product-preview">
+
+                        <div class="selected-product-image">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+
+
+                        <div>
+
+                            <strong id="editProductName">
+                                Product
+                            </strong>
+
+                            <span id="editProductBatch">
+                                Batch: —
+                            </span>
+
+                            <span id="editProductAvailable">
+                                Available: 0.000
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quantity-edit-grid">
+
+                        <div class="form-group">
+
+                            <label for="editLoadQuantity">
+
+                                <span>
+                                    Quantity to Load
+                                </span>
+
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <div class="quantity-input-wrapper">
+
+                                <button
+                                    type="button"
+                                    class="quantity-step-btn"
+                                    id="decreaseLoadQuantity"
+                                    aria-label="Decrease quantity"
+                                >
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+
+
+                                <input
+                                    type="number"
+                                    id="editLoadQuantity"
+                                    min="0.001"
+                                    step="0.001"
+                                    class="form-control quantity-input"
+                                >
+
+
+                                <button
+                                    type="button"
+                                    class="quantity-step-btn"
+                                    id="increaseLoadQuantity"
+                                    aria-label="Increase quantity"
+                                >
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="quantity-value-preview">
+
+                            <span>
+                                Cost Value
+                            </span>
+
+                            <strong id="editProductCostValue">
+                                0.00
+                            </strong>
+
+
+                            <span>
+                                Potential Sales
+                            </span>
+
+                            <strong id="editProductSalesValue">
+                                0.00
+                            </strong>
+
+
+                            <span>
+                                Potential Profit
+                            </span>
+
+                            <strong id="editProductProfitValue">
+                                0.00
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="quantity-warning"
+                        id="quantityWarning"
+                        style="display:none;"
+                    >
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        <span>
+                            The requested quantity cannot exceed available
+                            stock.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="movement-modal-footer">
+
+                    <button
+                        type="button"
+                        class="secondary-action-btn"
+                        data-close-modal="editLoadProductModal"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="primary-action-btn"
+                        id="saveLoadProductQuantityBtn"
+                    >
+                        <i class="fa-solid fa-check"></i>
+                        Save Quantity
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             EXECUTIVE LOAD SUMMARY MODAL
+             ========================================================= -->
+        <div
+            class="movement-modal executive-modal"
+            id="loadSummaryModal"
+            aria-hidden="true"
+        >
+
+            <div class="movement-modal-overlay"></div>
+
+
+            <div class="movement-modal-container large-modal">
+
+                <div class="movement-modal-header executive-header">
+
+                    <div class="modal-heading">
+
+                        <span class="modal-icon">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Vehicle Load Summary
+                            </h3>
+
+                            <p>
+                                Financial and inventory overview of this
+                                loading operation.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close-btn"
+                        data-close-modal="loadSummaryModal"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="movement-modal-body">
+
+                    <div class="executive-summary-heading">
+
+                        <div>
+
+                            <span>
+                                Source Branch
+                            </span>
+
+                            <strong id="summarySourceBranch">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-arrow">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Vehicle
+                            </span>
+
+                            <strong id="summaryVehicle">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="executive-kpi-grid">
+
+                        <div class="executive-kpi">
+
+                            <span class="kpi-icon">
+                                <i class="fa-solid fa-boxes-stacked"></i>
+                            </span>
+
+                            <div>
+
+                                <span>
+                                    Total Products
+                                </span>
+
+                                <strong id="summaryTotalProducts">
+                                    0
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="executive-kpi">
+
+                            <span class="kpi-icon">
+                                <i class="fa-solid fa-cubes"></i>
+                            </span>
+
+                            <div>
+
+                                <span>
+                                    Total Quantity
+                                </span>
+
+                                <strong id="summaryTotalQuantity">
+                                    0.000
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="executive-kpi">
+
+                            <span class="kpi-icon">
+                                <i class="fa-solid fa-coins"></i>
+                            </span>
+
+                            <div>
+
+                                <span>
+                                    Inventory Cost
+                                </span>
+
+                                <strong id="summaryCostValue">
+                                    0.00
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="executive-kpi">
+
+                            <span class="kpi-icon">
+                                <i class="fa-solid fa-chart-column"></i>
+                            </span>
+
+                            <div>
+
+                                <span>
+                                    Potential Revenue
+                                </span>
+
+                                <strong id="summaryPotentialRevenue">
+                                    0.00
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="executive-kpi highlight-profit">
+
+                            <span class="kpi-icon">
+                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                            </span>
+
+                            <div>
+
+                                <span>
+                                    Potential Gross Profit
+                                </span>
+
+                                <strong id="summaryPotentialProfit">
+                                    0.00
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="executive-information-note">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <div>
+
+                            <strong>
+                                Important
+                            </strong>
+
+                            <p>
+                                Loading stock into a vehicle is an inventory
+                                movement, not a sale. Potential revenue and
+                                potential gross profit are projections based
+                                on the current selling prices. Actual revenue
+                                and profit will be recorded when sales occur.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-breakdown">
+
+                        <div class="summary-breakdown-header">
+
+                            <h4>
+                                <i class="fa-solid fa-list"></i>
+                                Product Breakdown
+                            </h4>
+
+                        </div>
+
+
+                        <div class="summary-table-wrapper">
+
+                            <table class="summary-table">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Cost</th>
+                                        <th>Potential Revenue</th>
+                                        <th>Potential Profit</th>
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="loadSummaryTableBody">
+                                    <!-- Summary generated by JavaScript -->
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="movement-modal-footer">
+
+                    <button
+                        type="button"
+                        class="secondary-action-btn"
+                        data-close-modal="loadSummaryModal"
+                    >
+                        Close
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="primary-action-btn"
+                        id="summaryProceedLoadBtn"
+                    >
+                        <i class="fa-solid fa-arrow-right"></i>
+                        Proceed to Load
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             FINAL CONFIRMATION MODAL
+             ========================================================= -->
+        <div
+            class="movement-modal confirmation-modal"
+            id="confirmVehicleLoadModal"
+            aria-hidden="true"
+        >
+
+            <div class="movement-modal-overlay"></div>
+
+
+            <div class="movement-modal-container">
+
+                <div class="movement-modal-header">
+
+                    <div class="modal-heading">
+
+                        <span class="modal-icon confirmation-icon">
+                            <i class="fa-solid fa-truck-ramp-box"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Confirm Vehicle Load
+                            </h3>
+
+                            <p>
+                                Please review this operation before continuing.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close-btn"
+                        data-close-modal="confirmVehicleLoadModal"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="movement-modal-body">
+
+                    <div class="confirmation-route">
+
+                        <div>
+
+                            <span>
+                                FROM
+                            </span>
+
+                            <strong id="confirmationSourceBranch">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+
+                        <div>
+
+                            <span>
+                                TO
+                            </span>
+
+                            <strong id="confirmationVehicle">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="confirmation-stat-grid">
+
+                        <div>
+
+                            <span>
+                                Products
+                            </span>
+
+                            <strong id="confirmationProducts">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Quantity
+                            </span>
+
+                            <strong id="confirmationQuantity">
+                                0.000
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Cost Value
+                            </span>
+
+                            <strong id="confirmationCost">
+                                0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Potential Sales
+                            </span>
+
+                            <strong id="confirmationSales">
+                                0.00
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="confirmation-warning">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        <div>
+
+                            <strong>
+                                Inventory movement confirmation
+                            </strong>
+
+                            <p>
+                                Once confirmed, the selected stock will be
+                                moved from the source branch into the vehicle
+                                inventory.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="movement-modal-footer">
+
+                    <button
+                        type="button"
+                        class="secondary-action-btn"
+                        data-close-modal="confirmVehicleLoadModal"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="primary-action-btn"
+                        id="confirmVehicleLoadBtn"
+                    >
+                        <i class="fa-solid fa-circle-check"></i>
+                        Confirm &amp; Load Vehicle
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             VEHICLE STOCK MODAL
+             ========================================================= -->
+        <div
+            class="movement-modal"
+            id="vehicleStockModal"
+            aria-hidden="true"
+        >
+
+            <div class="movement-modal-overlay"></div>
+
+
+            <div class="movement-modal-container extra-large-modal">
+
+                <div class="movement-modal-header">
+
+                    <div class="modal-heading">
+
+                        <span class="modal-icon">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Current Vehicle Stock
+                            </h3>
+
+                            <p>
+                                View the inventory currently loaded onto this
+                                vehicle.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close-btn"
+                        data-close-modal="vehicleStockModal"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="movement-modal-body">
+
+                    <div class="vehicle-stock-header">
+
+                        <div>
+
+                            <span>
+                                Vehicle
+                            </span>
+
+                            <strong id="vehicleStockVehicleName">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Total Quantity
+                            </span>
+
+                            <strong id="vehicleStockTotalQuantity">
+                                0.000
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Cost Value
+                            </span>
+
+                            <strong id="vehicleStockCostValue">
+                                0.00
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Potential Sales
+                            </span>
+
+                            <strong id="vehicleStockPotentialSales">
+                                0.00
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="vehicle-stock-table-wrapper">
+
+                        <table class="management-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Batch</th>
+                                    <th>Received</th>
+                                    <th>Available</th>
+                                    <th>Expiry</th>
+                                    <th>Cost</th>
+                                    <th>Selling Price</th>
+                                    <th>Value</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="vehicleStockTableBody">
+                                <!-- Vehicle stock populated by JavaScript -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             LOAD HISTORY MODAL
+             ========================================================= -->
+        <div
+            class="movement-modal"
+            id="loadHistoryModal"
+            aria-hidden="true"
+        >
+
+            <div class="movement-modal-overlay"></div>
+
+
+            <div class="movement-modal-container extra-large-modal">
+
+                <div class="movement-modal-header">
+
+                    <div class="modal-heading">
+
+                        <span class="modal-icon">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                Vehicle Load History
+                            </h3>
+
+                            <p>
+                                Review previous stock loading operations.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="modal-close-btn"
+                        data-close-modal="loadHistoryModal"
+                        aria-label="Close"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="movement-modal-body">
+
+                    <div class="modal-toolbar">
+
+                        <div class="modal-search-box">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="loadHistorySearch"
+                                placeholder="Search load history..."
+                            >
+
+                        </div>
+
+
+                        <select
+                            id="loadHistoryVehicleFilter"
+                            class="form-control"
+                        >
+                            <option value="">
+                                All Vehicles
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="load-history-table-wrapper">
+
+                        <table class="management-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Vehicle</th>
+                                    <th>Source Branch</th>
+                                    <th>Products</th>
+                                    <th>Quantity</th>
+                                    <th>Value</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="loadHistoryTableBody">
+                                <!-- History populated by JavaScript -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================================
+             OTHER MOVEMENT TYPES
+             ========================================================= -->
+
+        <section class="movement-card secondary-movement-card">
+
+    <div class="card-header">
+
+        <div class="card-heading">
+
+            <span class="card-heading-icon">
+                <i class="fa-solid fa-arrow-down"></i>
+            </span>
+
+            <div>
+
+                <h2>
+                    Unload Vehicle
+                </h2>
+
+                <p>
+                    Move vehicle stock into a branch.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <form id="unloadVehicleForm">
+
+        <!-- ============================================================
+             SOURCE VEHICLE
+        ============================================================= -->
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label for="unloadVehicle">
+                    Vehicle
+                </label>
+
+                <select
+                    id="unloadVehicle"
+                    name="vehicle_location_id"
+                    required
+                >
+
+                    <option value="">
+                        Select vehicle
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ========================================================
+                 DESTINATION BRANCH
+            ========================================================= -->
+
+            <div class="form-group">
+
+                <label for="unloadBranch">
+                    Destination Branch
+                </label>
+
+                <select
+                    id="unloadBranch"
+                    name="destination_branch_id"
+                    required
+                >
+
+                    <option value="">
+                        Select destination branch
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================================
+             PRODUCTS SECTION
+        ============================================================= -->
+
+        <div class="movement-products-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>
+                        Products to Unload
+                    </h3>
+
+                    <p>
+                        Select products currently available in the vehicle.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="openUnloadProductPicker"
+                    class="secondary-btn"
+                >
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add Product
+
+                </button>
+
+            </div>
+
+
+            <!-- SELECTED PRODUCTS -->
+        <div id="unloadSelectedProducts" class="selected-products-list" >  
+            <div id="unloadEmptyProducts"  class="empty-state" >
+                <i class="fa-solid fa-box-open"></i>
+                <p> No products selected.</p>
+                <span>
+                    Add products from the selected vehicle.
+                </span>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- ============================================================
+     EDIT UNLOAD PRODUCT QUANTITY MODAL
+============================================================= -->
+
+<div id="unloadQuantityModal"  class="movement-modal" aria-hidden="true">
+        <div class="movement-modal-overlay"></div>
+    <div class="movement-modal-content unload-quantity-modal">
+        <div class="movement-modal-header">
+            <div>
+                <h3>
+                    Edit Quantity
+                </h3>
+
+                <p>
+                    Adjust the quantity to unload for this product.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeUnloadQuantityModal"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="movement-modal-body">
+
+            <!-- PRODUCT -->
+
+            <div class="quantity-product-info">
+
+                <div class="quantity-product-icon">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        Product
+                    </span>
+
+                    <strong id="unloadQuantityProductName">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- AVAILABLE -->
+
+            <div class="quantity-available-info">
+
+                <span>
+                    Available in Vehicle
+                </span>
+
+                <strong id="unloadQuantityAvailable">
+                    0
+                </strong>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="quantity-input-group">
+
+                <label for="unloadQuantityInput">
+                    Unload Quantity
+                </label>
+
+                <div class="quantity-input-wrapper">
+
+                    <input
+                        type="number"
+                        id="unloadQuantityInput"
+                        min="0.001"
+                        step="0.001"
+                        placeholder="0.000"
+                        autocomplete="off"
+                    >
+
+                    <span id="unloadQuantityUnit">
+                    </span>
+
+                </div>
+
+                <small>
+                    Enter a quantity greater than zero and not greater than
+                    the available vehicle stock.
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="movement-modal-footer">
+
+            <button
+                type="button"
+                id="cancelUnloadQuantity"
+                class="secondary-btn"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                type="button"
+                id="saveUnloadQuantity"
+                class="primary-btn"
+            >
+
+                <i class="fa-solid fa-check"></i>
+
+                Save Quantity
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+        <!-- ============================================================
+             NOTES
+        ============================================================= -->
+
+        <div class="form-group">
+
+            <label for="unloadNotes">
+                Notes
+            </label>
+
+            <textarea
+                id="unloadNotes"
+                name="notes"
+                rows="3"
+                maxlength="255"
+                placeholder="Optional notes about this unload..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- ============================================================
+             UNLOAD SUMMARY
+        ============================================================= -->
+
+        <div
+            id="unloadSummary"
+            class="movement-summary"
+        >
+
+            <div class="summary-header">
+
+                <div>
+
+                    <h3>
+                        Unload Summary
+                    </h3>
+
+                    <p>
+                        Review the stock movement before confirming.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-grid">
+
+                <div class="summary-item">
+
+                    <span class="summary-label">
+                        Source Vehicle
+                    </span>
+
+                    <strong
+                        id="unloadSummaryVehicle"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span class="summary-label">
+                        Destination Branch
+                    </span>
+
+                    <strong
+                        id="unloadSummaryBranch"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span class="summary-label">
+                        Products
+                    </span>
+
+                    <strong
+                        id="unloadSummaryProducts"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span class="summary-label">
+                        Total Units
+                    </span>
+
+                    <strong
+                        id="unloadSummaryQuantity"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span class="summary-label">
+                        Total Cost
+                    </span>
+
+                    <strong
+                        id="unloadSummaryCost"
+                    >
+                        0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span class="summary-label">
+                        Potential Revenue
+                    </span>
+
+                    <strong
+                        id="unloadSummaryRevenue"
+                    >
+                        0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span class="summary-label">
+                        Potential Profit
+                    </span>
+
+                    <strong
+                        id="unloadSummaryProfit"
+                    >
+                        0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================================
+             ACTIONS
+        ============================================================= -->
+
+        <div class="form-actions">
+
+            <button
+                type="button"
+                id="clearUnloadVehicle"
+                class="secondary-btn"
+            >
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                Clear
+
+            </button>
+
+
+            <button
+                type="submit"
+                id="submitUnloadVehicle"
+                class="primary-btn"
+            >
+
+                <i class="fa-solid fa-arrow-down"></i>
+
+                Unload Vehicle
+
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+<!-- ====================================================================
+     UNLOAD PRODUCT PICKER MODAL
+===================================================================== -->
+
+<div
+    id="unloadProductPickerModal"
+    class="movement-modal"
+>
+
+    <div class="movement-modal-content">
+
+        <div class="movement-modal-header">
+
+            <div>
+
+                <h3>
+                    Select Vehicle Products
+                </h3>
+
+                <p>
+                    Select products currently available in this vehicle.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeUnloadProductPicker"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="movement-modal-body">
+
+            <!-- ========================================================
+                 SEARCH
+            ========================================================= -->
+
+            <div class="form-group">
+
+                <label for="unloadProductSearch">
+                    Search Products
+                </label>
+
+                <div class="search-input-wrapper">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="unloadProductSearch"
+                        placeholder="Search product, category, brand or batch..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================================================
+                 VEHICLE STOCK
+            ========================================================= -->
+
+            <div
+                id="unloadProductPickerList"
+                class="product-picker-list"
+            >
+
+                <div class="empty-state">
+
+                    <i class="fa-solid fa-box-open"></i>
+
+                    <p>
+                        Select a vehicle first.
+                    </p>
+
+                    <span>
+                        Available vehicle stock will appear here.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ====================================================================
+     SELECTED PRODUCTS MANAGEMENT MODAL
+===================================================================== -->
+
+<div id="unloadSelectedProductsModal" class="movement-modal" >
+    <div class="movement-modal-content">
+        <div class="movement-modal-header">
+            <div>
+                <h3>
+                    Selected Products
+                </h3>
+                <p>
+                    Edit quantities or remove products.
+                </p>
+            </div>
+            <button type="button" class="modal-close"  id="closeUnloadSelectedProducts" >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="movement-modal-body">
+            <div id="unloadSelectedProductsManager"  class="selected-products-manager" >
+                <div class="empty-state">
+                    <i class="fa-solid fa-box-open"></i>
+                    <p> No products selected. </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ====================================================================
+     UNLOAD CONFIRMATION MODAL
+===================================================================== -->
+
+<div
+    id="unloadConfirmationModal"
+    class="movement-modal"
+>
+
+    <div class="movement-modal-content confirmation-modal">
+
+        <div class="movement-modal-header">
+
+            <div>
+
+                <h3>
+                    Confirm Vehicle Unload
+                </h3>
+
+                <p>
+                    Please review this stock movement before confirming.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeUnloadConfirmation"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="movement-modal-body">
+
+            <div class="confirmation-warning">
+
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                <div>
+
+                    <strong>
+                        Confirm stock movement
+                    </strong>
+
+                    <p>
+                        The selected quantities will be removed from
+                        the vehicle and added to the destination branch.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="confirmation-summary">
+
+                <div>
+
+                    <span>
+                        Vehicle
+                    </span>
+
+                    <strong
+                        id="unloadConfirmVehicle"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Destination
+                    </span>
+
+                    <strong
+                        id="unloadConfirmBranch"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Products
+                    </span>
+
+                    <strong
+                        id="unloadConfirmProducts"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+                    <span> Total Units </span>
+                    <strong id="unloadConfirmQuantity" > 0 </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="movement-modal-footer">
+            <button type="button"  id="cancelUnloadConfirmation" class="secondary-btn" >
+                Cancel
+            </button>
+
+            <button type="button"  id="confirmUnloadVehicleBtn" class="primary-btn" >
+                <i class="fa-solid fa-check"></i>
+                Confirm Unload
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================================================
+     BRANCH TRANSFER
+============================================================= -->
+
+<section class="movement-card secondary-movement-card">
+    <div class="card-header">
+        <div class="card-heading">
+            <span class="card-heading-icon">
+                <i class="fa-solid fa-right-left"></i>
+            </span>
+
+            <div>
+                <h2>Branch Transfer</h2>
+                <p>Transfer stock from one branch to another.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="branch-transfer-form">
+
+        <!-- =====================================================
+             BRANCH SELECTION
+        ====================================================== -->
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="sourceBranch">
+                    Source Branch
+                </label>
+
+                <select
+                    id="sourceBranch"
+                    name="source_branch_id"
+                    required
+                >
+                    <option value="">
+                        Select source branch
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="destinationBranch">
+                    Destination Branch
+                </label>
+
+                <select
+                    id="destinationBranch"
+                    name="destination_branch_id"
+                    required
+                >
+                    <option value="">
+                        Select destination branch
+                    </option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             PRODUCTS TO TRANSFER
+        ====================================================== -->
+
+        <div class="movement-products-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h3>Products to Transfer</h3>
+                    <p>
+                        Select products and quantities from the source branch.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    id="openTransferProductPickerBtn"
+                    class="secondary-btn"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Add Product
+                </button>
+
+            </div>
+
+
+            <div
+                id="transferSelectedProducts"
+                class="selected-products-list"
+            >
+
+                <div
+                    id="transferEmptyProducts"
+                    class="empty-state"
+                >
+                    <i class="fa-solid fa-box-open"></i>
+
+                    <p>
+                        No products selected.
+                    </p>
+
+                    <span>
+                        Add products from the source branch.
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             TRANSFER NOTES
+        ====================================================== -->
+
+        <div class="form-group">
+
+            <label for="branchTransferNotes">
+                Notes
+            </label>
+
+            <textarea
+                id="branchTransferNotes"
+                name="notes"
+                rows="3"
+                maxlength="255"
+                placeholder="Optional notes about this transfer..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- =====================================================
+             TRANSFER SUMMARY
+        ====================================================== -->
+
+        <div class="movement-summary-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h3>Transfer Summary</h3>
+
+                    <p>
+                        Review the stock movement before continuing.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="summary-grid">
+
+                <div class="summary-item">
+                    <span>Products</span>
+
+                    <strong id="transferSummaryProducts">
+                        0
+                    </strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Total Units</span>
+
+                    <strong id="transferSummaryQuantity">
+                        0
+                    </strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Source Branch</span>
+
+                    <strong id="transferSummarySource">
+                        —
+                    </strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>Destination Branch</span>
+
+                    <strong id="transferSummaryDestination">
+                        —
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             ACTIONS
+        ====================================================== -->
+
+        <div class="movement-actions">
+
+            <button
+                type="button"
+                id="clearBranchTransferBtn"
+                class="secondary-btn"
+            >
+                <i class="fa-solid fa-rotate-left"></i>
+                Clear
+            </button>
+
+            <button
+                type="button"
+                id="viewBranchTransferSummaryBtn"
+                class="primary-btn"
+            >
+                <i class="fa-solid fa-eye"></i>
+                Review Transfer
+            </button>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ============================================================
+     ADD TRANSFER PRODUCT MODAL
+============================================================= -->
+
+<div
+    id="transferProductPickerModal"
+    class="movement-modal"
+    aria-hidden="true"
+>
+
+    <div class="movement-modal-overlay"></div>
+
+    <div class="movement-modal-container">
+
+        <div class="movement-modal-header">
+
+            <div>
+                <h3>Add Products</h3>
+
+                <p>
+                    Select products available at the source branch.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeTransferProductPicker"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="movement-modal-body">
+
+            <!-- SEARCH -->
+
+            <div class="product-search">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="search"
+                    id="transferProductSearch"
+                    placeholder="Search by product, code, category or brand..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- PRODUCT LIST -->
+
+            <div
+                id="transferProductPickerList"
+                class="product-picker-list"
+            >
+
+                <div
+                    id="transferProductPickerEmpty"
+                    class="empty-state"
+                >
+
+                    <i class="fa-solid fa-box-open"></i>
+
+                    <p>
+                        No products available.
+                    </p>
+
+                    <span>
+                        Select a source branch first.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="movement-modal-footer">
+
+            <button
+                type="button"
+                id="cancelTransferProductPicker"
+                class="secondary-btn"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ============================================================
+     EDIT TRANSFER PRODUCT QUANTITY MODAL
+============================================================= -->
+
+<div
+    id="transferQuantityModal"
+    class="movement-modal"
+    aria-hidden="true"
+>
+
+    <div class="movement-modal-overlay"></div>
+
+    <div class="movement-modal-container">
+
+        <div class="movement-modal-header">
+
+            <div>
+                <h3>Edit Quantity</h3>
+
+                <p>
+                    Adjust the quantity to transfer.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeTransferQuantityModal"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="movement-modal-body">
+
+            <!-- PRODUCT -->
+
+            <div class="quantity-product-info">
+
+                <div class="quantity-product-icon">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+
+                <div>
+
+                    <span>Product</span>
+
+                    <strong id="transferQuantityProductName">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT CODE -->
+
+            <div class="quantity-available-info">
+
+                <span>
+                    Product Code
+                </span>
+
+                <strong id="transferQuantityProductCode">
+                    —
+                </strong>
+
+            </div>
+
+
+            <!-- BATCH -->
+
+            <div class="quantity-available-info">
+
+                <span>
+                    Selected Batch
+                </span>
+
+                <strong id="transferQuantityBatch">
+                    —
+                </strong>
+
+            </div>
+
+
+            <!-- AVAILABLE -->
+
+            <div class="quantity-available-info">
+
+                <span>
+                    Available at Source Branch
+                </span>
+
+                <strong id="transferQuantityAvailable">
+                    0
+                </strong>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="quantity-input-group">
+
+                <label for="transferQuantityInput">
+                    Transfer Quantity
+                </label>
+
+                <div class="quantity-input-wrapper">
+
+                    <input
+                        type="number"
+                        id="transferQuantityInput"
+                        min="0.001"
+                        step="0.001"
+                        placeholder="0.000"
+                        autocomplete="off"
+                    >
+
+                    <span id="transferQuantityUnit">
+                        units
+                    </span>
+
+                </div>
+
+                <small>
+                    Quantity cannot exceed available stock in the selected batch.
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="movement-modal-footer">
+
+            <button
+                type="button"
+                id="cancelTransferQuantity"
+                class="secondary-btn"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                id="saveTransferQuantity"
+                class="primary-btn"
+            >
+                <i class="fa-solid fa-check"></i>
+                Save Quantity
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ============================================================
+     BRANCH TRANSFER DESTINATION RESOLUTION MODAL
+============================================================= -->
+
+<div
+    id="branchTransferResolutionModal"
+    class="movement-modal"
+    aria-hidden="true"
+>
+
+    <div class="movement-modal-overlay"></div>
+
+    <div class="movement-modal-container">
+
+        <div class="movement-modal-header">
+
+            <div>
+
+                <h3>
+                    Destination Product Review
+                </h3>
+
+                <p>
+                    Review how each source product should be represented
+                    at the destination branch.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeBranchTransferResolution"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="movement-modal-body">
+
+            <!-- =================================================
+                 INFORMATION
+            ================================================== -->
+
+            <div class="confirmation-alert">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <div>
+
+                    <strong>
+                        Product identity review
+                    </strong>
+
+                    <p>
+                        Products with the same product master are matched
+                        automatically. Similar products require an authorized
+                        user to choose how the destination product should
+                        be handled.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESOLUTION LIST
+            ================================================== -->
+
+            <div
+                id="branchTransferResolutionList"
+                class="branch-transfer-resolution-list"
+            >
+
+                <div class="empty-state">
+
+                    <i class="fa-solid fa-arrows-rotate"></i>
+
+                    <p>
+                        Checking destination products...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="movement-modal-footer">
+
+            <button
+                type="button"
+                id="cancelBranchTransferResolution"
+                class="secondary-btn"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                id="continueBranchTransferResolution"
+                class="primary-btn"
+            >
+                <i class="fa-solid fa-arrow-right"></i>
+                Continue
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ============================================================
+     TRANSFER CONFIRMATION MODAL
+============================================================= -->
+
+<div
+    id="branchTransferConfirmationModal"
+    class="movement-modal"
+    aria-hidden="true"
+>
+
+    <div class="movement-modal-overlay"></div>
+
+    <div class="movement-modal-container">
+
+        <div class="movement-modal-header">
+
+            <div>
+
+                <h3>
+                    Confirm Branch Transfer
+                </h3>
+
+                <p>
+                    Please review this stock movement before confirming.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeBranchTransferConfirmation"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="movement-modal-body">
+
+            <!-- =================================================
+                 WARNING
+            ================================================== -->
+
+            <div class="confirmation-alert">
+
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                <div>
+
+                    <strong>
+                        Confirm stock movement
+                    </strong>
+
+                    <p>
+                        The selected quantities will be removed from
+                        the source branch and added to the destination
+                        branch.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TRANSFER SUMMARY
+            ================================================== -->
+
+            <div class="confirmation-summary-grid">
+
+                <div class="confirmation-summary-item">
+
+                    <span>
+                        Source Branch
+                    </span>
+
+                    <strong id="transferConfirmSource">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="confirmation-summary-item">
+
+                    <span>
+                        Destination Branch
+                    </span>
+
+                    <strong id="transferConfirmDestination">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="confirmation-summary-item">
+
+                    <span>
+                        Products
+                    </span>
+
+                    <strong id="transferConfirmProducts">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="confirmation-summary-item">
+
+                    <span>
+                        Total Units
+                    </span>
+
+                    <strong id="transferConfirmQuantity">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PRODUCTS
+            ================================================== -->
+
+            <div class="transfer-confirmation-products">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h4>
+                            Products
+                        </h4>
+
+                        <p>
+                            Verify the products, batches and quantities.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="transferConfirmationProductsList"
+                    class="confirmation-products-list"
+                ></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 NOTES
+            ================================================== -->
+
+            <div class="transfer-confirmation-notes">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h4>
+                            Transfer Notes
+                        </h4>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="transferConfirmationNotes"
+                    class="confirmation-notes-content"
+                >
+                    —
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="movement-modal-footer">
+
+            <button
+                type="button"
+                id="cancelBranchTransferConfirmation"
+                class="secondary-btn"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                id="confirmBranchTransferBtn"
+                class="primary-btn"
+            >
+                <i class="fa-solid fa-check"></i>
+                Confirm Transfer
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+<section class="movement-card secondary-movement-card">
+
+    <div class="card-header">
+
+        <div class="card-heading">
+
+            <span class="card-heading-icon">
+                <i class="fa-solid fa-sliders"></i>
+            </span>
+
+            <div>
+
+                <h2>
+                    Stock Adjustment
+                </h2>
+
+                <p>
+                    Increase or decrease stock manually.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <form id="adjustStockForm" novalidate>
+        <div class="form-grid">
+
+            <!-- BRANCH -->
+
+            <div class="form-group">
+                <label for="adjustBranch">
+                    Branch
+                </label>
+
+                <select
+                    id="adjustBranch"
+                    name="branch_id"
+                    required
+                >
+
+                    <option value="">
+                        Select branch
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PRODUCT -->
+
+            <div class="form-group">
+
+                <label for="adjustProduct">
+                    Product
+                </label>
+
+                <select
+                    id="adjustProduct"
+                    name="product_id"
+                    required
+                    disabled
+                >
+
+                    <option value="">
+                        Select product
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DIRECTION -->
+
+            <div class="form-group">
+
+                <label for="adjustDirection">
+                    Direction
+                </label>
+
+                <select
+                    id="adjustDirection"
+                    name="direction"
+                    required
+                >
+
+                    <option value="">
+                        Select direction
+                    </option>
+
+                    <option value="IN">
+                        Stock In
+                    </option>
+
+                    <option value="OUT">
+                        Stock Out
+                    </option>
+
+                </select>
+
+                <small class="form-help">
+                    Stock In increases the branch stock.
+                    Stock Out deducts from the branch stock.
+                </small>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="form-group">
+
+                <label for="adjustQuantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="adjustQuantity"
+                    name="quantity"
+                    min="0.001"
+                    step="0.001"
+                    placeholder="0.000"
+                    inputmode="decimal"
+                    required
+                >
+
+                <small
+                    id="adjustQuantityHelp"
+                    class="form-help"
+                >
+                    Enter the quantity to adjust.
+                </small>
+
+            </div>
+
+
+            <!-- REASON -->
+
+            <div class="form-group full-width">
+
+                <label for="adjustReason">
+                    Reason
+                </label>
+
+                <input
+                    type="text"
+                    id="adjustReason"
+                    name="reason"
+                    maxlength="255"
+                    placeholder="Reason for adjustment"
+                    autocomplete="off"
+                    required
+                >
+
+                <small class="form-help">
+                    A reason is required for every stock adjustment.
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="submit"
+            class="primary-btn"
+        >
+
+            <i class="fa-solid fa-sliders"></i>
+
+            Adjust Stock
+
+        </button>
+
+    </form>
+
+</section>
+
+<section class="movement-card secondary-movement-card">
+
+    <div class="card-header">
+
+        <div class="card-heading">
+
+            <span class="card-heading-icon danger-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </span>
+
+            <div>
+
+                <h2>
+                    Stock Loss
+                </h2>
+
+                <p>
+                    Remove stock that is damaged, spoiled, expired, lost, stolen or otherwise unavailable.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <form id="stockLossForm" novalidate>
+
+        <div class="form-grid">
+
+
+            <!-- BRANCH -->
+
+            <div class="form-group">
+
+                <label for="lossBranch">
+                    Branch
+                </label>
+
+                <select
+                    id="lossBranch"
+                    name="branch_id"
+                    required
+                >
+
+                    <option value="">
+                        Select branch
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PRODUCT -->
+
+            <div class="form-group">
+
+                <label for="lossProduct">
+                    Product
+                </label>
+
+                <select
+                    id="lossProduct"
+                    name="product_id"
+                    required
+                    disabled
+                >
+
+                    <option value="">
+                        Select product
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LOSS REASON -->
+
+            <div class="form-group">
+                <label for="lossType"> Reason </label>
+                <select id="lossType" name="movement_type" required >
+                    <option value=""> Select reason </option>
+                    <option value="DAMAGE"> Damaged </option>
+
+                    <option value="SPOILED">
+                        Spoiled
+                    </option>
+
+                    <option value="EXPIRED">
+                        Expired
+                    </option>
+
+                    <option value="LOST">
+                        Lost
+                    </option>
+
+                    <option value="THEFT">
+                        Theft
+                    </option>
+
+                    <option value="OTHER">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="form-group">
+
+                <label for="lossQuantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="lossQuantity"
+                    name="quantity"
+                    min="0.001"
+                    step="0.001"
+                    placeholder="0.000"
+                    inputmode="decimal"
+                    required
+                >
+
+                <small
+                    class="form-help"
+                    id="lossQuantityHelp"
+                >
+                    Enter the quantity to remove.
+                </small>
+
+            </div>
+
+
+            <!-- NOTES -->
+
+            <div class="form-group full-width">
+
+                <label for="lossReason">
+                    Notes
+                </label>
+
+                <input
+                    type="text"
+                    id="lossReason"
+                    name="notes"
+                    maxlength="255"
+                    placeholder="Optional notes"
+                    autocomplete="off"
+                >
+
+                <small class="form-help">
+                    Add any additional information about this stock loss.
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="submit"
+            class="danger-btn"
+        >
+
+            <i class="fa-solid fa-trash-can"></i>
+
+            Remove Stock
+
+        </button>
+
+    </form>
+
+</section>
+
+<section class="movement-card secondary-movement-card">
+
+    <div class="card-header">
+
+        <div class="card-heading">
+
+            <span class="card-heading-icon">
+                <i class="fa-solid fa-rotate-left"></i>
+            </span>
+
+            <div>
+                <h2>Returns</h2>
+
+                <p>
+                    Process customer and supplier stock returns.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <form id="stockReturnForm" novalidate>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label for="returnBranch">
+                    Branch
+                </label>
+
+                <select
+                    id="returnBranch"
+                    name="branch_id"
+                    required
+                >
+                    <option value="">
+                        Select branch
+                    </option>
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="returnProduct">
+                    Product
+                </label>
+
+                <select
+                    id="returnProduct"
+                    name="product_id"
+                    required
+                    disabled
+                >
+                    <option value="">
+                        Select product
+                    </option>
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="returnType">
+                    Return Type
+                </label>
+
+                <select
+                    id="returnType"
+                    name="return_type"
+                    required
+                >
+                    <option value="">
+                        Select return type
+                    </option>
+
+                    <option value="CUSTOMER_RETURN">
+                        Customer Return
+                    </option>
+
+                    <option value="SUPPLIER_RETURN">
+                        Supplier Return
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="returnQuantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="returnQuantity"
+                    name="quantity"
+                    min="0.001"
+                    step="0.001"
+                    placeholder="0.000"
+                    inputmode="decimal"
+                    required
+                >
+
+                <small
+                    class="form-help"
+                    id="returnQuantityHelp"
+                >
+                    Enter the quantity to return.
+                </small>
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+                <label for="returnReason">
+                    Reason
+                </label>
+
+                <input
+                    type="text"
+                    id="returnReason"
+                    name="reason"
+                    maxlength="255"
+                    placeholder="Reason for return"
+                    autocomplete="off"
+                >
+
+                <small class="form-help">
+                    Add any additional information about this return.
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="primary-btn"
+        >
+            <i class="fa-solid fa-rotate-left"></i>
+            Process Return
+        </button>
+
+    </form>
+
+</section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     GLOBAL MOVEMENT MESSAGE
+     ========================================================= -->
+<div
+    id="movementMessage"
+    class="movement-message"
+    role="alert"
+    aria-live="polite"
+></div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+<script src="/js/stockMovement.js"></script>
+<script src="/js/unloadVehicle.js"></script>
+<script src="/js/branch-transfer.js"></script>
+<script src="/js/adjuststock.js"></script>
+</body>
+</html>

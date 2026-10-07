@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Product | MarketFlow</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/bootstrap.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/inventory.css"
+    >
+
+</head>
+
+<body>
+
+<!-- =========================
+     TOP NAVBAR
+========================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="fa-solid fa-leaf"></i>
+        </div>
+
+        <span>
+            Market<span>Flow</span>
+        </span>
+
+    </div>
+
+
+    <div class="topbar-actions">
+
+        <a href="/" class="top-link">
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>Home</span>
+
+        </a>
+
+
+        <a href="/main" class="top-link">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>Main</span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     PAGE LAYOUT
+========================= -->
+
+<div class="app-layout">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-title">
+            MAIN MENU
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+
+            <a
+                href="/productpages/main"
+                class="sidebar-link"
+            >
+
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-cash-register"></i>
+                </span>
+
+                <span>Point Of Sales</span>
+
+            </a>
+
+
+            <a
+                href="/stockanalysis/inventoryanalyst"
+                class="sidebar-link"
+            >
+
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </span>
+
+                <span>Inventory Records</span>
+
+            </a>
+
+
+            <a
+                href="/productpages/stockintake"
+                class="sidebar-link stock-intake-link"
+            >
+
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+                </span>
+
+                <span>Stock Intake</span>
+
+            </a>
+
+
+            <a
+                href="/productpages/products"
+                class="sidebar-link"
+            >
+
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-box-open"></i>
+                </span>
+
+                <span>Products</span>
+
+            </a>
+
+
+            <a
+                href="/customers"
+                class="sidebar-link"
+            >
+
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-users"></i>
+                </span>
+
+                <span>Customer Trends</span>
+
+            </a>
+
+
+            <a
+                href="/performance"
+                class="sidebar-link"
+            >
+
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </span>
+
+                <span>Business Performance</span>
+
+            </a>
+
+
+            <a
+                href="/insights"
+                class="sidebar-link"
+            >
+
+                <span class="sidebar-icon">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </span>
+
+                <span>Generate Insights</span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <span>System Online</span>
+
+            </div>
+
+            <div class="sidebar-footer-text">
+                MarketFlow Management
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="main-content">
+
+
+        <!-- BREADCRUMB -->
+
+        <div class="breadcrumb-area">
+
+            <a href="/productpages/products">
+
+                <i class="fa-solid fa-box-open"></i>
+
+            </a>
+
+            <span>/</span>
+
+            <span>Products</span>
+
+            <span>/</span>
+
+            <strong>Edit Product</strong>
+
+        </div>
+
+
+        <!-- =========================
+             PAGE HEADER
+        ========================= -->
+
+        <section class="page-header">
+
+            <div class="page-header-text">
+
+                <div class="eyebrow">
+                    PRODUCT MANAGEMENT
+                </div>
+
+                <h1>Edit Product</h1>
+
+                <p>
+                    Update the product information, pricing,
+                    supplier and product image.
+                </p>
+
+            </div>
+
+
+            <div class="page-header-actions">
+
+                <a
+                    href="/productpages/stockintake"
+                    class="stock-intake-btn"
+                >
+
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+
+                    <span>Stock Intake</span>
+
+                </a>
+
+
+                <a
+                    href="/productpages/products"
+                    class="back-btn"
+                >
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    <span>Back to Products</span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             EDIT PRODUCT FORM
+        ========================= -->
+
+        <form
+            action="/productpages/products/update"
+            method="POST"
+            enctype="multipart/form-data"
+            class="product-form"
+        >
+
+            <!-- PRODUCT ID -->
+
+            <input
+                type="hidden"
+                name="product_id"
+                value="{{product.product_id}}"
+            >
+
+
+            <!-- =========================
+                 SECTION 01
+            ========================= -->
+
+            <section class="form-card">
+
+                <div class="form-card-header">
+
+                    <div class="section-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <div class="section-label">
+                            PRODUCT INFORMATION
+                        </div>
+
+                        <h2>Basic Product Details</h2>
+
+                        <p>
+                            Update the basic information used to identify
+                            and organize this product.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-divider"></div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- PRODUCT NAME -->
+
+                    <div class="field full-width">
+
+                        <label for="product_name">
+
+                            Product Name
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-box"></i>
+
+                            <input
+                                type="text"
+                                id="product_name"
+                                name="product_name"
+                                value="{{product.product_name}}"
+                                placeholder="Enter product name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="field">
+
+                        <label for="category">
+
+                            Category
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-layer-group"></i>
+
+                            <input
+                                type="text"
+                                id="category"
+                                name="category"
+                                value="{{product.category}}"
+                                placeholder="e.g. Electronics"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BRAND -->
+
+                    <div class="field">
+
+                        <label for="brand">
+                            Brand
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-tag"></i>
+
+                            <input
+                                type="text"
+                                id="brand"
+                                name="brand"
+                                value="{{product.brand}}"
+                                placeholder="Enter brand name"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- UNIT -->
+
+                    <div class="field">
+
+                        <label for="unit">
+
+                            Unit
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-scale-balanced"></i>
+
+                            <input
+                                type="text"
+                                id="unit"
+                                name="unit"
+                                value="{{product.unit}}"
+                                placeholder="e.g. piece, box, kg"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 SECTION 02
+            ========================= -->
+
+            <section class="form-card">
+
+                <div class="form-card-header">
+
+                    <div class="section-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <div class="section-label">
+                            PRICE DETAILS
+                        </div>
+
+                        <h2>Product Pricing</h2>
+
+                        <p>
+                            Update the cost and selling prices for this product.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-divider"></div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- COST PRICE -->
+
+                    <div class="field">
+
+                        <label for="cost_price">
+
+                            Cost Price
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-wrapper currency-input">
+
+                            <span class="currency">
+                                GH₵
+                            </span>
+
+                            <input
+                                type="number"
+                                id="cost_price"
+                                name="cost_price"
+                                value="{{product.cost_price}}"
+                                placeholder="0.00"
+                                min="0"
+                                step="0.01"
+                                required
+                            >
+
+                        </div>
+
+                        <small>
+                            The amount paid to acquire the product.
+                        </small>
+
+                    </div>
+
+
+                    <!-- SELLING PRICE -->
+
+                    <div class="field">
+
+                        <label for="selling_price">
+
+                            Selling Price
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-wrapper currency-input">
+
+                            <span class="currency">
+                                GH₵
+                            </span>
+
+                            <input
+                                type="number"
+                                id="selling_price"
+                                name="selling_price"
+                                value="{{product.selling_price}}"
+                                placeholder="0.00"
+                                min="0"
+                                step="0.01"
+                                required
+                            >
+
+                        </div>
+
+                        <small>
+                            The standard price customers will pay.
+                        </small>
+
+                    </div>
+
+
+                    <!-- MSRP -->
+
+                    <div class="field">
+
+                        <label for="msrp">
+                            MSRP
+                        </label>
+
+                        <div class="input-wrapper currency-input">
+
+                            <span class="currency">
+                                GH₵
+                            </span>
+
+                            <input
+                                type="number"
+                                id="msrp"
+                                name="msrp"
+                                value="{{product.msrp}}"
+                                placeholder="0.00"
+                                min="0"
+                                step="0.01"
+                            >
+
+                        </div>
+
+                        <small>
+                            Recommended retail price, if applicable.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pricing-note">
+
+                    <div class="note-icon">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Pricing tip
+                        </strong>
+
+                        <p>
+                            Make sure the selling price covers your cost
+                            while leaving enough room for your expected profit.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 SECTION 03
+            ========================= -->
+
+            <section class="form-card">
+
+                <div class="form-card-header">
+
+                    <div class="section-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <div class="section-label">
+                            ADDITIONAL INFORMATION
+                        </div>
+
+                        <h2>Description & Supplier</h2>
+
+                        <p>
+                            Update useful product information and supplier details.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-divider"></div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="field full-width">
+
+                        <label for="description">
+                            Product Description
+                        </label>
+
+                        <div class="textarea-wrapper">
+
+                            <i class="fa-solid fa-align-left"></i>
+
+                            <textarea
+                                id="description"
+                                name="description"
+                                rows="5"
+                                placeholder="Describe the product, features, specifications or other useful information..."
+                            >{{product.description}}</textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================
+                         PRODUCT IMAGE
+                    ========================= -->
+
+                    <div class="field full-width">
+
+                        <label>
+                            Product Image
+                        </label>
+
+
+                        <div
+                            class="product-image-upload-box"
+                            id="imagePasteArea"
+                        >
+
+
+                            <!-- IMAGE PREVIEW -->
+
+                            <div
+                                class="product-image-preview"
+                                id="imagePreview"
+                            >
+
+                                {{#if product.product_image}}
+
+                                    <img
+                                        src="{{product.product_image}}"
+                                        alt="{{product.product_name}}"
+                                    >
+
+                                {{else}}
+
+                                    <i class="fa-solid fa-image"></i>
+
+                                    <span>
+                                        No product image selected
+                                    </span>
+
+                                {{/if}}
+
+                            </div>
+
+
+                            <!-- UPLOAD BUTTON -->
+
+                            <label
+                                for="product_image"
+                                class="image-action-btn upload-image-btn"
+                            >
+
+                                <i class="fa-solid fa-camera"></i>
+
+                                <span>
+                                    Take / Upload Photo
+                                </span>
+
+                            </label>
+
+
+                            <!-- HIDDEN FILE INPUT -->
+
+                            <input
+                                type="file"
+                                id="product_image"
+                                name="product_image"
+                                accept="image/png,image/jpeg,image/webp"
+                                capture="environment"
+                                hidden
+                            >
+
+
+                            <!-- DIVIDER -->
+
+                            <div class="image-divider">
+
+                                <span>
+                                    OR
+                                </span>
+
+                            </div>
+
+
+                            <!-- PASTE AREA -->
+
+                            <div
+                                class="paste-image-area"
+                                id="pasteImageArea"
+                                tabindex="0"
+                            >
+
+                                <div class="paste-icon">
+
+                                    <i class="fa-solid fa-paste"></i>
+
+                                </div>
+
+                                <strong>
+                                    Paste Image from Online
+                                </strong>
+
+                                <span>
+
+                                    Copy an image online and press
+                                    <b>Ctrl + V</b> here
+
+                                </span>
+
+                            </div>
+
+
+                            <!-- REMOVE IMAGE -->
+
+                            <button
+                                type="button"
+                                id="removeImageBtn"
+                                class="remove-image-btn"
+                                style="{{#unless product.product_image}}display: none;{{/unless}}"
+                            >
+
+                                <i class="fa-solid fa-trash"></i>
+
+                                Remove Image
+
+                            </button>
+
+
+                            <small class="image-help-text">
+
+                                JPG, PNG or WEBP • Maximum 5 MB
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUPPLIER -->
+
+                    <div class="field">
+
+                        <label for="supplier_name">
+                            Supplier Name
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-truck"></i>
+
+                            <input
+                                type="text"
+                                id="supplier_name"
+                                name="supplier_name"
+                                value="{{product.supplier_name}}"
+                                placeholder="Enter supplier name"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 FORM ACTIONS
+            ========================= -->
+
+            <div class="form-actions">
+
+
+                <div class="action-note">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <span>
+                        Required fields are marked with *
+                    </span>
+
+                </div>
+
+
+                <div class="action-buttons">
+
+
+                    <a
+                        href="/productpages/products"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="reset"
+                        class="clear-btn"
+                    >
+
+                        <i class="fa-solid fa-rotate-left"></i>
+
+                        Reset Changes
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+
+                        <i class="fa-solid fa-pen-to-square"></i>
+
+                        Update Product
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+// =========================================
+// PRODUCT IMAGE HANDLING
+// =========================================
+
+const productImageInput =
+    document.getElementById("product_image");
+
+const imagePreview =
+    document.getElementById("imagePreview");
+
+const pasteImageArea =
+    document.getElementById("pasteImageArea");
+
+const removeImageBtn =
+    document.getElementById("removeImageBtn");
+
+
+// =========================================
+// ORIGINAL IMAGE
+// =========================================
+
+const originalImage =
+    `{{product.product_image}}`;
+
+
+// =========================================
+// SHOW IMAGE PREVIEW
+// =========================================
+
+function showImagePreview(file) {
+
+    if (!file) {
+        return;
+    }
+
+
+    // Make sure it is an image
+
+    if (!file.type.startsWith("image/")) {
+
+        alert("Please select an image file.");
+
+        return;
+
+    }
+
+
+    // Check file size
+
+    const maxSize =
+        5 * 1024 * 1024;
+
+
+    if (file.size > maxSize) {
+
+        alert(
+            "Image is too large. Maximum size is 5 MB."
+        );
+
+        productImageInput.value = "";
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function (event) {
+
+            imagePreview.innerHTML = `
+
+                <img
+                    src="${event.target.result}"
+                    alt="Product Image Preview"
+                >
+
+            `;
+
+            removeImageBtn.style.display =
+                "inline-flex";
+
+        };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+// =========================================
+// NORMAL PHOTO / FILE UPLOAD
+// =========================================
+
+productImageInput.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            this.files[0];
+
+        if (file) {
+
+            showImagePreview(file);
+
+        }
+
+    }
+);
+
+
+// =========================================
+// CLICK PASTE AREA
+// =========================================
+
+pasteImageArea.addEventListener(
+    "click",
+    function () {
+
+        this.focus();
+
+    }
+);
+
+
+// =========================================
+// PASTE IMAGE USING CTRL + V
+// =========================================
+
+pasteImageArea.addEventListener(
+    "paste",
+    function (event) {
+
+        const clipboardItems =
+            event.clipboardData.items;
+
+
+        for (
+            let i = 0;
+            i < clipboardItems.length;
+            i++
+        ) {
+
+            const item =
+                clipboardItems[i];
+
+
+            // Check whether clipboard contains an image
+
+            if (
+                item.type.startsWith("image/")
+            ) {
+
+                const blob =
+                    item.getAsFile();
+
+
+                if (!blob) {
+                    return;
+                }
+
+
+                // Create a proper File
+
+                const extension =
+                    item.type.split("/")[1] || "png";
+
+
+                const file =
+                    new File(
+                        [blob],
+                        "pasted-product-image." + extension,
+                        {
+                            type: item.type
+                        }
+                    );
+
+
+                // Put pasted image into file input
+
+                const dataTransfer =
+                    new DataTransfer();
+
+
+                dataTransfer.items.add(file);
+
+
+                productImageInput.files =
+                    dataTransfer.files;
+
+
+                // Show preview
+
+                showImagePreview(file);
+
+
+                // Stop normal paste behaviour
+
+                event.preventDefault();
+
+
+                return;
+
+            }
+
+        }
+
+        alert(
+            "No image was found in the clipboard. Copy an actual image and try again."
+        );
+
+    }
+);
+
+
+// =========================================
+// REMOVE IMAGE
+// =========================================
+
+removeImageBtn.addEventListener(
+    "click",
+    function () {
+
+        productImageInput.value = "";
+
+
+        imagePreview.innerHTML = `
+
+            <i class="fa-solid fa-image"></i>
+
+            <span>
+                No product image selected
+            </span>
+
+        `;
+
+
+        removeImageBtn.style.display =
+            "none";
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

@@ -3,212 +3,1605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stockintake.css">
 
-    <title>Inventory - marketflow</title>
-
+    <title>Inventory | MarketFlow</title>
 </head>
-
 
 <body>
 
-            <nav>
+    <!-- =========================
+         TOP NAVIGATION
+    ========================== -->
+    <nav class="top-navbar">
 
-                <div class="Logo">
+        <div class="logo">
+            <img
+                src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png"
+                alt="MarketFlow Logo"
+            >
 
-                    <img class="" src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png" alt="marketflow-logo-png" border="0">
-                    <h1>
-                        Market<span>Flow</span>
-                    </h1>
-                 </div>
-                 <ul>
-                    <li>
-                        <a href="/" class="list1">
-                            Home
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/main" class="list2">
-                            Main
-                        </a>
-                    </li>
-                </ul>
-            </nav> 
-
-                <div class="page-layout">
-                    <aside class="sidebar">
-                        <button class="btn">
-                            Shop Now
-                     </button>           
-                        <div class="features">
-                                    <a href="/main" >          
-                            
-                            <button class="btns">
-                            <i class="fas fa-cash-register"></i>    
-                            Point of Sales
-                            </button>            
-                     </a>
-                     <a href="/inventory">
-                        <button class="btns">
-                            <i class="fas fa-database"></i>
-                            Inventory Records
-                        </button>    
-                    </a> 
-                       
-                    <a href="/productpages/products" >
-                        <button class="btnss">
-                            <i class="fas fa-boxes-stacked"></i> 
-                            Products
-                        </button>
-                    </a> 
-                    
-                        </div>
-                    </aside>
-             </div>
-
-                <div class="stockset">
-                    <button class="stockset1" id="inventorybtn">
-                      Add Product
-                    </button>  
-                    <button class="stockset1">
-                     Stock Movements
-                    </button>
-                </div> 
-
-        <div class="entirecontainer">
-            <form action="/productpages/add-stock" method="POST">
-                <div class="top-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="icon">📦</div>
-                            <div>
-                                <p>STOCK INFORMATION</p>
-                                <h2>Stock Intake</h2>
-                            </div>
-                        </div>
-                        <div class="inputs">
-                            <div class="product-search">
-                                <input  type="text"   id="productSearch" placeholder="Search Product..." autocomplete="off" required>
-                                <input  type="hidden"  id="product_id"  name="product_id">
-                                <div id="searchResults" class="search-results"> </div>
-                            </div>
-
-                            <input type="text" id="brand" placeholder="Brand" >
-                            <input type="text" id="category" placeholder="Category" readonly>
-                            <input type="text" id="unit" placeholder="Unit" readonly>
-                            <input type="text" id="supplier" placeholder="Supplier" readonly>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="icon">📋</div>
-                            <div>
-                                <p>STOCK DETAILS</p>
-                                <h2>Inventory Details</h2>        
-                            </div>
-
-                        </div>
-
-                        <div class="inputs">
-                            <input type="text" name="batch_number" placeholder="Batch Number" >
-                            <input type="number" name="quantity_received" id="quantity_received" placeholder="Quantity Received" required>
-                            <input type="number" id="quantity_available" placeholder="Quantity Available" readonly>
-                            <input type="date" name="expiry_date"> 
-                            <button type="submit">Add Stock</button>
-                        </div>
-                  </div>
-                </div>
-            </form>
+            <h1>Market<span>Flow</span></h1>
         </div>
 
-  <script src="/js/bootstrap.bundle.min.js">  </script>
+        <div class="nav-links">
 
+            <a href="/" class="nav-link">
+                <i class="fas fa-house"></i>
+                Home
+            </a>
+
+            <a href="/main" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                Main
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         PAGE LAYOUT
+    ========================== -->
+    <div class="page-layout">
+
+        <!-- =========================
+             SIDEBAR
+        ========================== -->
+        <aside class="sidebar">
+
+            <div class="sidebar-heading">
+                <span>QUICK ACTIONS</span>
+            </div>
+
+
+            <a
+                href="/productpages/main"
+                class="sidebar-link"
+            >
+                <i class="fas fa-cash-register"></i>
+                <span>Point of Sales</span>
+            </a>
+
+
+            <a
+                href="/productpages/inventory"
+                class="sidebar-link active"
+            >
+                <i class="fas fa-boxes-stacked"></i>
+                <span>Inventory Records</span>
+            </a>
+
+
+            <a
+                href="/productpages/products"
+                class="sidebar-link"
+            >
+                <i class="fas fa-box"></i>
+                <span>Products</span>
+            </a>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    Inventory System
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================
+             MAIN CONTENT
+        ========================== -->
+        <main class="main-content">
+
+            <!-- =========================
+                 PAGE HEADER
+            ========================== -->
+            <div class="page-header">
+
+                <div>
+
+                    <div class="breadcrumb">
+
+                        <i class="fas fa-house"></i>
+
+                        <span>/</span>
+
+                        <span>Inventory</span>
+
+                    </div>
+
+
+                    <h2>Inventory Management</h2>
+
+
+                    <p>
+                        Receive stock, update inventory records and manage
+                        your product quantities efficiently.
+                    </p>
+
+                </div>
+
+
+                <div class="header-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        id="inventorybtn"
+                    >
+                        <i class="fas fa-boxes-stacked"></i>
+                        Inventory Records
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="primary-btn"
+                        id="stockMovementsBtn"
+                        onclick="window.location.href='/stock-movements'"
+                    >
+                        <i class="fas fa-right-left"></i>
+                        Stock Movements
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 STOCK INTAKE CARD
+            ========================== -->
+            <div class="inventory-card">
+
+                <div class="card-title">
+
+                    <div class="title-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+
+
+                    <div>
+
+                        <span>STOCK MANAGEMENT</span>
+
+                        <h3>Receive New Stock</h3>
+
+                        <p>
+                            Select a product and enter the incoming stock
+                            information below.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     STOCK FORM
+                ========================== -->
+                <form
+                    id="stockIntakeForm"
+                    action="/productpages/add-stock"
+                    method="POST"
+                    novalidate
+                >
+
+                    <div class="form-grid">
+
+                        <!-- =====================
+                             PRODUCT INFORMATION
+                        ====================== -->
+                        <section class="form-section">
+
+                            <div class="section-heading">
+
+                                <div class="section-number">
+                                    01
+                                </div>
+
+
+                                <div>
+
+                                    <h4>Product Information</h4>
+
+                                    <p>
+                                        Select the product receiving stock.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PRODUCT SEARCH -->
+                            <div class="form-group product-search">
+
+                                <label for="productSearch">
+                                    Product <span>*</span>
+                                </label>
+
+
+                                <div class="input-wrapper">
+
+                                    <i class="fas fa-magnifying-glass"></i>
+
+                                    <input
+                                        type="text"
+                                        id="productSearch"
+                                        placeholder="Search by product name..."
+                                        autocomplete="off"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- Actual product ID submitted to backend -->
+                                <input
+                                    type="hidden"
+                                    id="product_id"
+                                    name="product_id"
+                                    value=""
+                                >
+
+
+                                <div
+                                    id="searchResults"
+                                    class="search-results"
+                                    role="listbox"
+                                ></div>
+
+
+                                <small class="input-help">
+                                    Type at least 2 characters to search.
+                                </small>
+
+                            </div>
+
+
+                            <!-- PRODUCT INFORMATION -->
+                            <div class="fields-grid">
+
+                                <!-- BRAND -->
+                                <div class="form-group">
+
+                                    <label for="brand">
+                                        Brand
+                                    </label>
+
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fas fa-tag"></i>
+
+                                        <input
+                                            type="text"
+                                            id="brand"
+                                            placeholder="Brand"
+                                            readonly
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- CATEGORY -->
+                                <div class="form-group">
+
+                                    <label for="category">
+                                        Category
+                                    </label>
+
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fas fa-layer-group"></i>
+
+                                        <input
+                                            type="text"
+                                            id="category"
+                                            placeholder="Category"
+                                            readonly
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- UNIT -->
+                                <div class="form-group">
+
+                                    <label for="unit">
+                                        Unit
+                                    </label>
+
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fas fa-scale-balanced"></i>
+
+                                        <input
+                                            type="text"
+                                            id="unit"
+                                            placeholder="Unit"
+                                            readonly
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- SUPPLIER -->
+                                <div class="form-group">
+
+                                    <label for="supplier">
+                                        Supplier
+                                    </label>
+
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fas fa-truck"></i>
+
+                                        <input
+                                            type="text"
+                                            id="supplier"
+                                            placeholder="Supplier"
+                                            readonly
+                                        >
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- =====================
+                             STOCK DETAILS
+                        ====================== -->
+                        <section class="form-section">
+
+                            <div class="section-heading">
+
+                                <div class="section-number">
+                                    02
+                                </div>
+
+
+                                <div>
+
+                                    <h4>Stock Details</h4>
+
+                                    <p>
+                                        Enter the details of the incoming stock.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="fields-grid">
+
+                                <!-- BATCH NUMBER -->
+                                <div class="form-group">
+
+                                    <label for="batch_number">
+                                        Batch Number
+                                    </label>
+
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fas fa-hashtag"></i>
+
+                                        <input
+                                            type="text"
+                                            id="batch_number"
+                                            name="batch_number"
+                                            placeholder="e.g. BAT-2026-001"
+                                            maxlength="100"
+                                            autocomplete="off"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- QUANTITY RECEIVED -->
+                                <div class="form-group">
+
+                                    <label for="quantity_received">
+                                        Quantity Received <span>*</span>
+                                    </label>
+
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fas fa-cubes"></i>
+
+                                        <input
+                                            type="number"
+                                            name="quantity_received"
+                                            id="quantity_received"
+                                            placeholder="Enter quantity"
+                                            min="1"
+                                            step="1"
+                                            inputmode="numeric"
+                                            required
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- CURRENT QUANTITY -->
+                                <div class="form-group">
+
+                                    <label for="quantity_available">
+                                        Current Quantity
+                                    </label>
+
+
+                                    <div class="input-wrapper readonly">
+
+                                        <i class="fas fa-warehouse"></i>
+
+                                        <input
+                                            type="number"
+                                            id="quantity_available"
+                                            placeholder="Select a product"
+                                            readonly
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- EXPIRY DATE -->
+                                <div class="form-group">
+
+                                    <label for="expiry_date">
+                                        Expiry Date
+                                    </label>
+
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fas fa-calendar-days"></i>
+
+                                        <input
+                                            type="date"
+                                            name="expiry_date"
+                                            id="expiry_date"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =========================
+                                 STOCK INFORMATION
+                            ========================== -->
+                            <div class="stock-info">
+
+                                <div class="info-icon">
+                                    <i class="fas fa-circle-info"></i>
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Stock receiving
+                                    </strong>
+
+
+                                    <p>
+                                        Make sure the product, quantity and
+                                        batch information are correct before
+                                        adding the stock.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =========================
+                                 FORM ACTIONS
+                            ========================== -->
+                            <div class="form-actions">
+
+                                <button
+                                    type="reset"
+                                    class="cancel-btn"
+                                    id="clearStockForm"
+                                >
+                                    <i class="fas fa-rotate-left"></i>
+                                    Clear
+                                </button>
+
+
+                                <button
+                                    type="submit"
+                                    class="submit-btn"
+                                    id="addStockBtn"
+                                >
+                                    <i class="fas fa-plus"></i>
+                                    Add Stock
+                                </button>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- =========================
+                 FOOTER NOTE
+            ========================== -->
+            <div class="page-footer">
+
+                <div>
+
+                    <i class="fas fa-shield-halved"></i>
+
+                    Inventory changes are recorded for stock tracking.
+
+                </div>
+
+
+                <span>
+                    MarketFlow Inventory
+                </span>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- =========================================================
+         STOCK INTAKE JAVASCRIPT
+    ========================================================== -->
     <script>
-        const inventory = document.getElementById("inventorybtn");
-        inventory.onclick = function(){
-            window.location.href = "/productpages/inventory"
-        }
-    </script>
+        "use strict";
 
-    <script>
+        document.addEventListener("DOMContentLoaded", () => {
 
-        const productSearch = document.getElementById("productSearch");
-        const resultsBox = document.getElementById("searchResults");
-        const hiddenProductId = document.getElementById("product_id");
+            /* =====================================================
+               ELEMENTS
+            ====================================================== */
 
-        productSearch.addEventListener("keyup", async function () {
-            const search = this.value;
-            if (search.length < 2) {
-                resultsBox.innerHTML = "";
+            const inventoryButton =
+                document.getElementById("inventorybtn");
+
+            const stockMovementsButton =
+                document.getElementById("stockMovementsBtn");
+
+            const form =
+                document.getElementById("stockIntakeForm");
+
+            const productSearch =
+                document.getElementById("productSearch");
+
+            const resultsBox =
+                document.getElementById("searchResults");
+
+            const hiddenProductId =
+                document.getElementById("product_id");
+
+            const brand =
+                document.getElementById("brand");
+
+            const category =
+                document.getElementById("category");
+
+            const unit =
+                document.getElementById("unit");
+
+            const supplier =
+                document.getElementById("supplier");
+
+            const quantityAvailable =
+                document.getElementById("quantity_available");
+
+            const quantityReceived =
+                document.getElementById("quantity_received");
+
+            const expiryDate =
+                document.getElementById("expiry_date");
+
+            const batchNumber =
+                document.getElementById("batch_number");
+
+            const clearButton =
+                document.getElementById("clearStockForm");
+
+            const addStockButton =
+                document.getElementById("addStockBtn");
+
+
+            /* =====================================================
+               SAFETY CHECK
+            ====================================================== */
+
+            if (!form || !productSearch || !resultsBox || !hiddenProductId) {
+                console.error(
+                    "Stock intake page: required elements are missing."
+                );
+
                 return;
             }
 
-            const response = await fetch(`/productpages/search-products?search=${search}`);
-            const products = await response.json();
-            console.log(products);
 
-            let html = "";
+            /* =====================================================
+               NAVIGATION
+            ====================================================== */
 
-            products.forEach(product => {
-                html += `
-                    <div
-                        class="result-item"
-                        data-id="${product.product_id}"
-                        data-name="${product.product_name}"
-                        data-brand="${product.brand}"
-                        data-category="${product.category}"
-                        data-unit="${product.unit}"
-                        data-supplier="${product.supplier_name}"
-                    >
-                        <strong>${product.product_name}</strong>
-                        <br>
-                        <small>
-                            ${product.brand} |
-                            ${product.category} |
-                            ${product.unit} |
-                            ${product.supplier_name}
-                        </small>
+            if (inventoryButton) {
+
+                inventoryButton.addEventListener("click", () => {
+
+                    window.location.href =
+                        "/productpages/inventory";
+
+                });
+
+            }
+
+
+            /*
+             * This route is intentionally left as a placeholder
+             * because stock movement routing must match the actual
+             * backend route before we send users there.
+             */
+            if (stockMovementsButton) {
+
+                stockMovementsButton.addEventListener("click", () => {
+
+                    console.warn(
+                        "Stock Movements route has not been configured yet."
+                    );
+
+                });
+
+            }
+
+
+            /* =====================================================
+               SEARCH STATE
+            ====================================================== */
+
+            let searchTimeout = null;
+
+            let searchController = null;
+
+            let searchRequestId = 0;
+
+
+            /* =====================================================
+               HELPERS
+            ====================================================== */
+
+            function escapeHtml(value) {
+
+                return String(value ?? "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+
+            }
+
+
+            function clearSelectedProduct() {
+
+                hiddenProductId.value = "";
+
+                if (brand) {
+                    brand.value = "";
+                }
+
+                if (category) {
+                    category.value = "";
+                }
+
+                if (unit) {
+                    unit.value = "";
+                }
+
+                if (supplier) {
+                    supplier.value = "";
+                }
+
+                if (quantityAvailable) {
+                    quantityAvailable.value = "";
+                }
+
+            }
+
+
+            function clearSearchResults() {
+
+                resultsBox.innerHTML = "";
+
+            }
+
+
+            function showSearchMessage(
+                icon,
+                title,
+                message,
+                className = ""
+            ) {
+
+                resultsBox.innerHTML = `
+                    <div class="no-results ${className}">
+                        <i class="fas ${escapeHtml(icon)}"></i>
+                        <strong>${escapeHtml(title)}</strong>
+                        <span>${escapeHtml(message)}</span>
                     </div>
                 `;
-            });
 
-            resultsBox.innerHTML = html;
+            }
+
+
+            function normalizeProduct(product) {
+
+                return {
+                    product_id:
+                        product?.product_id ?? "",
+
+                    product_name:
+                        product?.product_name ?? "",
+
+                    brand:
+                        product?.brand ?? "",
+
+                    category:
+                        product?.category ?? "",
+
+                    unit:
+                        product?.unit ?? "",
+
+                    supplier_name:
+                        product?.supplier_name ?? "",
+
+                    quantity_available:
+                        product?.quantity_available ?? 0
+                };
+
+            }
+
+
+            /* =====================================================
+               RENDER SEARCH RESULTS
+            ====================================================== */
+
+            function renderProducts(products) {
+
+                if (!Array.isArray(products) || products.length === 0) {
+
+                    showSearchMessage(
+                        "fa-box-open",
+                        "No products found",
+                        "Try another product name."
+                    );
+
+                    return;
+                }
+
+
+                const fragment = document.createDocumentFragment();
+
+
+                products.forEach(rawProduct => {
+
+                    const product =
+                        normalizeProduct(rawProduct);
+
+
+                    if (!product.product_id || !product.product_name) {
+                        return;
+                    }
+
+
+                    const item =
+                        document.createElement("div");
+
+                    item.className = "result-item";
+
+                    item.setAttribute(
+                        "role",
+                        "option"
+                    );
+
+                    /*
+                     * Store the values in dataset instead of injecting
+                     * database values into HTML.
+                     */
+                    item.dataset.id =
+                        String(product.product_id);
+
+                    item.dataset.name =
+                        String(product.product_name);
+
+                    item.dataset.brand =
+                        String(product.brand);
+
+                    item.dataset.category =
+                        String(product.category);
+
+                    item.dataset.unit =
+                        String(product.unit);
+
+                    item.dataset.supplier =
+                        String(product.supplier_name);
+
+                    item.dataset.available =
+                        String(product.quantity_available ?? 0);
+
+
+                    const icon =
+                        document.createElement("div");
+
+                    icon.className =
+                        "result-icon";
+
+                    icon.innerHTML =
+                        '<i class="fas fa-box"></i>';
+
+
+                    const content =
+                        document.createElement("div");
+
+                    content.className =
+                        "result-content";
+
+
+                    const name =
+                        document.createElement("strong");
+
+                    name.textContent =
+                        product.product_name;
+
+
+                    const details =
+                        document.createElement("small");
+
+
+                    const brandText =
+                        product.brand || "No brand";
+
+                    const categoryText =
+                        product.category || "No category";
+
+                    const unitText =
+                        product.unit || "No unit";
+
+
+                    details.textContent =
+                        `${brandText} • ${categoryText} • ${unitText}`;
+
+
+                    content.appendChild(name);
+
+                    content.appendChild(details);
+
+
+                    const arrow =
+                        document.createElement("div");
+
+                    arrow.className =
+                        "result-arrow";
+
+                    arrow.innerHTML =
+                        '<i class="fas fa-chevron-right"></i>';
+
+
+                    item.appendChild(icon);
+
+                    item.appendChild(content);
+
+                    item.appendChild(arrow);
+
+
+                    fragment.appendChild(item);
+
+                });
+
+
+                resultsBox.innerHTML = "";
+
+                resultsBox.appendChild(fragment);
+
+            }
+
+
+            /* =====================================================
+               PRODUCT SEARCH
+            ====================================================== */
+
+            async function searchProducts(searchTerm) {
+
+                const requestId =
+                    ++searchRequestId;
+
+
+                /*
+                 * Cancel the previous request when possible.
+                 */
+                if (searchController) {
+
+                    searchController.abort();
+
+                }
+
+
+                searchController =
+                    new AbortController();
+
+
+                showSearchMessage(
+                    "fa-spinner fa-spin",
+                    "Searching",
+                    "Finding matching products..."
+                );
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `/productpages/search-products?search=${encodeURIComponent(searchTerm)}`,
+                            {
+                                method: "GET",
+                                headers: {
+                                    "Accept": "application/json"
+                                },
+                                credentials: "same-origin",
+                                signal: searchController.signal
+                            }
+                        );
+
+
+                    /*
+                     * Ignore responses from old requests.
+                     */
+                    if (requestId !== searchRequestId) {
+                        return;
+                    }
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            `Search request failed with status ${response.status}`
+                        );
+
+                    }
+
+
+                    const products =
+                        await response.json();
+
+
+                    /*
+                     * Make sure this response is still current.
+                     */
+                    if (requestId !== searchRequestId) {
+                        return;
+                    }
+
+
+                    renderProducts(products);
+
+                } catch (error) {
+
+                    if (error.name === "AbortError") {
+                        return;
+                    }
+
+
+                    console.error(
+                        "Product search error:",
+                        error
+                    );
+
+
+                    showSearchMessage(
+                        "fa-triangle-exclamation",
+                        "Unable to search products",
+                        "Please try again.",
+                        "error"
+                    );
+
+                }
+
+            }
+
+
+            productSearch.addEventListener(
+                "input",
+                function () {
+
+                    const search =
+                        this.value.trim();
+
+
+                    /*
+                     * Any manual change means that the previous
+                     * product selection is no longer valid.
+                     */
+                    clearSelectedProduct();
+
+
+                    clearSearchResults();
+
+
+                    /*
+                     * Cancel pending timer.
+                     */
+                    if (searchTimeout) {
+
+                        clearTimeout(searchTimeout);
+
+                    }
+
+
+                    /*
+                     * Cancel current network request.
+                     */
+                    if (searchController) {
+
+                        searchController.abort();
+
+                        searchController = null;
+
+                    }
+
+
+                    if (search.length < 2) {
+                        return;
+                    }
+
+
+                    /*
+                     * Small debounce prevents a request on every
+                     * keystroke.
+                     */
+                    searchTimeout =
+                        setTimeout(() => {
+
+                            searchProducts(search);
+
+                        }, 250);
+
+                }
+            );
+
+
+            /* =====================================================
+               PRODUCT SELECTION
+            ====================================================== */
+
+            resultsBox.addEventListener(
+                "click",
+                function (event) {
+
+                    const item =
+                        event.target.closest(".result-item");
+
+
+                    if (!item) {
+                        return;
+                    }
+
+
+                    const productId =
+                        item.dataset.id || "";
+
+
+                    const productName =
+                        item.dataset.name || "";
+
+
+                    if (!productId || !productName) {
+
+                        console.error(
+                            "Invalid product selection."
+                        );
+
+                        return;
+                    }
+
+
+                    /*
+                     * Store the authoritative product ID that will
+                     * be submitted to the backend.
+                     */
+                    hiddenProductId.value =
+                        productId;
+
+
+                    productSearch.value =
+                        productName;
+
+
+                    if (brand) {
+
+                        brand.value =
+                            item.dataset.brand || "";
+
+                    }
+
+
+                    if (category) {
+
+                        category.value =
+                            item.dataset.category || "";
+
+                    }
+
+
+                    if (unit) {
+
+                        unit.value =
+                            item.dataset.unit || "";
+
+                    }
+
+
+                    if (supplier) {
+
+                        supplier.value =
+                            item.dataset.supplier || "";
+
+                    }
+
+
+                    if (quantityAvailable) {
+
+                        const available =
+                            Number(
+                                item.dataset.available
+                            );
+
+
+                        quantityAvailable.value =
+                            Number.isFinite(available)
+                                ? available
+                                : 0;
+
+                    }
+
+
+                    clearSearchResults();
+
+
+                    /*
+                     * Move the user naturally to the quantity field.
+                     */
+                    if (quantityReceived) {
+
+                        quantityReceived.focus();
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================================
+               CLOSE SEARCH RESULTS OUTSIDE SEARCH AREA
+            ====================================================== */
+
+            document.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        !event.target.closest(".product-search")
+                    ) {
+
+                        clearSearchResults();
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================================
+               ESCAPE KEY
+            ====================================================== */
+
+            productSearch.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (event.key === "Escape") {
+
+                        clearSearchResults();
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================================
+               QUANTITY VALIDATION
+            ====================================================== */
+
+            if (quantityReceived) {
+
+                quantityReceived.addEventListener(
+                    "input",
+                    function () {
+
+                        /*
+                         * Stock quantity must be a positive whole
+                         * number because the current stock-intake
+                         * schema expects integer quantities.
+                         */
+                        const value =
+                            Number(this.value);
+
+
+                        if (
+                            !Number.isFinite(value) ||
+                            value < 1
+                        ) {
+
+                            this.setCustomValidity(
+                                "Quantity received must be at least 1."
+                            );
+
+                            return;
+                        }
+
+
+                        if (!Number.isInteger(value)) {
+
+                            this.setCustomValidity(
+                                "Quantity received must be a whole number."
+                            );
+
+                            return;
+                        }
+
+
+                        this.setCustomValidity("");
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               EXPIRY DATE VALIDATION
+            ====================================================== */
+
+            if (expiryDate) {
+
+                expiryDate.addEventListener(
+                    "change",
+                    function () {
+
+                        /*
+                         * Empty expiry dates are allowed.
+                         */
+                        if (!this.value) {
+
+                            this.setCustomValidity("");
+
+                            return;
+
+                        }
+
+
+                        const selectedDate =
+                            new Date(
+                                `${this.value}T00:00:00`
+                            );
+
+
+                        if (
+                            Number.isNaN(
+                                selectedDate.getTime()
+                            )
+                        ) {
+
+                            this.setCustomValidity(
+                                "Please enter a valid expiry date."
+                            );
+
+                            return;
+                        }
+
+
+                        /*
+                         * Expiry dates are normally expected to be
+                         * today or later.
+                         */
+                        const today =
+                            new Date();
+
+
+                        today.setHours(
+                            0,
+                            0,
+                            0,
+                            0
+                        );
+
+
+                        if (selectedDate < today) {
+
+                            this.setCustomValidity(
+                                "Expiry date cannot be in the past."
+                            );
+
+                            return;
+                        }
+
+
+                        this.setCustomValidity("");
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               FORM SUBMISSION VALIDATION
+            ====================================================== */
+
+            form.addEventListener(
+                "submit",
+                function (event) {
+
+                    /*
+                     * A visible product name is NOT enough.
+                     *
+                     * The hidden product_id must exist because that
+                     * is what the backend uses to identify the product.
+                     */
+                    if (!hiddenProductId.value.trim()) {
+
+                        event.preventDefault();
+
+
+                        alert(
+                            "Please search for and select a product before adding stock."
+                        );
+
+
+                        productSearch.focus();
+
+                        return;
+                    }
+
+
+                    /*
+                     * Make sure the displayed product name and the
+                     * hidden product ID are both present.
+                     */
+                    if (!productSearch.value.trim()) {
+
+                        event.preventDefault();
+
+
+                        alert(
+                            "Please select a product."
+                        );
+
+
+                        productSearch.focus();
+
+                        return;
+                    }
+
+
+                    const quantity =
+                        Number(
+                            quantityReceived?.value
+                        );
+
+
+                    if (
+                        !Number.isFinite(quantity) ||
+                        quantity < 1 ||
+                        !Number.isInteger(quantity)
+                    ) {
+
+                        event.preventDefault();
+
+
+                        alert(
+                            "Please enter a valid whole-number quantity of at least 1."
+                        );
+
+
+                        quantityReceived?.focus();
+
+                        return;
+                    }
+
+
+                    if (
+                        expiryDate &&
+                        expiryDate.value &&
+                        !expiryDate.checkValidity()
+                    ) {
+
+                        event.preventDefault();
+
+                        expiryDate.reportValidity();
+
+                        return;
+                    }
+
+
+                    /*
+                     * Prevent accidental double submission.
+                     */
+                    if (addStockButton) {
+
+                        addStockButton.disabled = true;
+
+                        addStockButton.innerHTML = `
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Adding Stock...
+                        `;
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================================
+               RESET FORM
+            ====================================================== */
+
+            form.addEventListener(
+                "reset",
+                function () {
+
+                    /*
+                     * Allow the browser to perform its normal reset
+                     * first, then clean our custom state.
+                     */
+                    setTimeout(() => {
+
+                        clearSelectedProduct();
+
+                        clearSearchResults();
+
+
+                        if (quantityReceived) {
+
+                            quantityReceived.setCustomValidity("");
+
+                        }
+
+
+                        if (expiryDate) {
+
+                            expiryDate.setCustomValidity("");
+
+                        }
+
+
+                        /*
+                         * Restore submit button.
+                         */
+                        if (addStockButton) {
+
+                            addStockButton.disabled = false;
+
+                            addStockButton.innerHTML = `
+                                <i class="fas fa-plus"></i>
+                                Add Stock
+                            `;
+
+                        }
+
+
+                        /*
+                         * Cancel any outstanding search.
+                         */
+                        if (searchTimeout) {
+
+                            clearTimeout(searchTimeout);
+
+                            searchTimeout = null;
+
+                        }
+
+
+                        if (searchController) {
+
+                            searchController.abort();
+
+                            searchController = null;
+
+                        }
+
+
+                        searchRequestId++;
+
+                    }, 0);
+
+                }
+            );
+
+
+            /* =====================================================
+               CLEAR BUTTON
+            ====================================================== */
+
+            if (clearButton) {
+
+                clearButton.addEventListener(
+                    "click",
+                    function () {
+
+                        /*
+                         * The form's native reset event will perform
+                         * the rest of the cleanup.
+                         */
+
+                    }
+                );
+
+            }
+
         });
-
-    resultsBox.addEventListener("click", function (e) {
-
-        const item = e.target.closest(".result-item");
-            if (!item) return;
-
-                    productSearch.value = item.dataset.name;
-                    hiddenProductId.value = item.dataset.id;
-                    document.getElementById("brand").value = item.dataset.brand;
-                    document.getElementById("category").value = item.dataset.category;
-                    document.getElementById("unit").value = item.dataset.unit;
-                    document.getElementById("supplier").value = item.dataset.supplier;
-
-                    resultsBox.innerHTML = "";
-
-    });
-
-    const qtyReceived = document.getElementById("quantity_received");
-    const qtyAvailable = document.getElementById("quantity_available");
-
-    qtyReceived.addEventListener("input", function () {
-
-        qtyAvailable.value = this.value;
-
-    });
-
     </script>
+
 </body>
-
 </html>
-
-

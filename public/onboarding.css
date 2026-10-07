@@ -1,0 +1,3214 @@
+css
+/* =========================================================
+   MARKETFLOW
+   BUSINESS ONBOARDING
+   Fully Responsive / Mobile First
+   ========================================================= */
+
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    color: #1f2937;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef6ff 0%,
+            #f8fbff 50%,
+            #eaf3ff 100%
+        );
+
+    overflow-x: hidden;
+}
+
+css
+/* =========================================================
+   MOBILE SAFE AREA + KEYBOARD SUPPORT
+   ========================================================= */
+
+/*
+   Prevent content from touching:
+   - iPhone notch
+   - Dynamic Island
+   - rounded screen edges
+   - home indicator area
+*/
+.onboarding-page {
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(20px, env(safe-area-inset-left));
+}
+
+
+/*
+   Keep the page usable when the mobile keyboard opens.
+
+   The browser can reduce the visual viewport when the
+   keyboard appears. The onboarding page remains scrollable
+   instead of trying to force the whole form into the
+   remaining space.
+*/
+body {
+    min-height: 100dvh;
+}
+
+.onboarding-page {
+    min-height: 100dvh;
+}
+
+
+/*
+   Mobile browsers can behave differently when the keyboard
+   opens. This allows the form itself to remain naturally
+   scrollable.
+*/
+.onboarding-form {
+    scroll-margin-top: 20px;
+    scroll-margin-bottom: 120px;
+}
+
+
+/*
+   Prevent iOS Safari from zooming the page when an input
+   receives focus.
+
+   Inputs are also kept at 16px elsewhere in the stylesheet.
+*/
+input,
+select,
+textarea {
+    font-size: 16px;
+}
+
+
+/*
+   Make sure focused fields can be brought above the keyboard.
+*/
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    scroll-margin-top: 30px;
+    scroll-margin-bottom: 140px;
+}
+
+
+/* =========================================================
+   MOBILE KEYBOARD VIEWPORT
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .onboarding-page {
+        min-height: 100dvh;
+
+        /*
+           Safe area is included in the mobile layout.
+        */
+        padding-top: max(
+            12px,
+            env(safe-area-inset-top)
+        );
+
+        padding-right: max(
+            14px,
+            env(safe-area-inset-right)
+        );
+
+        padding-bottom: max(
+            20px,
+            env(safe-area-inset-bottom)
+        );
+
+        padding-left: max(
+            14px,
+            env(safe-area-inset-left)
+        );
+
+        /*
+           Do not vertically center the form on phones.
+
+           This is important when the keyboard opens.
+        */
+        align-items: flex-start;
+    }
+
+
+    .onboarding-container {
+        min-height: calc(
+            100dvh -
+            env(safe-area-inset-top) -
+            env(safe-area-inset-bottom)
+        );
+    }
+
+
+    /*
+       Extra room below the form prevents the keyboard from
+       covering the final input/button.
+    */
+    .onboarding-form {
+        padding-bottom: max(
+            35px,
+            calc(35px + env(safe-area-inset-bottom))
+        );
+    }
+
+
+    /*
+       Keep navigation above the iPhone home indicator.
+    */
+    .step-navigation {
+        padding-bottom: max(
+            5px,
+            env(safe-area-inset-bottom)
+        );
+    }
+
+
+    /*
+       When the keyboard is open, users can scroll the page
+       rather than having content trapped inside the card.
+    */
+    .onboarding-container {
+        overflow: visible;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES + SAFE AREA
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .onboarding-page {
+        padding-top: max(
+            10px,
+            env(safe-area-inset-top)
+        );
+
+        padding-right: max(
+            10px,
+            env(safe-area-inset-right)
+        );
+
+        padding-bottom: max(
+            15px,
+            env(safe-area-inset-bottom)
+        );
+
+        padding-left: max(
+            10px,
+            env(safe-area-inset-left)
+        );
+    }
+}
+
+
+/* =========================================================
+   LANDSCAPE SAFE AREA
+   ========================================================= */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    .onboarding-page {
+        padding-top: max(
+            10px,
+            env(safe-area-inset-top)
+        );
+
+        padding-right: max(
+            12px,
+            env(safe-area-inset-right)
+        );
+
+        padding-bottom: max(
+            15px,
+            env(safe-area-inset-bottom)
+        );
+
+        padding-left: max(
+            12px,
+            env(safe-area-inset-left)
+        );
+    }
+}
+
+css
+/* =========================================================
+   INVALID FIELD STYLING
+   ========================================================= */
+
+/*
+   Native browser validation state.
+
+   This works with inputs using:
+   required
+   type="email"
+   minlength
+   pattern
+   etc.
+*/
+.form-group input:invalid:not(:placeholder-shown),
+.form-group select:invalid,
+.form-group textarea:invalid:not(:placeholder-shown) {
+    border-color: #dc2626;
+    background: #fffafa;
+}
+
+
+/*
+   Explicit invalid state.
+
+   Use this from onboarding.js by adding:
+   input.classList.add("invalid-input");
+
+   or:
+   input.setAttribute("aria-invalid", "true");
+*/
+.form-group input.invalid-input,
+.form-group select.invalid-input,
+.form-group textarea.invalid-input {
+    border-color: #dc2626;
+
+    background: #fff7f7;
+
+    color: #991b1b;
+
+    box-shadow:
+        0 0 0 2px rgba(220, 38, 38, 0.06);
+}
+
+
+/*
+   Invalid fields should remain clearly visible when focused.
+*/
+.form-group input.invalid-input:focus,
+.form-group select.invalid-input:focus,
+.form-group textarea.invalid-input:focus,
+.form-group input[aria-invalid="true"]:focus,
+.form-group select[aria-invalid="true"]:focus,
+.form-group textarea[aria-invalid="true"]:focus {
+    border-color: #dc2626;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+
+/*
+   Valid state.
+*/
+.form-group input.valid-input,
+.form-group select.valid-input,
+.form-group textarea.valid-input {
+    border-color: #16a34a;
+
+    background: #f7fff9;
+}
+
+
+/*
+   Valid field while focused.
+*/
+.form-group input.valid-input:focus,
+.form-group select.valid-input:focus,
+.form-group textarea.valid-input:focus {
+    border-color: #16a34a;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(22, 163, 74, 0.10);
+}
+
+
+/* =========================================================
+   FIELD ERROR MESSAGE
+   ========================================================= */
+
+.field-error {
+    display: none;
+
+    width: 100%;
+
+    margin-top: 6px;
+
+    color: #dc2626;
+
+    font-size: 12px;
+    line-height: 1.45;
+
+    overflow-wrap: anywhere;
+}
+
+.field-error.show {
+    display: block;
+}
+
+
+/*
+   Optional visual marker for invalid fields.
+*/
+.form-group.has-error label {
+    color: #b91c1c;
+}
+
+.form-group.has-success label {
+    color: #15803d;
+}
+
+
+/* =========================================================
+   DISABLED FIELD STYLING
+   ========================================================= */
+
+.form-group input:disabled,
+.form-group select:disabled,
+.form-group textarea:disabled {
+    color: #94a3b8;
+
+    background: #f1f5f9;
+
+    border-color: #dbe2ea;
+
+    cursor: not-allowed;
+
+    opacity: 0.75;
+
+    box-shadow: none;
+}
+
+
+/*
+   Disabled placeholder text.
+*/
+.form-group input:disabled::placeholder,
+.form-group textarea:disabled::placeholder {
+    color: #a8b2bf;
+}
+
+
+/*
+   Disabled fields should not receive hover emphasis.
+*/
+.form-group input:disabled:hover,
+.form-group select:disabled:hover,
+.form-group textarea:disabled:hover {
+    border-color: #dbe2ea;
+
+    background: #f1f5f9;
+}
+
+
+/*
+   Prevent the focus style from appearing on disabled fields.
+*/
+.form-group input:disabled:focus,
+.form-group select:disabled:focus,
+.form-group textarea:disabled:focus {
+    border-color: #dbe2ea;
+
+    box-shadow: none;
+
+    outline: none;
+}
+
+
+/* =========================================================
+   READ-ONLY FIELD
+   ========================================================= */
+
+.form-group input[readonly],
+.form-group textarea[readonly] {
+    background: #f8fafc;
+
+    color: #475569;
+
+    border-color: #dbe2ea;
+
+    cursor: default;
+}
+
+.form-group input[readonly]:focus,
+.form-group textarea[readonly]:focus {
+    border-color: #94a3b8;
+
+    box-shadow:
+        0 0 0 3px rgba(100, 116, 139, 0.08);
+}
+
+
+/* =========================================================
+   ARIA DISABLED
+   ========================================================= */
+
+.form-group [aria-disabled="true"] {
+    color: #94a3b8;
+
+    background: #f1f5f9;
+
+    border-color: #dbe2ea;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   DISABLED BUTTONS
+   ========================================================= */
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    pointer-events: none;
+
+    box-shadow: none;
+}
+
+
+/*
+   Disabled primary buttons should not look clickable.
+*/
+.btn-primary:disabled {
+    background: #94a3b8;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MOBILE FIELD STATES
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    /*
+       Give invalid fields enough visual contrast on
+       smaller screens.
+    */
+    .form-group input.invalid-input,
+    .form-group select.invalid-input,
+    .form-group textarea.invalid-input {
+        border-width: 1.5px;
+    }
+
+
+    /*
+       Keep error messages readable without making them
+       consume too much screen space.
+    */
+    .field-error {
+        font-size: 11.5px;
+    }
+
+
+    /*
+       Make disabled fields unmistakable on touch screens.
+    */
+    .form-group input:disabled,
+    .form-group select:disabled,
+    .form-group textarea:disabled {
+        opacity: 0.7;
+    }
+}
+
+
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.onboarding-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    position: relative;
+}
+
+
+/* Background decoration */
+
+.onboarding-page::before {
+    content: "";
+
+    position: fixed;
+
+    width: 400px;
+    height: 400px;
+
+    top: -190px;
+    left: -170px;
+
+    border-radius: 50%;
+
+    background: rgba(37, 99, 235, 0.07);
+
+    pointer-events: none;
+}
+
+.onboarding-page::after {
+    content: "";
+
+    position: fixed;
+
+    width: 350px;
+    height: 350px;
+
+    right: -160px;
+    bottom: -170px;
+
+    border-radius: 50%;
+
+    background: rgba(14, 165, 233, 0.06);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.onboarding-container {
+    width: 100%;
+    max-width: 760px;
+
+    min-width: 0;
+
+    background: #ffffff;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    position: relative;
+    z-index: 2;
+
+    box-shadow:
+        0 20px 60px rgba(15, 23, 42, 0.12),
+        0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.onboarding-header {
+    width: 100%;
+
+    padding: 28px 30px 22px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5edf7;
+}
+
+.logo-container {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 16px;
+}
+
+.logo-container img {
+    display: block;
+
+    width: 145px;
+    max-width: 80%;
+
+    height: auto;
+
+    object-fit: contain;
+}
+
+.onboarding-title {
+    width: 100%;
+
+    text-align: center;
+
+    color: #0f172a;
+
+    font-size: 26px;
+    line-height: 1.25;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+
+    overflow-wrap: anywhere;
+}
+
+.onboarding-subtitle {
+    width: 100%;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+.progress-section {
+    width: 100%;
+
+    padding: 18px 30px;
+
+    background: #f8fbff;
+
+    border-bottom: 1px solid #e5edf7;
+}
+
+.progress-info {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 9px;
+}
+
+.step-label {
+    min-width: 0;
+
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+}
+
+.step-number {
+    flex-shrink: 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 7px;
+
+    overflow: hidden;
+
+    background: #dbeafe;
+
+    border-radius: 50px;
+}
+
+.progress-fill {
+    width: 14.28%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        #2563eb,
+        #0ea5e9
+    );
+
+    border-radius: 50px;
+
+    transition: width 0.35s ease;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.form-message {
+    width: auto;
+
+    margin: 20px 30px 0;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+
+    display: none;
+}
+
+.form-message.error {
+    display: block;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    color: #b91c1c;
+}
+
+.form-message.success {
+    display: block;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    color: #15803d;
+}
+
+.form-message.info {
+    display: block;
+
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+
+    color: #1d4ed8;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.onboarding-form {
+    width: 100%;
+    min-width: 0;
+
+    padding: 32px 30px 34px;
+}
+
+
+/* =========================================================
+   STEPS
+   ========================================================= */
+
+.step {
+    width: 100%;
+    min-width: 0;
+
+    display: none;
+
+    animation: stepFadeIn 0.25s ease;
+}
+
+.step.active {
+    display: block;
+}
+
+@keyframes stepFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   HEADINGS
+   ========================================================= */
+
+.step-heading {
+    width: 100%;
+
+    color: #0f172a;
+
+    font-size: 23px;
+    line-height: 1.3;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+    overflow-wrap: anywhere;
+}
+
+.step-description {
+    width: 100%;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.65;
+
+    margin-bottom: 25px;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+.welcome-content {
+    width: 100%;
+
+    text-align: center;
+
+    padding: 15px 0 5px;
+}
+
+.welcome-icon {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 29px;
+}
+
+.welcome-content h2 {
+    color: #0f172a;
+
+    font-size: 25px;
+    line-height: 1.3;
+
+    margin-bottom: 11px;
+
+    overflow-wrap: anywhere;
+}
+
+.welcome-content p {
+    width: 100%;
+    max-width: 520px;
+
+    margin: 0 auto 23px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   CHOICE CARDS
+   ========================================================= */
+
+.choice-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-top: 22px;
+}
+
+.choice-card {
+    width: 100%;
+    min-width: 0;
+
+    border: 2px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    padding: 21px 16px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.choice-card:hover {
+    border-color: #93c5fd;
+
+    background: #f8fbff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.08);
+}
+
+.choice-card.selected {
+    border-color: #2563eb;
+
+    background: #eff6ff;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.09);
+}
+
+.choice-icon {
+    font-size: 27px;
+
+    color: #2563eb;
+
+    margin-bottom: 11px;
+}
+
+.choice-card h3 {
+    color: #0f172a;
+
+    font-size: 16px;
+    line-height: 1.3;
+
+    margin-bottom: 6px;
+
+    overflow-wrap: anywhere;
+}
+
+.choice-card p {
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.form-grid {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px 16px;
+}
+
+.form-group {
+    width: 100%;
+    min-width: 0;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   LABELS
+   ========================================================= */
+
+.form-group label {
+    display: block;
+
+    width: 100%;
+
+    margin-bottom: 7px;
+
+    color: #334155;
+
+    font-size: 13px;
+    line-height: 1.4;
+
+    font-weight: 650;
+
+    overflow-wrap: anywhere;
+}
+
+.required {
+    color: #dc2626;
+
+    margin-left: 2px;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #0f172a;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+/*
+   16px font-size is intentional.
+
+   On iPhone/Safari, inputs smaller than 16px
+   can trigger automatic browser zoom.
+*/
+
+.form-group input,
+.form-group select {
+    height: 46px;
+
+    padding: 0 13px;
+}
+
+.form-group textarea {
+    min-height: 105px;
+
+    padding: 12px 13px;
+
+    resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #94a3b8;
+
+    opacity: 1;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: #94a3b8;
+}
+
+
+/* =========================================================
+   VALIDATION
+   ========================================================= */
+
+.form-group input.valid-input {
+    border-color: #16a34a;
+
+    background: #f0fdf4;
+}
+
+.form-group input.invalid-input {
+    border-color: #dc2626;
+
+    background: #fef2f2;
+}
+
+.field-error {
+    display: none;
+
+    margin-top: 6px;
+
+    color: #dc2626;
+
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.field-error.show {
+    display: block;
+}
+
+
+/* =========================================================
+   HELPER TEXT
+   ========================================================= */
+
+.helper-text {
+    width: 100%;
+
+    margin-top: 6px;
+
+    color: #94a3b8;
+
+    font-size: 11.5px;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   PASSWORD
+   ========================================================= */
+
+.password-wrapper {
+    width: 100%;
+
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 45px;
+}
+
+.password-toggle {
+    position: absolute;
+
+    right: 8px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #64748b;
+
+    cursor: pointer;
+
+    border-radius: 7px;
+}
+
+.password-toggle:hover {
+    background: #f1f5f9;
+
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   REVIEW
+   ========================================================= */
+
+.review-container {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.review-section {
+    width: 100%;
+    min-width: 0;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 13px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+}
+
+.review-section-header {
+    width: 100%;
+
+    padding: 12px 15px;
+
+    background: #f8fafc;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.review-section-header h3 {
+    min-width: 0;
+
+    color: #334155;
+
+    font-size: 14px;
+    line-height: 1.4;
+
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+}
+
+.review-section-header span {
+    flex-shrink: 0;
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+.review-content {
+    width: 100%;
+    min-width: 0;
+
+    padding: 14px 15px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px 18px;
+}
+
+.review-item {
+    width: 100%;
+    min-width: 0;
+}
+
+.review-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.review-item-label {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    margin-bottom: 3px;
+}
+
+.review-item-value {
+    display: block;
+
+    color: #334155;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    font-weight: 600;
+
+    /*
+       Prevent long emails, addresses and business names
+       from breaking the mobile layout.
+    */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   CONFIRMATION NOTICE
+   ========================================================= */
+
+.confirmation-notice {
+    width: 100%;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    padding: 13px 14px;
+
+    margin-top: 18px;
+
+    border-radius: 10px;
+
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+}
+
+.confirmation-notice-icon {
+    flex-shrink: 0;
+
+    color: #2563eb;
+
+    font-size: 16px;
+
+    margin-top: 1px;
+}
+
+.confirmation-notice p {
+    min-width: 0;
+
+    color: #1e40af;
+
+    font-size: 12px;
+    line-height: 1.55;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.step-navigation {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: 30px;
+
+    padding-top: 22px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.nav-left,
+.nav-right {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+}
+
+.nav-right {
+    justify-content: flex-end;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+    min-height: 44px;
+
+    border-radius: 9px;
+
+    padding: 0 19px;
+
+    border: none;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    white-space: nowrap;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+
+    opacity: 0.65;
+
+    transform: none;
+}
+
+.btn-primary {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        );
+
+    box-shadow:
+        0 5px 12px rgba(37, 99, 235, 0.18);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background:
+        linear-gradient(
+            135deg,
+            #1d4ed8,
+            #1e40af
+        );
+
+    box-shadow:
+        0 7px 17px rgba(37, 99, 235, 0.25);
+}
+
+.btn-secondary {
+    color: #334155;
+
+    background: #ffffff;
+
+    border: 1px solid #cbd5e1;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #f8fafc;
+
+    border-color: #94a3b8;
+}
+
+.btn-back {
+    color: #475569;
+
+    background: transparent;
+
+    border: 1px solid transparent;
+}
+
+.btn-back:hover:not(:disabled) {
+    background: #f1f5f9;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.btn.loading {
+    pointer-events: none;
+}
+
+.btn.loading .btn-text {
+    display: none;
+}
+
+.btn-loading {
+    display: none;
+}
+
+.btn.loading .btn-loading {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.spinner {
+    width: 15px;
+    height: 15px;
+
+    border: 2px solid rgba(255, 255, 255, 0.4);
+
+    border-top-color: #ffffff;
+
+    border-radius: 50%;
+
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.onboarding-footer {
+    width: 100%;
+
+    padding: 17px 30px;
+
+    text-align: center;
+
+    border-top: 1px solid #e5edf7;
+
+    background: #f8fafc;
+}
+
+.onboarding-footer p {
+    color: #94a3b8;
+
+    font-size: 11.5px;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   MARKETFLOW ONBOARDING
+   HBS COMPATIBILITY / UI FIX
+   Matches the actual onboarding.hbs classes
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   MAIN DESKTOP LAYOUT
+   --------------------------------------------------------- */
+
+.onboarding-page {
+    width: 100%;
+    min-height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: clamp(40px, 6vw, 100px);
+
+    padding: 40px;
+
+    position: relative;
+}
+
+/* Left MarketFlow logo area */
+.brand-background {
+    width: min(46vw, 560px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    position: relative;
+    z-index: 1;
+}
+
+.brand-background img {
+    display: block;
+
+    width: min(100%, 520px);
+    height: auto;
+
+    object-fit: contain;
+}
+
+/* Right onboarding area */
+.onboarding-card {
+    width: min(100%, 720px);
+
+    min-width: 0;
+
+    position: relative;
+    z-index: 2;
+
+    padding: 10px 0;
+}
+
+
+/* ---------------------------------------------------------
+   PROGRESS
+   --------------------------------------------------------- */
+
+.progress-area {
+    width: 100%;
+
+    margin-bottom: 42px;
+}
+
+.progress-info {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 9px;
+}
+
+#stepLabel {
+    color: #172554;
+
+    font-size: 16px;
+    line-height: 1.4;
+
+    font-weight: 500;
+}
+
+#stepNumber {
+    flex-shrink: 0;
+
+    color: #172554;
+
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+
+    overflow: hidden;
+
+    background: #dbeafe;
+
+    border-radius: 999px;
+}
+
+#progressFill {
+    width: 14.28%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        #2563eb,
+        #0ea5e9
+    );
+
+    border-radius: 999px;
+
+    transition: width 0.35s ease;
+}
+
+
+/* ---------------------------------------------------------
+   STEP
+   --------------------------------------------------------- */
+
+.step {
+    width: 100%;
+    min-width: 0;
+
+    display: none;
+
+    animation: onboardingStepIn 0.25s ease;
+}
+
+.step.active {
+    display: block;
+}
+
+@keyframes onboardingStepIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   STEP ICON
+   --------------------------------------------------------- */
+
+.step-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 17px;
+
+    border-radius: 50%;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    font-style: normal;
+}
+
+.step-icon i {
+    font-style: normal;
+}
+
+.step-icon.success-icon {
+    background: #dcfce7;
+
+    color: #15803d;
+
+    font-size: 17px;
+}
+
+
+/* ---------------------------------------------------------
+   HEADINGS
+   Actual HBS uses h1 directly
+   --------------------------------------------------------- */
+
+.step h1 {
+    width: 100%;
+
+    margin: 0 0 13px;
+
+    color: #172554;
+
+    font-size: clamp(27px, 3vw, 38px);
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+
+    overflow-wrap: anywhere;
+}
+
+.step > p {
+    width: 100%;
+
+    margin: 0 0 28px;
+
+    color: #334155;
+
+    font-size: 16px;
+    line-height: 1.65;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ---------------------------------------------------------
+   WELCOME
+   --------------------------------------------------------- */
+
+.step[data-step="1"] {
+    padding-top: 2px;
+}
+
+.step[data-step="1"] .step-icon {
+    margin-bottom: 18px;
+}
+
+.step[data-step="1"] h1 {
+    font-size: clamp(30px, 3.3vw, 40px);
+}
+
+.step[data-step="1"] > p {
+    max-width: 680px;
+}
+
+
+/* ---------------------------------------------------------
+   CHOICE CONTAINER
+   Actual HBS uses choice-container
+   --------------------------------------------------------- */
+
+.choice-container {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+
+    margin: 24px 0 30px;
+}
+
+.choice-card {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding: 20px 22px;
+
+    border: 1.5px solid #dbe3ef;
+
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.9);
+
+    color: #172554;
+
+    text-align: left;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.choice-card:hover {
+    border-color: #93c5fd;
+
+    background: #f8fbff;
+
+    box-shadow:
+        0 8px 22px rgba(37, 99, 235, 0.08);
+
+    transform: translateY(-1px);
+}
+
+.choice-card.selected-choice {
+    border-color: #2563eb;
+
+    background: #eff6ff;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.choice-card strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #172554;
+
+    font-size: 16px;
+    line-height: 1.4;
+
+    font-weight: 700;
+}
+
+.choice-card span {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.55;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ---------------------------------------------------------
+   FORM
+   --------------------------------------------------------- */
+
+.form-grid {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px 16px;
+
+    margin-bottom: 30px;
+}
+
+.form-group {
+    width: 100%;
+    min-width: 0;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+
+    width: 100%;
+
+    margin-bottom: 7px;
+
+    color: #334155;
+
+    font-size: 13px;
+    line-height: 1.4;
+
+    font-weight: 650;
+
+    overflow-wrap: anywhere;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    font-family: inherit;
+}
+
+
+/* ---------------------------------------------------------
+   NAVIGATION
+   Actual HBS uses step-actions
+   --------------------------------------------------------- */
+
+.step-actions {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+
+/* ---------------------------------------------------------
+   ACTUAL HBS BUTTON CLASSES
+   --------------------------------------------------------- */
+
+.primary-btn,
+.success-btn,
+.secondary-btn {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 21px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.primary-btn {
+    border: 1px solid #2563eb;
+    color: #ffffff;
+    background:linear-gradient(135deg,#2563eb, #1d4ed8 );
+    box-shadow: 0 5px 14px rgba(37, 99, 235, 0.18);
+}
+.success-btn {
+    border: 1px solid #0a5b03;
+    color: #ffffff;
+    background:linear-gradient(135deg,#0d6619, #095c03 );
+    box-shadow: 0 5px 14px rgba(37, 99, 235, 0.18);
+}
+
+.primary-btn:hover:not(:disabled) {
+    background:
+        linear-gradient(
+            135deg,
+            #1d4ed8,
+            #1e40af
+        );
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.24);
+
+    transform: translateY(-1px);
+}
+
+.primary-btn:active:not(:disabled),
+.secondary-btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.secondary-btn {
+    border: 1px solid #cbd5e1;
+
+    color: #334155;
+
+    background: #ffffff;
+}
+
+.secondary-btn:hover:not(:disabled) {
+    border-color: #94a3b8;
+
+    background: #f8fafc;
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.primary-btn:disabled,
+.secondary-btn:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    pointer-events: none;
+
+    box-shadow: none;
+}
+
+
+/* ---------------------------------------------------------
+   REVIEW
+   --------------------------------------------------------- */
+
+.review-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    margin-top: 5px;
+}
+
+.review-section {
+    width: 100%;
+    min-width: 0;
+
+    padding: 18px 20px;
+
+    border: 1px solid #dbe3ef;
+
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.92);
+
+    box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.035);
+}
+
+.review-section h3 {
+    margin: 0 0 15px;
+
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid #e5edf7;
+
+    color: #172554;
+
+    font-size: 16px;
+    line-height: 1.4;
+
+    font-weight: 700;
+}
+
+.review-row {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 110px minmax(0, 1fr);
+
+    gap: 12px;
+
+    padding: 7px 0;
+
+    align-items: start;
+}
+
+.review-row span {
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    font-weight: 500;
+}
+
+.review-row strong {
+    min-width: 0;
+
+    color: #172554;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    font-weight: 650;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+
+/* ---------------------------------------------------------
+   REVIEW MESSAGE
+   --------------------------------------------------------- */
+
+#formMessage {
+    width: 100%;
+
+    margin-top: 18px;
+}
+
+
+/* ---------------------------------------------------------
+   DESKTOP REVIEW BUTTONS
+   --------------------------------------------------------- */
+
+.step[data-step="7"] .step-actions {
+    margin-top: 22px;
+}
+
+.step[data-step="7"] .secondary-btn {
+    min-width: 90px;
+}
+
+.step[data-step="7"] .primary-btn {
+    min-width: 170px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .onboarding-page {
+        gap: 40px;
+
+        padding: 30px;
+    }
+
+    .brand-background {
+        width: min(42vw, 460px);
+    }
+
+    .brand-background img {
+        width: min(100%, 440px);
+    }
+
+    .onboarding-card {
+        width: min(100%, 650px);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .onboarding-page {
+        min-height: 100dvh;
+
+        display: block;
+
+        padding:
+            max(18px, env(safe-area-inset-top))
+            max(18px, env(safe-area-inset-right))
+            max(18px, env(safe-area-inset-bottom))
+            max(18px, env(safe-area-inset-left));
+    }
+
+    .brand-background {
+        width: 100%;
+
+        margin-bottom: 18px;
+    }
+
+    .brand-background img {
+        width: min(280px, 72vw);
+    }
+
+    .onboarding-card {
+        width: 100%;
+
+        padding: 0;
+    }
+
+    .progress-area {
+        margin-bottom: 30px;
+    }
+
+    .step h1 {
+        font-size: 27px;
+    }
+
+    .step > p {
+        font-size: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .step-actions {
+        margin-top: 24px;
+
+        padding-top: 18px;
+    }
+
+    .review-section {
+        padding: 16px;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .onboarding-page {
+        padding:
+            max(12px, env(safe-area-inset-top))
+            max(14px, env(safe-area-inset-right))
+            max(20px, env(safe-area-inset-bottom))
+            max(14px, env(safe-area-inset-left));
+    }
+
+    .brand-background {
+        margin-bottom: 10px;
+    }
+
+    .brand-background img {
+        width: min(220px, 62vw);
+    }
+
+    .progress-area {
+        margin-bottom: 27px;
+    }
+
+    #stepLabel {
+        font-size: 14px;
+    }
+
+    #stepNumber {
+        font-size: 13px;
+    }
+
+    .step-icon {
+        width: 28px;
+        height: 28px;
+
+        margin-bottom: 14px;
+    }
+
+    .step h1,
+    .step[data-step="1"] h1 {
+        font-size: 24px;
+
+        letter-spacing: -0.3px;
+    }
+
+    .step > p {
+        font-size: 14px;
+
+        line-height: 1.6;
+
+        margin-bottom: 22px;
+    }
+
+    .choice-container {
+        margin-top: 18px;
+
+        margin-bottom: 24px;
+    }
+
+    .choice-card {
+        padding: 17px;
+    }
+
+    .form-grid {
+        gap: 15px;
+
+        margin-bottom: 24px;
+    }
+
+    .step-actions {
+        width: 100%;
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+        gap: 9px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        width: 100%;
+
+        min-height: 46px;
+    }
+
+    .review-container {
+        gap: 11px;
+    }
+
+    .review-section {
+        padding: 14px;
+    }
+
+    .review-section h3 {
+        font-size: 15px;
+
+        margin-bottom: 10px;
+
+        padding-bottom: 9px;
+    }
+
+    .review-row {
+        grid-template-columns: 82px minmax(0, 1fr);
+
+        gap: 9px;
+
+        padding: 6px 0;
+    }
+
+    .review-row span {
+        font-size: 12px;
+    }
+
+    .review-row strong {
+        font-size: 13px;
+    }
+
+    .step[data-step="7"] .secondary-btn,
+    .step[data-step="7"] .primary-btn {
+        min-width: 0;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .onboarding-page {
+        padding:
+            max(10px, env(safe-area-inset-top))
+            max(10px, env(safe-area-inset-right))
+            max(15px, env(safe-area-inset-bottom))
+            max(10px, env(safe-area-inset-left));
+    }
+
+    .brand-background img {
+        width: min(190px, 58vw);
+    }
+
+    .progress-area {
+        margin-bottom: 23px;
+    }
+
+    .step h1,
+    .step[data-step="1"] h1 {
+        font-size: 22px;
+    }
+
+    .step > p {
+        font-size: 13px;
+    }
+
+    .review-row {
+        grid-template-columns: 75px minmax(0, 1fr);
+
+        gap: 7px;
+    }
+
+    .review-row span {
+        font-size: 11.5px;
+    }
+
+    .review-row strong {
+        font-size: 12.5px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.primary-btn:focus-visible,
+.secondary-btn:focus-visible,
+.choice-card:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.22);
+
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .step,
+    .primary-btn,
+    .secondary-btn,
+    .choice-card,
+    #progressFill {
+        animation: none !important;
+
+        transition: none !important;
+    }
+}
+
+.onboarding-footer a {
+    color: #2563eb;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+.onboarding-footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   TABLET
+   769px - 1024px
+   ========================================================= */
+
+@media (max-width: 1024px) {
+
+    .onboarding-page {
+        padding: 25px;
+    }
+
+    .onboarding-container {
+        max-width: 720px;
+    }
+}
+
+
+/* =========================================================
+   SMALL TABLETS
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .onboarding-page {
+        padding: 18px;
+    }
+
+    .onboarding-container {
+        max-width: 680px;
+
+        border-radius: 18px;
+    }
+
+    .onboarding-header {
+        padding: 25px 24px 20px;
+    }
+
+    .progress-section {
+        padding: 17px 24px;
+    }
+
+    .onboarding-form {
+        padding: 29px 24px 31px;
+    }
+
+    .form-message {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+
+    .onboarding-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .onboarding-title {
+        font-size: 24px;
+    }
+
+    .step-heading {
+        font-size: 21px;
+    }
+
+    .form-grid {
+        gap: 17px 14px;
+    }
+}
+
+
+/* =========================================================
+   PHONES
+   <= 600px
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-x: hidden;
+    }
+
+    body {
+        background: #f5f9ff;
+    }
+
+    .onboarding-page {
+        width: 100%;
+        min-height: 100vh;
+
+        display: block;
+
+        padding: 0;
+    }
+
+    .onboarding-page::before,
+    .onboarding-page::after {
+        display: none;
+    }
+
+    .onboarding-container {
+        width: 100%;
+        max-width: none;
+
+        min-height: 100vh;
+
+        margin: 0;
+
+        border-radius: 0;
+
+        box-shadow: none;
+
+        overflow: visible;
+    }
+
+    /* Header */
+
+    .onboarding-header {
+        padding: 20px 16px 17px;
+    }
+
+    .logo-container {
+        margin-bottom: 13px;
+    }
+
+    .logo-container img {
+        width: 120px;
+        max-width: 70%;
+    }
+
+    .onboarding-title {
+        font-size: 21px;
+        line-height: 1.3;
+    }
+
+    .onboarding-subtitle {
+        font-size: 12.5px;
+        line-height: 1.55;
+    }
+
+    /* Progress */
+
+    .progress-section {
+        padding: 14px 16px;
+    }
+
+    .progress-info {
+        margin-bottom: 8px;
+    }
+
+    .step-label {
+        font-size: 12px;
+    }
+
+    .step-number {
+        font-size: 11px;
+    }
+
+    .progress-bar {
+        height: 6px;
+    }
+
+    /* Message */
+
+    .form-message {
+        margin: 16px 16px 0;
+
+        padding: 11px 12px;
+
+        font-size: 12px;
+    }
+
+    /* Form */
+
+    .onboarding-form {
+        padding: 24px 16px 28px;
+    }
+
+    /* Headings */
+
+    .step-heading {
+        font-size: 20px;
+        line-height: 1.3;
+    }
+
+    .step-description {
+        font-size: 13px;
+        line-height: 1.6;
+
+        margin-bottom: 21px;
+    }
+
+    /* Welcome */
+
+    .welcome-content {
+        padding: 8px 0;
+    }
+
+    .welcome-icon {
+        width: 62px;
+        height: 62px;
+
+        font-size: 26px;
+
+        border-radius: 16px;
+
+        margin-bottom: 16px;
+    }
+
+    .welcome-content h2 {
+        font-size: 21px;
+    }
+
+    .welcome-content p {
+        font-size: 13px;
+        line-height: 1.65;
+    }
+
+    /* Choices */
+
+    .choice-grid {
+        grid-template-columns: 1fr;
+
+        gap: 11px;
+
+        margin-top: 19px;
+    }
+
+    .choice-card {
+        padding: 18px 14px;
+    }
+
+    /* Form */
+
+    .form-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .form-group label {
+        font-size: 12.5px;
+    }
+
+    /*
+       Keep inputs at 16px to prevent mobile browser zoom.
+    */
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 16px;
+    }
+
+    .form-group input,
+    .form-group select {
+        height: 46px;
+    }
+
+    /* Review */
+
+    .review-content {
+        grid-template-columns: 1fr;
+
+        gap: 11px;
+
+        padding: 13px 14px;
+    }
+
+    .review-item.full-width {
+        grid-column: auto;
+    }
+
+    .review-section-header {
+        padding: 11px 13px;
+    }
+
+    .review-section-header h3 {
+        font-size: 13px;
+    }
+
+    .review-item-value {
+        font-size: 13px;
+    }
+
+    /* Confirmation */
+
+    .confirmation-notice {
+        padding: 12px;
+
+        margin-top: 16px;
+    }
+
+    .confirmation-notice p {
+        font-size: 11.5px;
+    }
+
+    /* Navigation */
+
+    .step-navigation {
+        margin-top: 24px;
+
+        padding-top: 18px;
+
+        gap: 9px;
+    }
+
+    .nav-left,
+    .nav-right {
+        gap: 7px;
+    }
+
+    .btn {
+        min-height: 44px;
+
+        padding: 0 14px;
+
+        font-size: 12.5px;
+    }
+
+    /* Footer */
+
+    .onboarding-footer {
+        padding: 15px 16px;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   <= 480px
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .onboarding-header {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .progress-section {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .onboarding-form {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .form-message {
+        margin-left: 14px;
+        margin-right: 14px;
+    }
+
+    .onboarding-footer {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .step-heading {
+        font-size: 19px;
+    }
+
+    .step-description {
+        font-size: 12.5px;
+    }
+
+    .choice-card h3 {
+        font-size: 15px;
+    }
+
+    .choice-card p {
+        font-size: 12px;
+    }
+
+    /*
+       On smaller phones, buttons can use the available width.
+    */
+
+    .step-navigation {
+        display: flex;
+
+        flex-wrap: wrap;
+    }
+
+    .nav-left,
+    .nav-right {
+        flex: 1 1 auto;
+    }
+
+    .nav-right {
+        justify-content: flex-end;
+    }
+
+    .btn {
+        min-height: 45px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   <= 380px
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .onboarding-header {
+        padding: 18px 12px 15px;
+    }
+
+    .progress-section {
+        padding: 13px 12px;
+    }
+
+    .onboarding-form {
+        padding: 21px 12px 25px;
+    }
+
+    .form-message {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+
+    .onboarding-footer {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .logo-container img {
+        width: 110px;
+    }
+
+    .onboarding-title {
+        font-size: 19px;
+    }
+
+    .onboarding-subtitle {
+        font-size: 12px;
+    }
+
+    .step-heading {
+        font-size: 18px;
+    }
+
+    .step-description {
+        font-size: 12px;
+    }
+
+    .form-grid {
+        gap: 14px;
+    }
+
+    .review-section-header {
+        padding: 10px 11px;
+    }
+
+    .review-content {
+        padding: 12px;
+    }
+
+    /*
+       At 320px phones, put navigation buttons
+       on separate rows so nothing becomes cramped.
+    */
+
+    .step-navigation {
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+        width: 100%;
+    }
+
+    .nav-left,
+    .nav-right {
+        width: 100%;
+
+        display: flex;
+    }
+
+    .nav-left .btn,
+    .nav-right .btn {
+        width: 100%;
+    }
+
+    .nav-right {
+        justify-content: stretch;
+    }
+
+    .nav-right .btn {
+        flex: 1;
+    }
+}
+
+
+/* =========================================================
+   EXTREMELY SMALL DEVICES
+   <= 340px
+   ========================================================= */
+
+@media (max-width: 340px) {
+
+    .onboarding-header {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .progress-section {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .onboarding-form {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .form-message {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .onboarding-footer {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .onboarding-title {
+        font-size: 18px;
+    }
+
+    .step-heading {
+        font-size: 17px;
+    }
+
+    .btn {
+        width: 100%;
+
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .nav-left,
+    .nav-right {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   LANDSCAPE PHONES
+   ========================================================= */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    .onboarding-page {
+        align-items: flex-start;
+
+        padding: 10px;
+    }
+
+    .onboarding-container {
+        margin: 0 auto;
+    }
+
+    .onboarding-header {
+        padding-top: 14px;
+        padding-bottom: 12px;
+    }
+
+    .logo-container {
+        margin-bottom: 8px;
+    }
+
+    .logo-container img {
+        width: 95px;
+    }
+
+    .onboarding-title {
+        font-size: 18px;
+    }
+
+    .onboarding-subtitle {
+        font-size: 11px;
+    }
+
+    .progress-section {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .onboarding-form {
+        padding-top: 18px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.25);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+

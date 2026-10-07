@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Pay Later Approvals</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f7fb;
+
+            color: #172033;
+        }
+
+
+        .approval-page {
+
+            min-height: 100vh;
+
+            padding: 30px;
+        }
+
+
+        .approval-container {
+
+            max-width: 1250px;
+
+            margin: 0 auto;
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .page-header {
+
+            background: #ffffff;
+
+            border-radius: 16px;
+
+            padding: 24px 28px;
+
+            margin-bottom: 20px;
+
+            border: 1px solid #e4e9f0;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            box-shadow:
+                0 4px 18px rgba(0,0,0,0.05);
+        }
+
+
+        .page-title {
+
+            margin: 0 0 6px;
+
+            font-size: 26px;
+
+            font-weight: 700;
+        }
+
+
+        .page-description {
+
+            margin: 0;
+
+            color: #687386;
+
+            font-size: 14px;
+        }
+
+
+        .admin-badge {
+
+            background: #eef4ff;
+
+            color: #315dcc;
+
+            padding: 10px 15px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================================================
+           SUMMARY
+        ========================================================= */
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .summary-card {
+
+            background: #ffffff;
+
+            border: 1px solid #e4e9f0;
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 3px 14px rgba(0,0,0,0.04);
+        }
+
+
+        .summary-label {
+
+            display: block;
+
+            color: #718096;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .summary-number {
+
+            font-size: 25px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           FILTER BAR
+        ========================================================= */
+
+        .filter-bar {
+
+            background: #ffffff;
+
+            border: 1px solid #e4e9f0;
+
+            border-radius: 14px;
+
+            padding: 15px;
+
+            margin-bottom: 20px;
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .filter-button {
+
+            border: 0;
+
+            background: #f1f4f8;
+
+            color: #4a5568;
+
+            padding: 10px 17px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-weight: 600;
+        }
+
+
+        .filter-button.active {
+
+            background: #315dcc;
+
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           REQUEST LIST
+        ========================================================= */
+
+        .requests-container {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+
+        .request-card {
+
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 3px 14px rgba(0,0,0,0.04);
+        }
+
+
+        .request-top {
+
+            padding: 18px 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-bottom: 1px solid #edf0f4;
+
+            gap: 15px;
+        }
+
+
+        .invoice {
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .request-date {
+
+            font-size: 12px;
+
+            color: #718096;
+
+            margin-top: 5px;
+        }
+
+
+        .status {
+
+            padding: 7px 12px;
+
+            border-radius: 30px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .status-pending {
+
+            background: #fff4d6;
+
+            color: #946200;
+        }
+
+
+        .status-approved {
+
+            background: #def7e8;
+
+            color: #147a42;
+        }
+
+
+        .status-rejected {
+
+            background: #ffe1e1;
+
+            color: #b42318;
+        }
+
+
+        .status-settled {
+
+            background: #e5e9ff;
+
+            color: #3949ab;
+        }
+
+
+        .request-body {
+
+            padding: 20px;
+        }
+
+
+        .request-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .detail-label {
+
+            display: block;
+
+            font-size: 12px;
+
+            color: #718096;
+
+            margin-bottom: 5px;
+        }
+
+
+        .detail-value {
+
+            font-weight: 600;
+
+            color: #1f2937;
+        }
+
+
+        .amount {
+
+            font-size: 20px;
+
+            font-weight: 700;
+        }
+
+
+        .request-actions {
+
+            border-top: 1px solid #edf0f4;
+
+            padding-top: 18px;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .amount-field {
+
+            width: 190px;
+        }
+
+
+        .amount-field label {
+
+            display: block;
+
+            font-size: 12px;
+
+            color: #718096;
+
+            margin-bottom: 6px;
+        }
+
+
+        .amount-field input {
+
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: 1px solid #ccd4df;
+
+            border-radius: 9px;
+
+            outline: none;
+        }
+
+
+        .amount-field input:focus {
+
+            border-color: #315dcc;
+        }
+
+
+        .action-button {
+
+            border: 0;
+
+            padding: 11px 18px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-weight: 700;
+        }
+
+
+        .approve-button {
+
+            background: #16834b;
+
+            color: white;
+        }
+
+
+        .approve-button:hover {
+
+            background: #116b3c;
+        }
+
+
+        .reject-button {
+
+            background: #c93636;
+
+            color: white;
+        }
+
+
+        .reject-button:hover {
+
+            background: #a92b2b;
+        }
+
+
+        .action-button:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+        }
+
+        .settle-button {
+
+            background: #3949ab;
+
+            color: white;
+        }
+
+
+        .settle-button:hover {
+
+            background: #303f9f;
+        }
+
+
+        /* =========================================================
+           APPROVAL INFORMATION
+        ========================================================= */
+
+        .decision-box {
+
+            margin-top: 15px;
+
+            padding: 13px 15px;
+
+            border-radius: 9px;
+
+            background: #f7f9fc;
+
+            font-size: 13px;
+
+            color: #596579;
+        }
+
+
+        .decision-box strong {
+
+            color: #202938;
+        }
+
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+
+            background: #ffffff;
+
+            border: 1px solid #e4e9f0;
+
+            border-radius: 16px;
+
+            padding: 60px 20px;
+
+            text-align: center;
+
+            color: #718096;
+        }
+
+
+        .empty-icon {
+
+            font-size: 42px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty-title {
+
+            color: #263143;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            margin-bottom: 5px;
+        }
+
+
+        /* =========================================================
+           LOADING / TOAST
+        ========================================================= */
+
+        .page-message {
+
+            position: fixed;
+
+            right: 25px;
+
+            bottom: 25px;
+
+            min-width: 280px;
+
+            max-width: 400px;
+
+            padding: 15px 18px;
+
+            border-radius: 10px;
+
+            color: white;
+
+            font-weight: 600;
+
+            display: none;
+
+            z-index: 9999;
+
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.2);
+        }
+
+
+        .page-message.success {
+
+            background: #16834b;
+        }
+
+
+        .page-message.error {
+
+            background: #c93636;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .summary-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .request-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .approval-page {
+
+                padding: 15px;
+            }
+
+
+            .page-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .summary-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .request-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .request-top {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .amount-field {
+
+                width: 100%;
+            }
+
+
+            .action-button {
+
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="approval-page">
+
+    <div class="approval-container">
+
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1 class="page-title">
+                    Pay Later Approvals
+                </h1>
+
+                <p class="page-description">
+                    Review and authorize customer credit requests.
+                </p>
+
+            </div>
+
+
+            <div class="admin-badge">
+
+                Admin
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Pending
+                </span>
+
+                <div
+                    class="summary-number"
+                    id="pendingCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Approved
+                </span>
+
+                <div
+                    class="summary-number"
+                    id="approvedCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Rejected
+                </span>
+
+                <div
+                    class="summary-number"
+                    id="rejectedCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Total Requests
+                </span>
+
+                <div
+                    class="summary-number"
+                    id="totalCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             FILTERS
+        ====================================================== -->
+
+        <div class="filter-bar">
+
+            <button
+                type="button"
+                class="filter-button active"
+                data-filter="all"
+            >
+                All
+            </button>
+
+
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="Pending"
+            >
+                Pending
+            </button>
+
+
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="Approved"
+            >
+                Approved
+            </button>
+
+
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="Rejected"
+            >
+                Rejected
+            </button>
+
+
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="Settled"
+            >
+                Settled
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             REQUESTS
+        ====================================================== -->
+
+        <div
+            class="requests-container"
+            id="requestsContainer"
+        >
+
+            {{#each requests}}
+
+                <article
+                    class="request-card"
+                    data-status="{{status}}"
+                    data-approved-amount="{{approved_amount}}"
+                >
+
+
+                    <!-- REQUEST HEADER -->
+
+                    <div class="request-top">
+
+                        <div>
+
+                            <div class="invoice">
+
+                                Invoice:
+                                {{invoice_number}}
+
+                            </div>
+
+                            <div class="request-date">
+
+                                Requested:
+                                {{requested_at}}
+
+                            </div>
+
+                        </div>
+
+
+                        <span
+                            class="status
+                            {{#if (eq status 'Pending')}}
+                                status-pending
+                            {{else if (eq status 'Approved')}}
+                                status-approved
+                            {{else if (eq status 'Rejected')}}
+                                status-rejected
+                            {{else if (eq status 'Settled')}}
+                                status-settled
+                            {{/if}}"
+                        >
+
+                            {{status}}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- REQUEST BODY -->
+
+                    <div class="request-body">
+
+
+                        <div class="request-grid">
+
+
+                            <div>
+
+                                <span class="detail-label">
+                                    Customer
+                                </span>
+
+                                <div class="detail-value">
+
+                                    {{#if customer_name}}
+
+                                        {{customer_name}}
+
+                                    {{else}}
+
+                                        Walk-in Customer
+
+                                    {{/if}}
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="detail-label">
+                                    Phone
+                                </span>
+
+                                <div class="detail-value">
+
+                                    {{#if customer_phone}}
+
+                                        {{customer_phone}}
+
+                                    {{else}}
+
+                                        —
+
+                                    {{/if}}
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="detail-label">
+                                    Requested By
+                                </span>
+
+                                <div class="detail-value">
+
+                                    {{requester_first_name}}
+                                    {{requester_last_name}}
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="detail-label">
+                                    Requested Amount
+                                </span>
+
+                                <div class="amount">
+
+                                    GH₵
+                                    {{requested_amount}}
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             PENDING ACTIONS
+                        ================================================== -->
+
+                        {{#if (eq status 'Pending')}}
+
+                            <div class="request-actions">
+
+
+                                <div class="amount-field">
+
+                                    <label>
+                                        Approved Amount
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        class="approved-amount"
+                                        min="0.01"
+                                        step="0.01"
+                                        value="{{requested_amount}}"
+                                        data-request-id="{{request_id}}"
+                                        data-requested-amount="{{requested_amount}}"
+                                    >
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="action-button approve-button"
+                                    onclick="approveRequest({{request_id}})"
+                                >
+                                    Approve
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="action-button reject-button"
+                                    onclick="rejectRequest({{request_id}})"
+                                >
+                                    Reject
+                                </button>
+
+                            </div>
+
+
+
+                        {{else if (eq status 'Approved')}}
+
+
+                            <!-- =================================================
+                                 APPROVED INFORMATION
+                            ================================================== -->
+
+                            <div class="decision-box">
+
+                                <strong>
+                                    Approved amount:
+                                </strong>
+
+                                GH₵ {{approved_amount}}
+
+
+                                {{#if approval_note}}
+
+                                    <br>
+
+                                    <strong>
+                                        Note:
+                                    </strong>
+
+                                    {{approval_note}}
+
+                                {{/if}}
+
+
+                                <div
+                                    style="margin-top: 15px;"
+                                >
+
+                                    <button
+                                        type="button"
+                                        class="action-button settle-button"
+                                        onclick="settleRequest({{request_id}})"
+                                    >
+                                        Mark as Settled
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+
+                        {{else if (eq status 'Rejected')}}
+
+
+                            <!-- =================================================
+                                 REJECTION INFORMATION
+                            ================================================== -->
+
+                            <div class="decision-box">
+
+                                <strong>
+                                    Rejection reason:
+                                </strong>
+
+                                {{rejection_reason}}
+
+                            </div>
+
+
+
+                        {{else if (eq status 'Settled')}}
+
+
+                            <!-- =================================================
+                                 SETTLEMENT INFORMATION
+                            ================================================== -->
+
+                            <div class="decision-box">
+
+                                <strong>
+                                    Credit settled.
+                                </strong>
+
+                                <br>
+
+                                <strong>
+                                    Settled amount:
+                                </strong>
+
+                                GH₵ {{settled_amount}}
+
+
+                                {{#if settlement_method}}
+
+                                    <br>
+
+                                    <strong>
+                                        Payment method:
+                                    </strong>
+
+                                    {{settlement_method}}
+
+                                {{/if}}
+
+
+                                {{#if settlement_note}}
+
+                                    <br>
+
+                                    <strong>
+                                        Note:
+                                    </strong>
+
+                                    {{settlement_note}}
+
+                                {{/if}}
+
+                            </div>
+
+                        {{/if}}
+
+
+                    </div>
+
+                </article>
+
+            {{else}}
+
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ✓
+                    </div>
+
+                    <div class="empty-title">
+                        No Pay Later Requests
+                    </div>
+
+                    <div>
+                        There are currently no credit requests.
+                    </div>
+
+                </div>
+
+            {{/each}}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    id="pageMessage"
+    class="page-message"
+></div>
+
+
+
+<script>
+
+"use strict";
+
+
+/* ================================================================
+   MONEY
+================================================================ */
+
+function formatMoney(value) {
+
+    const number =
+        Number(value);
+
+
+    if (!Number.isFinite(number)) {
+
+        return "0.00";
+    }
+
+
+    return number.toFixed(2);
+}
+
+
+/* ================================================================
+   MESSAGE
+================================================================ */
+
+function showMessage(
+    message,
+    type = "success"
+) {
+
+    const element =
+        document.getElementById(
+            "pageMessage"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        message;
+
+
+    element.className =
+        "page-message " + type;
+
+
+    element.style.display =
+        "block";
+
+
+    clearTimeout(
+        window.creditMessageTimer
+    );
+
+
+    window.creditMessageTimer =
+        setTimeout(() => {
+
+            element.style.display =
+                "none";
+
+        }, 4000);
+}
+
+
+/* ================================================================
+   UPDATE SUMMARY
+================================================================ */
+
+function updateSummary() {
+
+    const cards =
+        document.querySelectorAll(
+            ".request-card"
+        );
+
+
+    let pending = 0;
+
+    let approved = 0;
+
+    let rejected = 0;
+
+
+    cards.forEach(card => {
+
+        const status =
+            card.dataset.status;
+
+
+        if (status === "Pending") {
+
+            pending++;
+
+        } else if (
+            status === "Approved"
+        ) {
+
+            approved++;
+
+        } else if (
+            status === "Rejected"
+        ) {
+
+            rejected++;
+        }
+
+    });
+
+
+    const pendingElement =
+        document.getElementById(
+            "pendingCount"
+        );
+
+
+    const approvedElement =
+        document.getElementById(
+            "approvedCount"
+        );
+
+
+    const rejectedElement =
+        document.getElementById(
+            "rejectedCount"
+        );
+
+
+    const totalElement =
+        document.getElementById(
+            "totalCount"
+        );
+
+
+    if (pendingElement) {
+
+        pendingElement.textContent =
+            pending;
+    }
+
+
+    if (approvedElement) {
+
+        approvedElement.textContent =
+            approved;
+    }
+
+
+    if (rejectedElement) {
+
+        rejectedElement.textContent =
+            rejected;
+    }
+
+
+    if (totalElement) {
+
+        totalElement.textContent =
+            cards.length;
+    }
+}
+
+
+/* ================================================================
+   FILTER
+================================================================ */
+
+function applyFilter(
+    filter
+) {
+
+    const cards =
+        document.querySelectorAll(
+            ".request-card"
+        );
+
+
+    cards.forEach(card => {
+
+        const status =
+            card.dataset.status;
+
+
+        if (
+            filter === "all" ||
+            status === filter
+        ) {
+
+            card.style.display =
+                "";
+
+        } else {
+
+            card.style.display =
+                "none";
+        }
+
+    });
+}
+
+
+document
+    .querySelectorAll(".filter-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                document
+                    .querySelectorAll(
+                        ".filter-button"
+                    )
+                    .forEach(
+                        item =>
+                            item.classList.remove(
+                                "active"
+                            )
+                    );
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                applyFilter(
+                    this.dataset.filter
+                );
+
+            }
+        );
+
+    });
+
+
+/* ================================================================
+   APPROVE REQUEST
+================================================================ */
+
+async function approveRequest(
+    requestId
+) {
+
+    const input =
+        document.querySelector(
+            `.approved-amount[data-request-id="${requestId}"]`
+        );
+
+
+    if (!input) {
+
+        showMessage(
+            "Approved amount field was not found.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const approvedAmount =
+        Number(input.value);
+
+
+    const requestedAmount =
+        Number(
+            input.dataset.requestedAmount
+        );
+
+
+    if (
+        !Number.isFinite(
+            approvedAmount
+        ) ||
+        approvedAmount <= 0
+    ) {
+
+        showMessage(
+            "Please enter a valid approved amount.",
+            "error"
+        );
+
+        input.focus();
+
+        return;
+    }
+
+
+    if (
+        approvedAmount >
+        requestedAmount
+    ) {
+
+        showMessage(
+            "Approved amount cannot be greater than the requested amount.",
+            "error"
+        );
+
+        input.focus();
+
+        return;
+    }
+
+
+    const note =
+        window.prompt(
+            "Optional approval note:"
+        );
+
+
+    if (note === null) {
+
+        return;
+    }
+
+
+    const card =
+        input.closest(
+            ".request-card"
+        );
+
+
+    const buttons =
+        card
+            ?.querySelectorAll(
+                ".action-button"
+            );
+
+
+    if (buttons) {
+
+        buttons.forEach(
+            button =>
+                button.disabled = true
+        );
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/credit-approvals/${requestId}/approve`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            approved_amount:
+                                approvedAmount,
+
+                            approval_note:
+                                note.trim()
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to approve request."
+            );
+        }
+
+
+        showMessage(
+            data.message ||
+            "Pay Later request approved."
+        );
+
+
+        /*
+         * Reload so the page reflects the
+         * authoritative database state.
+         */
+
+        setTimeout(() => {
+
+            window.location.reload();
+
+        }, 700);
+
+
+    } catch (error) {
+
+        console.error(
+            "Approve request error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to approve request.",
+            "error"
+        );
+
+
+        if (buttons) {
+
+            buttons.forEach(
+                button =>
+                    button.disabled = false
+            );
+        }
+    }
+}
+
+
+/* ================================================================
+   REJECT REQUEST
+================================================================ */
+
+async function rejectRequest(
+    requestId
+) {
+
+    const reason =
+        window.prompt(
+            "Please enter the reason for rejecting this request:"
+        );
+
+
+    if (
+        reason === null
+    ) {
+
+        return;
+    }
+
+
+    const trimmedReason =
+        reason.trim();
+
+
+    if (!trimmedReason) {
+
+        showMessage(
+            "A rejection reason is required.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const button =
+    document.querySelector(
+        `.reject-button[onclick="rejectRequest(${requestId})"]`
+    );
+
+        const card =
+            button
+                ? button.closest(".request-card")
+                : null;
+
+
+    const buttons =
+        card
+            ?.querySelectorAll(
+                ".action-button"
+            );
+
+
+    if (buttons) {
+
+        buttons.forEach(
+            button =>
+                button.disabled = true
+        );
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/credit-approvals/${requestId}/reject`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            rejection_reason:
+                                trimmedReason
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to reject request."
+            );
+        }
+
+
+        showMessage(
+            data.message ||
+            "Pay Later request rejected."
+        );
+
+
+        setTimeout(() => {
+
+            window.location.reload();
+
+        }, 700);
+
+
+    } catch (error) {
+
+        console.error(
+            "Reject request error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to reject request.",
+            "error"
+        );
+
+
+        if (buttons) {
+
+            buttons.forEach(
+                button =>
+                    button.disabled = false
+            );
+        }
+    }
+}/* ================================================================
+   SETTLE CREDIT REQUEST
+================================================================ */
+
+async function settleRequest(
+    requestId
+) {
+
+    const button =
+        document.querySelector(
+            `.settle-button[onclick="settleRequest(${requestId})"]`
+        );
+
+
+    if (!button) {
+
+        showMessage(
+            "Settlement button was not found.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const confirmed =
+        window.confirm(
+            "Confirm that this customer's approved credit has been paid?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+    }
+
+
+    /*
+     * Get the approved amount from the request card.
+     */
+
+    const card =
+        button.closest(
+            ".request-card"
+        );
+
+
+    if (!card) {
+
+        showMessage(
+            "Credit request card was not found.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+     * Read the approved amount displayed
+     * on the card.
+     */
+
+    const approvedText =
+        card.querySelector(
+            ".decision-box"
+        )?.textContent || "";
+
+
+    const amountMatch =
+        approvedText.match(
+            /Approved amount:\s*GH₵\s*([\d.,]+)/
+        );
+
+
+    if (!amountMatch) {
+
+        showMessage(
+            "Approved credit amount could not be determined.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const settledAmount =
+        Number(
+            amountMatch[1].replace(/,/g, "")
+        );
+
+
+    if (
+        !Number.isFinite(
+            settledAmount
+        ) ||
+        settledAmount <= 0
+    ) {
+
+        showMessage(
+            "Settlement amount must be greater than zero.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+     * Ask for payment method.
+     */
+
+    const settlementMethod =
+        window.prompt(
+            "Enter payment method:\n\nCash\nMobile Money\nCard\nBank Transfer",
+            "Cash"
+        );
+
+
+    if (
+        settlementMethod === null
+    ) {
+
+        return;
+    }
+
+
+    const trimmedMethod =
+        settlementMethod.trim();
+
+
+    if (!trimmedMethod) {
+
+        showMessage(
+            "Settlement payment method is required.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+     * Optional settlement note.
+     */
+
+    const settlementNote =
+        window.prompt(
+            "Optional settlement note:"
+        );
+
+
+    if (
+        settlementNote === null
+    ) {
+
+        return;
+    }
+
+
+    /*
+     * Disable buttons while processing.
+     */
+
+    const buttons =
+        card.querySelectorAll(
+            ".action-button"
+        );
+
+
+    if (buttons) {
+
+        buttons.forEach(
+            item =>
+                item.disabled = true
+        );
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/credit-approvals/${requestId}/settle`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            settled_amount:
+                                settledAmount,
+
+                            settlement_method:
+                                trimmedMethod,
+
+                            settlement_note:
+                                settlementNote.trim()
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to settle the credit request."
+            );
+        }
+
+
+        showMessage(
+            data.message ||
+            "Credit payment recorded successfully."
+        );
+
+
+
+        setTimeout(() => {
+
+            window.location.reload();
+
+        }, 700);
+
+
+    } catch (error) {
+
+        console.error(
+            "Settle credit request error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to settle the credit request.",
+            "error"
+        );
+
+
+        if (buttons) {
+
+            buttons.forEach(
+                item =>
+                    item.disabled = false
+            );
+        }
+    }
+}
+
+
+/* ================================================================
+   INITIALIZE
+================================================================ */
+
+updateSummary();
+
+</script>
+
+
+</body>
+
+</html>

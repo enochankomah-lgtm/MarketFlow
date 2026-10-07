@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | MarketFlow</title>
+    <link rel="stylesheet" href="/settings.css">
+</head>
+
+<body>
+<div class="settings-page">
+
+    <!-- HEADER -->
+    <header class="settings-header">
+        <div class="settings-header-content">
+            <div>
+                <span class="page-eyebrow">MARKETFLOW CONFIGURATION</span>
+                <h1>Settings</h1>
+                <p>Manage your application settings, pricing rules and business configuration.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- SETTINGS NAVIGATION -->
+    <nav class="settings-nav">
+        <a href="#tax-discount" class="active">Tax &amp; Discount</a>
+        <a href="#product-discounts">Product Discounts</a>
+        <a href="#inventory">Inventory</a>
+        <a href="#pos">POS</a>
+        <a href="#receipts">Receipts</a>
+        <a href="#business">Business</a>
+        <a href="#history">History</a>
+        <a href="/admin/dashboard">EmployeeDashboard</a>
+        <a href="/admin/employees">Employee</a>
+        <a href="/admin/pendingRegistration">PendingRegistrations</a>
+        <a href="/branches">Create New-Branch</a>
+        <a href="/credit-approvals">credit-approvals</a>
+    </nav>
+
+    <!-- ====================================================== -->
+    <!-- TAX & TRANSACTION DISCOUNT -->
+    <!-- ====================================================== -->
+
+    <section class="settings-section" id="tax-discount">
+
+        <div class="section-heading">
+            <div>
+                <span class="section-eyebrow">TRANSACTION SETTINGS</span>
+                <h2>Tax &amp; Transaction Discount</h2>
+                <p>
+                    Manage the tax rate and discount applied to the entire
+                    transaction at the POS.
+                </p>
+            </div>
+
+            <span class="section-badge">Current Settings</span>
+        </div>
+
+        <div class="current-settings">
+
+            <div class="current-card">
+                <span class="current-label">Current Tax Rate</span>
+                <strong id="currentTax" class="current-value">
+                    {{pageSettings.tax_rate}}%
+                </strong>
+                <span class="current-description">
+                    Applied to taxable transactions.
+                </span>
+            </div>
+
+            <div class="current-card">
+                <span class="current-label">Current Transaction Discount</span>
+                <strong id="currentDiscount" class="current-value">
+                    {{pageSettings.discount_rate}}%
+                </strong>
+                <span class="current-description">
+                    Applied to the entire transaction.
+                </span>
+            </div>
+
+        </div>
+
+        <form id="taxDiscountForm" class="settings-form">
+
+            <!-- ================================================== -->
+            <!-- SETTINGS SCOPE -->
+            <!-- ================================================== -->
+
+            <div class="form-group settings-scope-group">
+
+                <label>Apply Settings To</label>
+
+                <div class="scope-options">
+
+                    <label class="scope-option">
+
+                        <input
+                            type="radio"
+                            name="settings_scope"
+                            value="business"
+                            checked
+                        >
+
+                        <span>
+                            <strong>Entire Business</strong>
+
+                            <small>
+                                Apply these settings to the entire business.
+                                Branches can have their own overrides.
+                            </small>
+                        </span>
+
+                    </label>
+
+
+                    <label class="scope-option">
+
+                        <input
+                            type="radio"
+                            name="settings_scope"
+                            value="branch"
+                        >
+
+                        <span>
+                            <strong>Specific Branch</strong>
+
+                            <small>
+                                Apply these settings only to the selected branch.
+                            </small>
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- BRANCH SELECTOR -->
+
+                <div
+                    id="branchSelector"
+                    class="branch-selector hidden"
+                >
+
+                    <label for="settingsBranchId">
+                        Select Branch
+                    </label>
+
+                    <select
+                        id="settingsBranchId"
+                        name="branch_id"
+                    >
+
+                        <option value="">
+                            Select a branch
+                        </option>
+
+                        {{#if branches}}
+
+                            {{#each branches}}
+
+                                <option value="{{branch_id}}">
+                                    {{branch_name}}
+                                </option>
+
+                            {{/each}}
+
+                        {{/if}}
+
+                    </select>
+
+                    <small>
+                        Only branches belonging to your business are available.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- TAX & DISCOUNT VALUES -->
+            <!-- ================================================== -->
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="taxRate">
+                        New Tax Rate
+                    </label>
+
+                    <div class="input-with-suffix">
+
+                        <input
+                            type="number"
+                            id="taxRate"
+                            name="tax_rate"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            value="{{pageSettings.tax_rate}}"
+                            required
+                        >
+
+                        <span>%</span>
+
+                    </div>
+
+                    <small>
+                        Enter a value between 0% and 100%.
+                    </small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="discountRate">
+                        New Transaction Discount
+                    </label>
+
+                    <div class="input-with-suffix">
+
+                        <input
+                            type="number"
+                            id="discountRate"
+                            name="discount_rate"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            value="{{pageSettings.discount_rate}}"
+                            required
+                        >
+
+                        <span>%</span>
+
+                    </div>
+
+                    <small>
+                        This discount applies to the entire transaction.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- AUTHORIZED MANAGER -->
+            <!-- ================================================== -->
+
+            <div class="form-group manager-group">
+
+                <label for="managerSearch">
+                    Authorized Manager
+                </label>
+
+                <div class="manager-search">
+
+                    <input
+                        type="text"
+                        id="managerSearch"
+                        placeholder="Start typing manager name..."
+                        autocomplete="off"
+                    >
+
+                    <input
+                        type="hidden"
+                        id="managerId"
+                        name="manager_id"
+                    >
+
+                    <div
+                        id="managerResults"
+                        class="manager-results"
+                    ></div>
+
+                </div>
+
+                <small>
+                    Select an authorized manager from the search results.
+                </small>
+
+                <div
+                    id="selectedManager"
+                    class="selected-manager hidden"
+                >
+
+                    <span class="selected-icon">✓</span>
+
+                    <div>
+
+                        <strong id="selectedManagerName">-</strong>
+
+                        <span id="selectedManagerRole">-</span>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        id="clearManager"
+                        class="clear-manager"
+                    >
+                        Change
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================== -->
+            <!-- REASON -->
+            <!-- ================================================== -->
+
+            <div class="form-group">
+
+                <label for="changeReason">
+                    Reason for Change
+                </label>
+
+                <textarea
+                    id="changeReason"
+                    name="change_reason"
+                    maxlength="255"
+                    rows="4"
+                    placeholder="Explain why the tax or transaction discount is being changed..."
+                    required
+                ></textarea>
+
+                <div class="character-count">
+
+                    <span id="reasonCount">0</span>/255
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="formMessage"
+                class="form-message hidden"
+            ></div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    id="resetForm"
+                    class="btn-secondary"
+                >
+                    Reset
+                </button>
+
+                <button
+                    type="submit"
+                    id="saveSettings"
+                    class="btn-primary"
+                >
+                    Save Settings
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- ====================================================== -->
+    <!-- PRODUCT DISCOUNT SETTINGS -->
+    <!-- ====================================================== -->
+
+    <section
+        class="settings-section"
+        id="product-discounts"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-eyebrow">
+                    PRODUCT PRICING
+                </span>
+
+                <h2>
+                    Product Discount Management
+                </h2>
+
+                <p>
+                    Configure individual discounts for products.
+                    These settings are separate from the transaction-level discount.
+                </p>
+
+            </div>
+
+            <span class="section-badge">
+                Product Level
+            </span>
+
+        </div>
+
+
+        <!-- INFORMATION BANNER -->
+
+        <div class="settings-info-banner">
+
+            <div class="settings-info-icon">
+                %
+            </div>
+
+            <div>
+
+                <strong>
+                    Product discounts
+                </strong>
+
+                <p>
+                    Set a discount percentage for individual products.
+                    Cashiers do not need to manage these settings from the POS cart.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT TOOLBAR -->
+
+        <div class="product-discount-toolbar">
+
+            <div class="product-search-box">
+
+                <label for="productDiscountSearch">
+                    Search Products
+                </label>
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-icon">
+                        🔍
+                    </span>
+
+                    <input
+                        type="search"
+                        id="productDiscountSearch"
+                        placeholder="Search by product name or ID..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="product-discount-summary">
+
+                <span>
+                    Products with discount settings
+                </span>
+
+                <strong id="productDiscountCount">
+                    {{productDiscounts.length}}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT DISCOUNT TABLE -->
+
+        <div class="product-discount-wrapper">
+
+            <table class="product-discount-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Product</th>
+                        <th>Product ID</th>
+                        <th>Selling Price</th>
+                        <th>Discount</th>
+                        <th>Reason</th>
+                        <th>Last Updated</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="productDiscountBody">
+
+                    {{#if productDiscounts}}
+
+                        {{#each productDiscounts}}
+
+                            <tr
+                                class="product-discount-row"
+                                data-product-id="{{product_id}}"
+                                data-product-name="{{product_name}}"
+                            >
+
+                                <td>
+
+                                    <div class="product-table-name">
+
+                                        <div class="product-table-icon">
+                                            {{product_name.[0]}}
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                {{product_name}}
+                                            </strong>
+
+                                            <span>
+                                                Product pricing
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="product-id">
+                                        #{{product_id}}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong class="selling-price">
+                                        GHS {{selling_price}}
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="discount-badge {{#if discount}}has-discount{{else}}no-discount{{/if}}"
+                                    >
+                                        {{discount}}%
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="discount-reason">
+
+                                        {{#if reason}}
+                                            {{reason}}
+                                        {{else}}
+                                            No reason provided
+                                        {{/if}}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="updated-date">
+
+                                        {{#if updated_at}}
+                                            {{updated_at}}
+                                        {{else}}
+                                            -
+                                        {{/if}}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        type="button"
+                                        class="product-discount-edit"
+                                        data-product-id="{{product_id}}"
+                                        data-product-name="{{product_name}}"
+                                        data-selling-price="{{selling_price}}"
+                                        data-discount="{{discount}}"
+                                        data-reason="{{reason}}"
+                                    >
+                                        Edit
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                        {{/each}}
+
+                    {{else}}
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="empty-product-discounts"
+                            >
+
+                                <div class="empty-settings">
+
+                                    <div class="empty-settings-icon">
+                                        %
+                                    </div>
+
+                                    <strong>
+                                        No product discount settings found
+                                    </strong>
+
+                                    <p>
+                                        Product discount records will appear here
+                                        when products are configured.
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {{/if}}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- PRODUCT DISCOUNT FOOTER -->
+
+        <div class="product-discount-footer">
+
+            <div>
+
+                <strong>
+                    Product discount configuration
+                </strong>
+
+                <p>
+                    Changes made here affect the selected product's
+                    discount setting. The existing transaction-level
+                    discount remains separate.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ====================================================== -->
+    <!-- PRODUCT DISCOUNT MODAL -->
+    <!-- ====================================================== -->
+
+    <div
+        id="productDiscountModal"
+        class="settings-modal hidden"
+    >
+
+        <div
+            id="productDiscountModalOverlay"
+            class="settings-modal-overlay"
+        ></div>
+
+
+        <div class="settings-modal-card">
+
+            <div class="settings-modal-header">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        PRODUCT PRICING
+                    </span>
+
+                    <h3>
+                        Edit Product Discount
+                    </h3>
+
+                    <p>
+                        Update the discount configuration for this product.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="closeProductDiscountModal"
+                    class="modal-close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="modal-product-info">
+
+                <div class="modal-product-icon">
+                    %
+                </div>
+
+                <div>
+
+                    <strong id="modalProductName">
+                        -
+                    </strong>
+
+                    <span id="modalProductId">
+                        Product ID: -
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <form id="productDiscountForm">
+
+                <input
+                    type="hidden"
+                    id="productDiscountProductId"
+                    name="product_id"
+                >
+
+
+                <!-- PRODUCT DISCOUNT SCOPE -->
+
+                <div class="form-group settings-scope-group">
+
+                    <label>
+                        Apply Product Discount To
+                    </label>
+
+                    <div class="scope-options">
+
+                        <label class="scope-option">
+
+                            <input
+                                type="radio"
+                                name="product_discount_scope"
+                                value="business"
+                                checked
+                            >
+
+                            <span>
+
+                                <strong>
+                                    Entire Business
+                                </strong>
+
+                                <small>
+                                    Apply this product discount across
+                                    the entire business unless a branch
+                                    has its own override.
+                                </small>
+
+                            </span>
+
+                        </label>
+
+
+                        <label class="scope-option">
+
+                            <input
+                                type="radio"
+                                name="product_discount_scope"
+                                value="branch"
+                            >
+
+                            <span>
+
+                                <strong>
+                                    Specific Branch
+                                </strong>
+
+                                <small>
+                                    Apply this product discount only
+                                    to the selected branch.
+                                </small>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div
+                        id="productBranchSelector"
+                        class="branch-selector hidden"
+                    >
+
+                        <label for="productDiscountBranchId">
+                            Select Branch
+                        </label>
+
+                        <select
+                            id="productDiscountBranchId"
+                            name="branch_id"
+                        >
+
+                            <option value="">
+                                Select a branch
+                            </option>
+
+                            {{#if branches}}
+
+                                {{#each branches}}
+
+                                    <option value="{{branch_id}}">
+                                        {{branch_name}}
+                                    </option>
+
+                                {{/each}}
+
+                            {{/if}}
+
+                        </select>
+
+                        <small>
+                            Only branches belonging to your business are available.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CURRENT SELLING PRICE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Current Selling Price
+                    </label>
+
+                    <div class="readonly-price">
+
+                        <span>
+                            GHS
+                        </span>
+
+                        <strong id="modalSellingPrice">
+                            0.00
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRODUCT DISCOUNT -->
+
+                <div class="form-group">
+
+                    <label for="productDiscountRate">
+                        Product Discount
+                    </label>
+
+                    <div class="input-with-suffix">
+
+                        <input
+                            type="number"
+                            id="productDiscountRate"
+                            name="discount"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            value="0"
+                            required
+                        >
+
+                        <span>
+                            %
+                        </span>
+
+                    </div>
+
+                    <small>
+                        Enter a value between 0% and 100%.
+                    </small>
+
+                </div>
+
+
+                <!-- PRODUCT DISCOUNT REASON -->
+
+                <div class="form-group">
+
+                    <label for="productDiscountReason">
+                        Reason for Change
+                    </label>
+
+                    <textarea
+                        id="productDiscountReason"
+                        name="reason"
+                        maxlength="255"
+                        rows="4"
+                        placeholder="Example: Weekend promotion, clearance sale, seasonal offer..."
+                        required
+                    ></textarea>
+
+                    <div class="character-count">
+
+                        <span id="productReasonCount">
+                            0
+                        </span>/255
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="productDiscountMessage"
+                    class="form-message hidden"
+                ></div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="cancelProductDiscount"
+                        class="btn-secondary"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="saveProductDiscount"
+                        class="btn-primary"
+                    >
+                        Save Product Discount
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ====================================================== -->
+    <!-- INVENTORY SETTINGS -->
+    <!-- ====================================================== -->
+
+    <section
+        class="settings-section future-section"
+        id="inventory"
+    >
+
+        <div class="future-content">
+
+            <span class="future-icon">⚙</span>
+
+            <span class="section-eyebrow">
+                INVENTORY
+            </span>
+
+            <h2>
+                Inventory Settings
+            </h2>
+
+            <p>
+                Inventory configuration will be added here next.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ====================================================== -->
+    <!-- POS SETTINGS -->
+    <!-- ====================================================== -->
+
+    <section
+        class="settings-section future-section"
+        id="pos"
+    >
+
+        <div class="future-content">
+
+            <span class="future-icon">⚙</span>
+
+            <span class="section-eyebrow">
+                POINT OF SALE
+            </span>
+
+            <h2>
+                POS Settings
+            </h2>
+
+            <p>
+                POS configuration will be added here next.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ====================================================== -->
+    <!-- RECEIPT SETTINGS -->
+    <!-- ====================================================== -->
+
+    <section
+        class="settings-section future-section"
+        id="receipts"
+    >
+
+        <div class="future-content">
+
+            <span class="future-icon">⚙</span>
+
+            <span class="section-eyebrow">
+                RECEIPTS
+            </span>
+
+            <h2>
+                Receipt Settings
+            </h2>
+
+            <p>
+                Receipt configuration will be added here next.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ====================================================== -->
+    <!-- BUSINESS SETTINGS -->
+    <!-- ====================================================== -->
+
+    <section
+        class="settings-section future-section"
+        id="business"
+    >
+
+        <div class="future-content">
+
+            <span class="future-icon">⚙</span>
+
+            <span class="section-eyebrow">
+                BUSINESS
+            </span>
+
+            <h2>
+                Business Settings
+            </h2>
+
+            <p>
+                Business information and configuration will be added here next.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ====================================================== -->
+    <!-- HISTORY -->
+    <!-- ====================================================== -->
+
+    <section
+        class="settings-section"
+        id="history"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-eyebrow">
+                    AUDIT TRAIL
+                </span>
+
+                <h2>
+                    Tax &amp; Transaction Discount History
+                </h2>
+
+                <p>
+                    Review previous changes made to tax and
+                    transaction-level discount settings.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="history-wrapper">
+
+            <table class="history-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Manager</th>
+                        <th>Tax</th>
+                        <th>Transaction Discount</th>
+                        <th>Reason</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="historyBody">
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="loading-history"
+                        >
+                            Loading history...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="/js/settings.js"></script>
+
+</body>
+</html>

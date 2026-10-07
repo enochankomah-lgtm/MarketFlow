@@ -1,121 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login - MarketFlow</title>
+
+    <title>Sign In - MarketFlow</title>
+
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/login.css">
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
-        <div class="register-wrapper">
-        <!-- LEFT SIDE -->
 
-        <section class="left-panel">
-            <div class="brand">
-                <div class="logo-box"><i class="fa-solid fa-cart-shopping"></i> </div>
-                <div>
+<div class="login-wrapper">
+
+    <!-- =========================================================
+         LEFT PANEL
+    ========================================================== -->
+
+    <section class="left-panel">
+
+        <div class="brand">
+
+            <div class="logo-box">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+
+            <div>
                 <h2>MarketFlow</h2>
                 <span>Market Management System</span>
-                </div>
             </div>
 
-            <div class="welcome-section">
-                <h1> Sign in to </h1>
-                <h3> Grow your business smarter</h3>
-                <p>Manage products, sales, inventory and your team from one powerful platform.</p>
-            </div>
+        </div>
 
-            <div class="dashboard-card">
-            <img src="https://images.pexels.com/photos/18471529/pexels-photo-18471529.jpeg">
-            </div>
 
-            <div class="feature-list">
-                <div class="feature-item">
-                <i class="fa-solid fa-shield-halved"></i>
-                <div>
-            <h4>Secure System</h4>
-            <p> Your business data is protected. </p>
+        <div class="welcome-section">
 
-            </div>
+            <span class="eyebrow">
+                BUSINESS MANAGEMENT PLATFORM
+            </span>
 
-            </div>
+            <h1>
+                Welcome back to MarketFlow.
+            </h1>
+
+            <p>
+                Sign in to manage your products, sales, inventory
+                and team from one powerful platform.
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <img
+                src="https://images.pexels.com/photos/18471529/pexels-photo-18471529.jpeg"
+                alt="MarketFlow business management">
+
+        </div>
+
+
+        <div class="feature-list">
 
             <div class="feature-item">
-                <i class="fa-solid fa-chart-line"></i>
+
+                <i class="fa-solid fa-shield-halved"></i>
+
                 <div>
-                <h4> Business Analytics</h4>
-                <p> Track your performance easily. </p>
-                </div>
-            </div>
-            <div class="feature-item"> <i class="fa-solid fa-users"></i> <div>
-                <h4> Staff Management </h4>
-                <p>Control users and permissions.</p>
-                </div>
-            </div>
-            </div>
-        </section>
-
-        <!-- RIGHT SIDE -->
-
-
-        <section class="right-panel">
-            <div class="register-card">
-                <div class="form-header">
-                    <div class="header-top">
-                    <h2>Sign in</h2>
-
-                    <button onclick="window.location.href='/'"> Home </button>
-                    </div>
-                    <p>
-                    Fill up information to join MarketFlow
-                    </p>
+                    <h4>Secure System</h4>
+                    <p>Your business data is protected.</p>
                 </div>
 
-                <form method="post" action="/auth/login">
+            </div>
 
-                    <div class="form-group">
 
-                        <label>
-                        Email Address
-                        </label>
+            <div class="feature-item">
 
-                        <input type="email" name="email" value="">
+                <i class="fa-solid fa-chart-line"></i>
+
+                <div>
+                    <h4>Business Analytics</h4>
+                    <p>Track your business performance.</p>
+                </div>
+
+            </div>
+
+
+            <div class="feature-item">
+
+                <i class="fa-solid fa-users"></i>
+
+                <div>
+                    <h4>Staff Management</h4>
+                    <p>Control users and permissions.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         RIGHT PANEL
+    ========================================================== -->
+
+    <section class="right-panel">
+
+        <div class="login-card">
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
+
+            <div class="form-header">
+
+                <div class="header-top">
+
+                    <div>
+
+                        <span class="form-eyebrow">
+                            MARKETFLOW ACCOUNT
+                        </span>
+
+                        <h2>Sign In</h2>
 
                     </div>
 
-                    <div class="form-group">
 
-                        <label>
-                        Password
-                        </label>
+                    <button
+                        type="button"
+                        class="home-btn"
+                        onclick="window.location.href='/'">
 
-                        <input type="password" name="password" value="">
+                        <i class="fa-solid fa-house"></i>
 
-                    </div>
+                        Home
 
-                    <button class="register-btn">
-                    login
                     </button>
 
+                </div>
 
-                    {{#if message}}
+
+                <p>
+                    Sign in to access your MarketFlow account.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 LOGIN FORM
+            ================================================== -->
+
+            <form
+                id="loginForm"
+                method="POST"
+                action="/auth/login"
+            >
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-icon">
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{email}}"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="password-input-wrapper">
+
+                        <i class="fa-solid fa-lock password-icon"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                            aria-label="Show password"
+                        >
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     OPTIONS
+                ================================================== -->
+
+                <div class="login-options">
+
+                    <label class="remember-me">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                            name="rememberMe"
+                        >
+
+                        <span>
+                            Remember me
+                        </span>
+
+                    </label>
+
+
+                    <a
+                        href="/forgot-password"
+                        class="forgot-password"
+                    >
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SERVER MESSAGE
+                ================================================== -->
+
+                {{#if message}}
 
                     <div class="message">
 
-                    {{message}}
+                        <i class="fa-solid fa-circle-exclamation"></i>
+
+                        <span>
+                            {{message}}
+                        </span>
 
                     </div>
 
-                    {{/if}}
-                    
-                </form>
-            </div>
-        </section>
+                {{/if}}
+
+
+
+                <!-- =================================================
+                     SUBMIT
+                ================================================== -->
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginButton"
+                >
+
+                    <i class="fa-solid fa-right-to-bracket"></i>
+
+                    <span>Sign In</span>
+
+                </button>
+
+
+
+                <!-- =================================================
+                     ACCOUNT CREATION
+                ================================================== -->
+
+                <div class="create-account">
+
+                    <span>
+                        Don't have a MarketFlow account?
+                    </span>
+
+                    <a href="/auth/register">
+                        Create an Account
+                    </a>
+
+                </div>
+
+            </form>
+
         </div>
+
+    </section>
+
+</div>
+
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const passwordToggle =
+        document.getElementById("passwordToggle");
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SHOW / HIDE PASSWORD
+    |--------------------------------------------------------------------------
+    */
+
+    if (passwordInput && passwordToggle) {
+
+        passwordToggle.addEventListener(
+            "click",
+            function () {
+
+                const icon =
+                    passwordToggle.querySelector("i");
+
+
+                if (passwordInput.type === "password") {
+
+                    passwordInput.type = "text";
+
+                    icon.classList.remove("fa-eye");
+                    icon.classList.add("fa-eye-slash");
+
+                    passwordToggle.setAttribute(
+                        "aria-label",
+                        "Hide password"
+                    );
+
+                } else {
+
+                    passwordInput.type = "password";
+
+                    icon.classList.remove("fa-eye-slash");
+                    icon.classList.add("fa-eye");
+
+                    passwordToggle.setAttribute(
+                        "aria-label",
+                        "Show password"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGIN FORM
+    |--------------------------------------------------------------------------
+    */
+
+    if (loginForm) {
+
+        loginForm.addEventListener(
+            "submit",
+            function (event) {
+
+                if (!loginForm.checkValidity()) {
+
+                    event.preventDefault();
+
+                    loginForm.reportValidity();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Prevent accidental double submission.
+                 */
+
+                if (loginButton) {
+
+                    loginButton.disabled = true;
+
+                    loginButton.classList.add("loading");
+
+                    loginButton.innerHTML = `
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <span>Signing In...</span>
+                    `;
+
+                }
+
+            }
+        );
+
+    }
+
+});
+
+</script>
+
 </body>
 </html>

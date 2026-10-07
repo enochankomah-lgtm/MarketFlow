@@ -2,419 +2,1086 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create MarketFlow Account</title>
 
-<title>Create Account - MarketFlow</title>
-<link rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/Account.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Account.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-
 
 <body>
 
-
 <div class="register-wrapper">
 
+    <!-- =========================================================
+         LEFT PANEL
+    ========================================================== -->
 
-<!-- LEFT SIDE -->
+    <section class="left-panel">
 
-<section class="left-panel">
+        <div class="brand">
+
+            <div class="logo-box">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+
+            <div>
+                <h2>MarketFlow</h2>
+                <span>Market Management System</span>
+            </div>
+
+        </div>
 
 
-<div class="brand">
+        <div class="welcome-section">
+
+            <span class="eyebrow">
+                BUSINESS MANAGEMENT PLATFORM
+            </span>
+
+            <h1>
+                Join your business on MarketFlow.
+            </h1>
+
+            <p>
+                Create your account and connect to the business
+                and branch where you work.
+            </p>
+
+        </div>
 
 
-<div class="logo-box">
-<i class="fa-solid fa-cart-shopping"></i>
+        <div class="dashboard-card">
+
+            <img
+                src="https://images.pexels.com/photos/18471529/pexels-photo-18471529.jpeg"
+                alt="MarketFlow business management">
+
+        </div>
+
+
+        <div class="feature-list">
+
+            <div class="feature-item">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <div>
+                    <h4>Secure System</h4>
+                    <p>Your business data is protected.</p>
+                </div>
+
+            </div>
+
+
+            <div class="feature-item">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <div>
+                    <h4>Business Analytics</h4>
+                    <p>Track your business performance.</p>
+                </div>
+
+            </div>
+
+
+            <div class="feature-item">
+
+                <i class="fa-solid fa-users"></i>
+
+                <div>
+                    <h4>Staff Management</h4>
+                    <p>Manage users and responsibilities.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         RIGHT PANEL
+    ========================================================== -->
+
+    <section class="right-panel">
+        <div class="register-card">
+            <div class="form-header">
+                <div class="header-top">
+                    <div>
+                        <span class="form-eyebrow">
+                            MARKETFLOW ACCOUNT
+                        </span>
+                        <h2>Create Your Account</h2>
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="home-btn"
+                        onclick="window.location.href='/'">
+
+                        <i class="fa-solid fa-house"></i>
+                        Home
+
+                    </button>
+
+                </div>
+
+
+                <p>
+                    Create your account and request access to
+                    your business and branch.
+                </p>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 REGISTRATION FORM
+            ====================================================== -->
+
+            <form id="registrationForm" method="POST" action="/auth/register" >
+
+
+                <!-- =================================================
+                     PERSONAL INFORMATION
+                ================================================== -->
+
+                <div class="form-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div>
+                            <h3>Personal Information</h3>
+                            <p>Your personal account details</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- FIRST NAME -->
+
+                        <div class="form-group">
+
+                            <label for="firstName">
+                                First Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                value="{{firstName}}"
+                                placeholder="Enter first name"
+                                autocomplete="given-name"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- LAST NAME -->
+
+                        <div class="form-group">
+
+                            <label for="lastName">
+                                Last Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                value="{{lastName}}"
+                                placeholder="Enter last name"
+                                autocomplete="family-name"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- EMAIL -->
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{email}}"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- PHONE -->
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                value="{{phone}}"
+                                placeholder="Enter phone number"
+                                autocomplete="tel"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- JOB TITLE -->
+
+                        <div class="form-group full-width">
+
+                            <label for="jobTitle">
+                                Job Title
+                            </label>
+
+                            <input
+                                type="text"
+                                id="jobTitle"
+                                name="jobTitle"
+                                value="{{jobTitle}}"
+                                placeholder="e.g. Sales Clerk"
+                                required
+                            >
+
+                        </div>
+                        <div class="form-group">
+                            <label for="RoleName">Account Role</label>
+
+                            <div class="input-icon">
+                                <i class="fa-solid fa-user-shield"></i>
+
+                                <select id="RoleName" name="RoleName" required>
+                                    <option value="">Select your role</option>
+                                    <option value="Cashier">Cashier</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Administrator">Administrator</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+
+                            <small class="form-help">
+                                Select the role assigned to you in your business.
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     BUSINESS & BRANCH
+                ================================================== -->
+
+                <div class="form-section business-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-icon business-icon">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="section-title-row">
+
+                                <h3>
+                                    Business &amp; Branch
+                                </h3>
+
+                                <span class="required-badge">
+                                    Required
+                                </span>
+
+                            </div>
+
+                            <p>
+                                Select the business and branch where
+                                your account belongs.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- INFORMATION NOTICE -->
+
+                    <div class="business-notice">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span>
+                            Select the business where you work and
+                            then choose your active branch.
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- APPROVAL NOTICE -->
+
+                    <div class="business-notice approval-notice">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        <span>
+                            Your account will remain inactive until
+                            a business administrator approves your
+                            registration and assigns your appropriate
+                            role.
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="form-grid">
+
+
+                        <!-- BUSINESS -->
+
+                        <div class="form-group">
+
+                            <label for="business_id">
+                                Business
+                            </label>
+
+                            <div class="input-icon">
+
+                                <i class="fa-solid fa-building"></i>
+
+                                <select
+                                    id="business_id"
+                                    name="business_id"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select your business
+                                    </option>
+
+                                    {{#each businesses}}
+
+                                        <option
+                                            value="{{business_id}}"
+                                            data-location="{{address}}{{#if city}}, {{city}}{{/if}}"
+                                            {{#ifEquals ../business_id business_id}}
+                                                selected
+                                            {{/ifEquals}}
+                                        >
+                                            {{business_name}}
+                                        </option>
+
+                                    {{/each}}
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- BRANCH -->
+
+                        <div class="form-group">
+
+                            <label for="branch_id">
+                                Branch
+                            </label>
+
+                            <div class="input-icon">
+
+                                <i class="fa-solid fa-code-branch"></i>
+
+                                <select
+                                    id="branch_id"
+                                    name="branch_id"
+                                    required
+                                    disabled
+                                >
+
+                                    <option value="">
+                                        Select a business first
+                                    </option>
+
+                                    {{#each branches}}
+
+                                        <option
+                                            value="{{branch_id}}"
+                                            data-business-id="{{business_id}}"
+                                            {{#ifEquals ../branch_id branch_id}}
+                                                selected
+                                            {{/ifEquals}}
+                                        >
+                                            {{branch_name}}
+                                            {{#if location}}
+                                                — {{location}}
+                                            {{/if}}
+                                        </option>
+
+                                    {{/each}}
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- BUSINESS LOCATION -->
+
+                        <div class="form-group full-width">
+
+                            <label for="businessLocation">
+                                Business Location
+                            </label>
+
+                            <div class="input-icon">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                <input
+                                    type="text"
+                                    id="businessLocation"
+                                    value=""
+                                    placeholder="Business location"
+                                    readonly
+                                >
+
+                            </div>
+
+                            <small class="form-help">
+                                Business information is loaded from
+                                MarketFlow and cannot be edited here.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PASSWORD
+                ================================================== -->
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="password-input-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create a password"
+                                minlength="8"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                data-target="password"
+                                aria-label="Show password"
+                            >
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="confirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <div class="password-input-wrapper">
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                placeholder="Confirm your password"
+                                minlength="8"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                data-target="confirmPassword"
+                                aria-label="Show password"
+                            >
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     TERMS
+                ================================================== -->
+
+                <div class="terms">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        required
+                    >
+
+                    <label for="terms">
+
+                        I agree to the MarketFlow Terms &amp; Conditions
+                        and confirm that I am joining the selected
+                        business and branch.
+
+                    </label>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SERVER MESSAGE
+                ================================================== -->
+
+                {{#if message}}
+
+                    <div class="message">
+
+                        <i class="fa-solid fa-circle-exclamation"></i>
+
+                        <span>
+                            {{message}}
+                        </span>
+
+                    </div>
+
+                {{/if}}
+
+
+
+                <!-- =================================================
+                     SUBMIT
+                ================================================== -->
+
+                <button
+                    type="submit"
+                    class="register-btn"
+                >
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                    Create Account
+
+                </button>
+
+
+
+                <div class="signin-link">
+
+                    Already have an account?
+
+                    <a href="/login">
+                        Sign In
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </section>
+
 </div>
 
 
-<div>
 
-<h2>MarketFlow</h2>
+<script>
 
-<span>
-Market Management System
-</span>
+document.addEventListener("DOMContentLoaded", function () {
 
-</div>
+    const registrationForm =
+        document.getElementById("registrationForm");
 
+    const businessSelect =
+        document.getElementById("business_id");
 
-</div>
+    const branchSelect =
+        document.getElementById("branch_id");
 
+    const locationInput =
+        document.getElementById("businessLocation");
 
 
+    if (!businessSelect || !branchSelect) {
+        return;
+    }
 
-<div class="welcome-section">
 
 
-<h1>
-Create Your Account
-</h1>
+    // Store all branches before filtering them
+    const allBranches =
+        Array.from(branchSelect.options)
+            .filter(option => option.value !== "")
+            .map(option => ({
+                value: option.value,
+                text: option.textContent.trim(),
+                businessId: option.dataset.businessId || ""
+            }));
 
 
-<h3>
-Grow your business smarter
-</h3>
 
+    function updateBranches() {
 
-<p>
+        const businessId =
+            businessSelect.value;
 
-Manage products, sales, inventory
-and your team from one powerful platform.
+        const previousBranchId =
+            branchSelect.dataset.selectedBranch || "";
 
-</p>
 
 
-</div>
+        branchSelect.innerHTML = "";
 
 
 
+        if (!businessId) {
 
+            const option =
+                document.createElement("option");
 
-<div class="dashboard-card">
+            option.value = "";
 
-<img src="https://images.pexels.com/photos/18471529/pexels-photo-18471529.jpeg">
+            option.textContent =
+                "Select a business first";
 
-</div>
+            branchSelect.appendChild(option);
 
+            branchSelect.disabled = true;
 
 
+            if (locationInput) {
+                locationInput.value = "";
+            }
 
+            return;
+        }
 
-<div class="feature-list">
 
 
-<div class="feature-item">
+        branchSelect.disabled = false;
 
-<i class="fa-solid fa-shield-halved"></i>
 
-<div>
 
-<h4>
-Secure System
-</h4>
+        const defaultOption =
+            document.createElement("option");
 
-<p>
-Your business data is protected.
-</p>
+        defaultOption.value = "";
 
-</div>
+        defaultOption.textContent =
+            "Select your branch";
 
+        branchSelect.appendChild(defaultOption);
 
-</div>
 
 
+        let matchingBranches = 0;
 
 
 
-<div class="feature-item">
+        allBranches.forEach(branch => {
 
-<i class="fa-solid fa-chart-line"></i>
+            if (
+                String(branch.businessId) !==
+                String(businessId)
+            ) {
+                return;
+            }
 
 
-<div>
 
-<h4>
-Business Analytics
-</h4>
+            const option =
+                document.createElement("option");
 
-<p>
-Track your performance easily.
-</p>
+            option.value = branch.value;
 
-</div>
+            option.textContent = branch.text;
 
+            option.dataset.businessId =
+                branch.businessId;
 
-</div>
 
 
+            if (
+                previousBranchId &&
+                String(previousBranchId) ===
+                String(branch.value)
+            ) {
+                option.selected = true;
+            }
 
 
 
-<div class="feature-item">
+            branchSelect.appendChild(option);
 
-<i class="fa-solid fa-users"></i>
+            matchingBranches++;
 
+        });
 
-<div>
 
-<h4>
-Staff Management
-</h4>
 
-<p>
-Control users and permissions.
-</p>
+        if (matchingBranches === 0) {
 
+            const option =
+                document.createElement("option");
 
-</div>
+            option.value = "";
 
+            option.textContent =
+                "No active branches available";
 
-</div>
+            branchSelect.appendChild(option);
 
+            branchSelect.disabled = true;
 
-</div>
+        }
 
 
 
-</section>
+        const selectedBusiness =
+            businessSelect.options[
+                businessSelect.selectedIndex
+            ];
 
 
 
+        if (locationInput && selectedBusiness) {
 
+            locationInput.value =
+                selectedBusiness.dataset.location || "";
 
+        }
 
+    }
 
-<!-- RIGHT SIDE -->
 
 
-<section class="right-panel">
+    // Preserve branch selected after server validation error
+    branchSelect.dataset.selectedBranch =
+        "{{branch_id}}";
 
 
 
-<div class="register-card">
+    businessSelect.addEventListener(
+        "change",
+        function () {
 
+            branchSelect.dataset.selectedBranch = "";
 
+            updateBranches();
 
-<div class="form-header">
+        }
+    );
 
 
-<div class="header-top">
 
+    if (registrationForm) {
 
-<h2>
-Create Account
-</h2>
+        registrationForm.addEventListener(
+            "submit",
+            function (event) {
 
+                const businessId =
+                    businessSelect.value;
 
-<button onclick="window.location.href='/'">
+                const branchId =
+                    branchSelect.value;
 
-Home
 
-</button>
 
+                if (!businessId) {
 
-</div>
+                    event.preventDefault();
 
+                    alert(
+                        "Please select a business."
+                    );
 
+                    businessSelect.focus();
 
-<p>
-Enter your information to join MarketFlow
-</p>
+                    return;
 
+                }
 
 
-</div>
 
+                if (
+                    !branchId ||
+                    branchSelect.disabled
+                ) {
 
+                    event.preventDefault();
 
+                    alert(
+                        "Please select a valid branch."
+                    );
 
+                    branchSelect.focus();
 
+                    return;
 
-<form method="post" action="/auth/register">
+                }
 
 
 
+                const selectedBranch =
+                    branchSelect.options[
+                        branchSelect.selectedIndex
+                    ];
 
 
-<div class="row">
 
+                if (
+                    !selectedBranch ||
+                    String(selectedBranch.dataset.businessId) !==
+                    String(businessId)
+                ) {
 
-<div class="form-group">
+                    event.preventDefault();
 
-<label>
-First Name
-</label>
+                    alert(
+                        "The selected branch does not belong " +
+                        "to the selected business."
+                    );
 
-<input type="text" name="firstName">
+                    branchSelect.focus();
 
+                    return;
 
-</div>
+                }
 
 
 
-<div class="form-group">
+                validatePasswords();
 
-<label>
-Last Name
-</label>
 
-<input type="text" name="lastName">
 
+                if (!registrationForm.checkValidity()) {
 
-</div>
+                    event.preventDefault();
 
+                }
 
-</div>
+            }
+        );
 
+    }
 
 
 
+    updateBranches();
 
+});
 
-<div class="form-group">
 
-<label>
-Email Address
-</label>
 
-<input type="email" name="email">
+function validatePasswords() {
 
-</div>
+    const password =
+        document.getElementById("password");
 
+    const confirmPassword =
+        document.getElementById("confirmPassword");
 
 
 
+    if (!password || !confirmPassword) {
+        return;
+    }
 
-<div class="row">
 
 
-<div class="form-group">
+    if (
+        confirmPassword.value !==
+        password.value
+    ) {
 
-<label>
-Job Title
-</label>
+        confirmPassword.setCustomValidity(
+            "Passwords do not match."
+        );
 
-<input type="text" name="jobTitle">
+    } else {
 
+        confirmPassword.setCustomValidity("");
 
-</div>
+    }
 
+}
 
 
 
-<div class="form-group">
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-<label>
-RoleName
-</label>
+        const passwordToggles =
+            document.querySelectorAll(
+                ".password-toggle"
+            );
 
-<input type="text" name="role">
 
-</div>
 
-</div>
+        passwordToggles.forEach(
+            function (button) {
 
-<div class="form-group">
-<label>
-Phone Number
-</label>
+                button.addEventListener(
+                    "click",
+                    function () {
 
+                        const targetId =
+                            button.dataset.target;
 
-<input type="tel" name="phone">
+                        const passwordInput =
+                            document.getElementById(
+                                targetId
+                            );
 
+                        const icon =
+                            button.querySelector("i");
 
-</div>
 
-<div class="row">
 
-<div class="form-group">
+                        if (!passwordInput) {
+                            return;
+                        }
 
-<label>
-Business Name
-</label>
 
-<input type="text" name="businessName">
 
-</div>
+                        if (
+                            passwordInput.type ===
+                            "password"
+                        ) {
 
-<div class="form-group">
+                            passwordInput.type =
+                                "text";
 
-<label>
-Location
-</label>
+                            icon.classList.remove(
+                                "fa-eye"
+                            );
 
-<input type="text" name="location">
+                            icon.classList.add(
+                                "fa-eye-slash"
+                            );
 
+                            button.setAttribute(
+                                "aria-label",
+                                "Hide password"
+                            );
 
-</div>
+                        } else {
 
+                            passwordInput.type =
+                                "password";
 
-</div>
+                            icon.classList.remove(
+                                "fa-eye-slash"
+                            );
 
-<div class="row">
+                            icon.classList.add(
+                                "fa-eye"
+                            );
 
+                            button.setAttribute(
+                                "aria-label",
+                                "Show password"
+                            );
 
-<div class="form-group">
+                        }
 
-<label>
-Password
-</label>
+                    }
+                );
 
-<input type="password" name="password">
+            }
+        );
 
+    }
+);
 
-</div>
+</script>
 
-
-
-<div class="form-group">
-
-<label>
-Confirm Password
-</label>
-
-<input type="password" name="confirmPassword">
-</div>
-</div>
-<div class="password-rules">
-<p>✓ Minimum 8 characters</p>
-
-<p>✓ Uppercase letter</p>
-
-<p>✓ Number included</p>
-
-<p>✓ Special character</p>
-
-</div>
-
-<div class="terms">
-
-
-<input type="checkbox">
-
-<span>
-I agree to Terms & Conditions
-</span>
-
-
-</div>
-<button class="register-btn">
-
-Create Account
-
-</button>
-
-
-{{#if message}}
-
-<div class="message">
-
-{{message}}
-
-</div>
-
-{{/if}}
-
-<div class="signin-link">
-
-Already have an account?
-
-<a href="/login">
-Sign In
-</a>
-
-</div>
-</form>
-</div>
-</section>
-</div>
 </body>
 </html>

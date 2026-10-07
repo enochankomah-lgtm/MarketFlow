@@ -1,0 +1,2177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MarketFlow Executive Dashboard</title>
+
+  <link rel="stylesheet" href="/profitabledash.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+  <div class="dashboard-shell">
+
+    <!-- =========================================================
+         SIDEBAR
+         ========================================================= -->
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">M</div>
+
+        <div>
+          <h2>MarketFlow</h2>
+          <span>Executive Intelligence</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a href="/productpages/products" class="nav-link">
+          <span>▦</span>
+          Dashboard
+        </a>
+
+        <a href="#overview" class="nav-link active">
+          <span>◉</span>
+          Overview
+        </a>
+
+        <a href="#trends" class="nav-link">
+          <span>↗</span>
+          Trends
+        </a>
+
+        <a href="#products" class="nav-link">
+          <span>▦</span>
+          Products
+        </a>
+
+        <a href="#operations" class="nav-link">
+          <span>◫</span>
+          Operations
+        </a>
+
+        <a href="#inventory" class="nav-link">
+          <span>□</span>
+          Inventory
+        </a>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <div class="executive-badge">
+          <span class="status-dot"></span>
+
+          <div>
+            <strong>Executive View</strong>
+            <small>Live business data</small>
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+         ========================================================= -->
+
+    <main class="main-content">
+
+      <!-- =======================================================
+           HEADER
+           ======================================================= -->
+
+      <header class="topbar">
+
+        <div>
+
+          <div class="eyebrow">
+            BUSINESS INTELLIGENCE
+          </div>
+
+          <h1>
+            Executive Dashboard
+          </h1>
+
+          <p class="header-description">
+            A complete view of revenue, profitability,
+            sales performance and inventory.
+          </p>
+          <!-- =======================================================
+              DATA SCOPE SWITCHER
+              ======================================================= -->
+
+          <div class="dashboard-scope">
+
+            <div class="scope-current">
+
+              {{#if isBranchScope}}
+
+                <span class="scope-badge branch-scope">
+                  BRANCH VIEW
+                </span>
+
+                <strong>
+                  {{branchName}}
+                </strong>
+
+                {{#if branchLocation}}
+                  <span>
+                    · {{branchLocation}}
+                  </span>
+                {{/if}}
+
+              {{else}}
+
+                <span class="scope-badge business-scope">
+                  BUSINESS VIEW
+                </span>
+
+                <strong>
+                  {{businessName}}
+                </strong>
+
+                <span>
+                  · All Branches
+                </span>
+
+              {{/if}}
+
+            </div>
+
+
+            <div class="scope-selector">
+
+              <label for="dashboardScope">
+                VIEW
+              </label>
+
+              <select
+                id="dashboardScope"
+                onchange="changeDashboardScope(this.value)"
+              >
+
+                <option
+                  value="/profitabledashboard?scope=business"
+                  {{#if isBusinessScope}}selected{{/if}}
+                >
+                  Business / All Branches
+                </option>
+
+
+                {{#each branches}}
+
+                  <option
+                    value="/profitabledashboard?scope=branch&branch_id={{branch_id}}"
+                    {{#if selected}}selected{{/if}}
+                  >
+                    {{branch_name}}
+                    {{#if location}}
+                      — {{location}}
+                    {{/if}}
+                  </option>
+
+                {{/each}}
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="header-actions">
+
+          <div class="report-date">
+
+            <span>REPORT DATE</span>
+
+            <strong>
+              {{currentDate}}
+            </strong>
+
+          </div>
+
+          <button
+            type="button"
+            class="action-button secondary"
+            onclick="window.location.reload()"
+          >
+            ↻ Refresh
+          </button>
+
+          <button
+            type="button"
+            class="action-button primary"
+            onclick="window.print()"
+          >
+            ⤓ Print Report
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- =======================================================
+           EXECUTIVE KPI CARDS
+           ======================================================= -->
+
+      <section
+        id="overview"
+        class="kpi-grid"
+      >
+
+        <div class="kpi-card revenue-card">
+
+          <div class="kpi-top">
+            <span class="kpi-label">
+              NET REVENUE
+            </span>
+
+            <span class="kpi-icon">
+              ₵
+            </span>
+          </div>
+
+          <div class="kpi-value">
+            GH₵ {{totalRevenue}}
+          </div>
+
+          <div class="kpi-footer">
+            Completed sales revenue
+          </div>
+
+        </div>
+
+
+        <div class="kpi-card profit-card">
+
+          <div class="kpi-top">
+            <span class="kpi-label">
+              GROSS PROFIT
+            </span>
+
+            <span class="kpi-icon">
+              ↗
+            </span>
+          </div>
+
+          <div class="kpi-value">
+            GH₵ {{estimatedGrossProfit}}
+          </div>
+
+          <div class="kpi-footer">
+            After historical product cost
+          </div>
+
+        </div>
+
+
+        <div class="kpi-card margin-card">
+
+          <div class="kpi-top">
+            <span class="kpi-label">
+              PROFIT MARGIN
+            </span>
+
+            <span class="kpi-icon">
+              %
+            </span>
+          </div>
+
+          <div class="kpi-value">
+            {{profitMargin}}%
+          </div>
+
+          <div class="kpi-footer">
+            Gross profit / net revenue
+          </div>
+
+        </div>
+
+
+        <div class="kpi-card sales-card">
+
+          <div class="kpi-top">
+            <span class="kpi-label">
+              TRANSACTIONS
+            </span>
+
+            <span class="kpi-icon">
+              #
+            </span>
+          </div>
+
+          <div class="kpi-value">
+            {{completedSales}}
+          </div>
+
+          <div class="kpi-footer">
+            Completed transactions
+          </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+          <div class="kpi-top">
+            <span class="kpi-label">
+              UNITS SOLD
+            </span>
+
+            <span class="kpi-icon">
+              □
+            </span>
+          </div>
+
+          <div class="kpi-value">
+            {{unitsSold}}
+          </div>
+
+          <div class="kpi-footer">
+            Products sold
+          </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+          <div class="kpi-top">
+            <span class="kpi-label">
+              AVG. TRANSACTION
+            </span>
+
+            <span class="kpi-icon">
+              ₵
+            </span>
+          </div>
+
+          <div class="kpi-value">
+            GH₵ {{averageTransaction}}
+          </div>
+
+          <div class="kpi-footer">
+            Average completed sale
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           TREND SECTION
+           ======================================================= -->
+
+      <section
+        id="trends"
+        class="dashboard-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-eyebrow">
+              PERFORMANCE TREND
+            </div>
+
+            <h2>
+              Revenue &amp; Profitability
+            </h2>
+
+            <p>
+              Compare revenue, cost and gross profit over time.
+            </p>
+
+          </div>
+
+
+          <div class="trend-controls">
+
+            <button
+              type="button"
+              class="trend-button active"
+              data-period="daily"
+            >
+              Daily
+            </button>
+
+            <button
+              type="button"
+              class="trend-button"
+              data-period="weekly"
+            >
+              Weekly
+            </button>
+
+            <button
+              type="button"
+              class="trend-button"
+              data-period="monthly"
+            >
+              Monthly
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="chart-card large-chart">
+
+          <div class="chart-header">
+
+            <div>
+
+              <strong id="trendTitle">
+                Daily Business Performance
+              </strong>
+
+              <span id="trendSubtitle">
+                Revenue, cost and gross profit
+              </span>
+
+            </div>
+
+            <div class="chart-legend">
+
+              <span>
+                <i></i>
+                Revenue
+              </span>
+
+              <span>
+                <i></i>
+                Cost
+              </span>
+
+              <span>
+                <i></i>
+                Gross Profit
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="chart-container trend-chart-container">
+            <canvas id="trendChart"></canvas>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           PERFORMANCE SNAPSHOTS
+           ======================================================= -->
+
+      <section class="two-column-section">
+
+        <div class="chart-card">
+
+          <div class="card-title-row">
+
+            <div>
+
+              <span class="section-eyebrow">
+                SALES PATTERN
+              </span>
+
+              <h3>
+                Day-of-Week Performance
+              </h3>
+
+            </div>
+
+          </div>
+
+          <div class="chart-container medium">
+            <canvas id="dayChart"></canvas>
+          </div>
+
+        </div>
+
+
+        <div class="chart-card">
+
+          <div class="card-title-row">
+
+            <div>
+
+              <span class="section-eyebrow">
+                PAYMENT MIX
+              </span>
+
+              <h3>
+                Collection Methods
+              </h3>
+
+            </div>
+
+          </div>
+
+          <div class="chart-container medium">
+            <canvas id="paymentChart"></canvas>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           PRODUCTS
+           ======================================================= -->
+
+      <section
+        id="products"
+        class="dashboard-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-eyebrow">
+              PRODUCT INTELLIGENCE
+            </div>
+
+            <h2>
+              Product &amp; Category Performance
+            </h2>
+
+            <p>
+              Identify the products and categories generating the most value.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="two-column-section">
+
+          <!-- TOP PRODUCTS -->
+
+          <div class="table-card">
+
+            <div class="table-card-header">
+
+              <div>
+
+                <span class="section-eyebrow">
+                  TOP 10
+                </span>
+
+                <h3>
+                  Best Performing Products
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+              <table>
+
+                <thead>
+
+                  <tr>
+                    <th>Product</th>
+                    <th>Units</th>
+                    <th>Revenue</th>
+                    <th>Profit</th>
+                    <th>Margin</th>
+                  </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                  {{#each topProducts}}
+
+                  <tr>
+
+                    <td>
+                      <div class="product-name">
+                        {{product_name}}
+                      </div>
+                    </td>
+
+                    <td>
+                      {{units_sold}}
+                    </td>
+
+                    <td>
+                      GH₵ {{revenue}}
+                    </td>
+
+                    <td class="positive">
+                      GH₵ {{gross_profit}}
+                    </td>
+
+                    <td>
+                      <span class="margin-pill">
+                        {{profit_margin}}%
+                      </span>
+                    </td>
+
+                  </tr>
+
+                  {{/each}}
+
+
+                  {{#unless topProducts.length}}
+
+                  <tr>
+
+                    <td
+                      colspan="5"
+                      class="empty-state"
+                    >
+                      No product sales available.
+                    </td>
+
+                  </tr>
+
+                  {{/unless}}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+
+          <!-- CATEGORY -->
+
+          <div class="chart-card">
+
+            <div class="card-title-row">
+
+              <div>
+
+                <span class="section-eyebrow">
+                  CATEGORY
+                </span>
+
+                <h3>
+                  Revenue by Category
+                </h3>
+
+              </div>
+
+            </div>
+
+            <div class="chart-container category-chart">
+              <canvas id="categoryChart"></canvas>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           OPERATIONS
+           ======================================================= -->
+
+      <section
+        id="operations"
+        class="dashboard-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-eyebrow">
+              OPERATIONAL PERFORMANCE
+            </div>
+
+            <h2>
+              Sales Team Performance
+            </h2>
+
+            <p>
+              Compare completed transactions, revenue and profitability by cashier.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="table-card">
+
+          <div class="table-wrapper">
+
+            <table class="executive-table">
+
+              <thead>
+
+                <tr>
+                  <th>Cashier</th>
+                  <th>Transactions</th>
+                  <th>Revenue</th>
+                  <th>Cost</th>
+                  <th>Gross Profit</th>
+                  <th>Margin</th>
+                  <th>Avg. Sale</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {{#each cashierPerformance}}
+
+                <tr>
+
+                  <td>
+
+                    <div class="employee-cell">
+
+                      <span class="avatar">
+                        {{firstName}}
+                      </span>
+
+                      <strong>
+                        {{cashier_name}}
+                      </strong>
+
+                    </div>
+
+                  </td>
+
+                  <td>
+                    {{completed_sales}}
+                  </td>
+
+                  <td>
+                    GH₵ {{revenue}}
+                  </td>
+
+                  <td>
+                    GH₵ {{cost}}
+                  </td>
+
+                  <td class="positive">
+                    GH₵ {{gross_profit}}
+                  </td>
+
+                  <td>
+                    <span class="margin-pill">
+                      {{profit_margin}}%
+                    </span>
+                  </td>
+
+                  <td>
+                    GH₵ {{average_transaction_value}}
+                  </td>
+
+                </tr>
+
+                {{/each}}
+
+
+                {{#unless cashierPerformance.length}}
+
+                <tr>
+
+                  <td
+                    colspan="7"
+                    class="empty-state"
+                  >
+                    No cashier performance data available.
+                  </td>
+
+                </tr>
+
+                {{/unless}}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           EXECUTIVE HIGHLIGHTS
+           ======================================================= -->
+
+      <section class="highlight-grid">
+
+        <div class="highlight-card best-day">
+
+          <div class="highlight-icon">
+            ★
+          </div>
+
+          <div>
+
+            <span>
+              BEST REVENUE DAY
+            </span>
+
+            <strong>
+              {{bestRevenueDay.sale_date}}
+            </strong>
+
+            <small>
+              GH₵ {{bestRevenueDay.revenue}}
+              ·
+              {{bestRevenueDay.completed_sales}}
+              transactions
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <div class="highlight-card best-month">
+
+          <div class="highlight-icon">
+            ★
+          </div>
+
+          <div>
+
+            <span>
+              BEST REVENUE MONTH
+            </span>
+
+            <strong>
+              {{bestRevenueMonth.month_label}}
+            </strong>
+
+            <small>
+              GH₵ {{bestRevenueMonth.revenue}}
+              ·
+              {{bestRevenueMonth.completed_sales}}
+              transactions
+            </small>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           INVENTORY
+           ======================================================= -->
+
+      <section
+        id="inventory"
+        class="dashboard-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-eyebrow">
+              INVENTORY INTELLIGENCE
+            </div>
+
+            <h2>
+              Current Inventory Position
+            </h2>
+
+            <p>
+              Current stock valuation and potential sales opportunity.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="inventory-kpi-grid">
+
+          <div class="inventory-mini-card">
+
+            <span>
+              PRODUCTS IN STOCK
+            </span>
+
+            <strong>
+              {{inventorySummary.total_products}}
+            </strong>
+
+          </div>
+
+
+          <div class="inventory-mini-card">
+
+            <span>
+              UNITS AVAILABLE
+            </span>
+
+            <strong>
+              {{inventorySummary.total_units}}
+            </strong>
+
+          </div>
+
+
+          <div class="inventory-mini-card">
+
+            <span>
+              INVENTORY VALUE
+            </span>
+
+            <strong>
+              GH₵ {{inventorySummary.inventory_cost_value}}
+            </strong>
+
+          </div>
+
+
+          <div class="inventory-mini-card opportunity">
+
+            <span>
+              POTENTIAL GROSS PROFIT
+            </span>
+
+            <strong>
+              GH₵ {{inventorySummary.potential_gross_profit}}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="table-card inventory-table">
+
+          <div class="table-card-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                STOCK POSITION
+              </span>
+
+              <h3>
+                Inventory by Product
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Stock</th>
+                  <th>Cost Price</th>
+                  <th>Selling Price</th>
+                  <th>Stock Value</th>
+                  <th>Potential Profit</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {{#each inventoryByProduct}}
+
+                <tr>
+
+                  <td>
+
+                    <strong>
+                      {{product_name}}
+                    </strong>
+
+                    {{#if brand}}
+
+                    <small class="table-subtext">
+                      {{brand}}
+                    </small>
+
+                    {{/if}}
+
+                  </td>
+
+                  <td>
+                    {{category}}
+                  </td>
+
+                  <td>
+                    {{quantity_available}}
+                  </td>
+
+                  <td>
+                    GH₵ {{cost_price}}
+                  </td>
+
+                  <td>
+                    GH₵ {{selling_price}}
+                  </td>
+
+                  <td>
+                    GH₵ {{inventory_cost_value}}
+                  </td>
+
+                  <td class="positive">
+                    GH₵ {{potential_gross_profit}}
+                  </td>
+
+                </tr>
+
+                {{/each}}
+
+
+                {{#unless inventoryByProduct.length}}
+
+                <tr>
+
+                  <td
+                    colspan="7"
+                    class="empty-state"
+                  >
+                    No inventory data available.
+                  </td>
+
+                </tr>
+
+                {{/unless}}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           DAILY REVENUE
+           ======================================================= -->
+
+      <section class="dashboard-section">
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-eyebrow">
+              DAILY PERFORMANCE
+            </div>
+
+            <h2>
+              Daily Revenue
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="table-card">
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Date</th>
+                  <th>Completed Sales</th>
+                  <th>Units Sold</th>
+                  <th>Revenue</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {{#each dailyRevenue}}
+
+                <tr>
+
+                  <td>
+                    {{sale_date}}
+                  </td>
+
+                  <td>
+                    {{completed_sales}}
+                  </td>
+
+                  <td>
+                    {{units_sold}}
+                  </td>
+
+                  <td class="positive">
+                    GH₵ {{revenue}}
+                  </td>
+
+                </tr>
+
+                {{/each}}
+
+
+                {{#unless dailyRevenue.length}}
+
+                <tr>
+
+                  <td
+                    colspan="4"
+                    class="empty-state"
+                  >
+                    No daily revenue data available.
+                  </td>
+
+                </tr>
+
+                {{/unless}}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           SALES STATUS + BUSINESS METRICS
+           ======================================================= -->
+
+      <section class="two-column-section">
+
+        <div class="table-card">
+
+          <div class="table-card-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                SALES CONTROL
+              </span>
+
+              <h3>
+                Sales Status
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Status</th>
+                  <th>Transactions</th>
+                  <th>Value</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {{#each salesStatusSummary}}
+
+                <tr>
+
+                  <td>
+
+                    <span class="status-badge {{sale_status}}">
+                      {{sale_status}}
+                    </span>
+
+                  </td>
+
+                  <td>
+                    {{transaction_count}}
+                  </td>
+
+                  <td>
+                    GH₵ {{transaction_value}}
+                  </td>
+
+                </tr>
+
+                {{/each}}
+
+
+                {{#unless salesStatusSummary.length}}
+
+                <tr>
+
+                  <td
+                    colspan="3"
+                    class="empty-state"
+                  >
+                    No sales status data available.
+                  </td>
+
+                </tr>
+
+                {{/unless}}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        <div class="metric-panel">
+
+          <div class="section-eyebrow">
+            EXECUTIVE METRICS
+          </div>
+
+          <h3>
+            Revenue Quality
+          </h3>
+
+
+          <div class="metric-row">
+
+            <span>
+              Gross Subtotal
+            </span>
+
+            <strong>
+              GH₵ {{grossSubtotal}}
+            </strong>
+
+          </div>
+
+
+          <div class="metric-row">
+
+            <span>
+              Discounts Given
+            </span>
+
+            <strong>
+              GH₵ {{totalDiscount}}
+            </strong>
+
+          </div>
+
+
+          <div class="metric-row">
+
+            <span>
+              Tax
+            </span>
+
+            <strong>
+              GH₵ {{totalTax}}
+            </strong>
+
+          </div>
+
+
+          <div class="metric-row">
+
+            <span>
+              Total Grand Total
+            </span>
+
+            <strong>
+              GH₵ {{totalGrandTotal}}
+            </strong>
+
+          </div>
+
+
+          <div class="metric-row">
+
+            <span>
+              Historical Cost
+            </span>
+
+            <strong>
+              GH₵ {{estimatedCost}}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           NEVER SOLD PRODUCTS
+           ======================================================= -->
+
+      <section class="dashboard-section">
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-eyebrow">
+              MANAGEMENT ATTENTION
+            </div>
+
+            <h2>
+              Products Never Sold
+            </h2>
+
+            <p>
+              Products that currently have no completed sales history
+              within the selected dashboard scope.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="table-card warning-table">
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Brand</th>
+                  <th>Cost</th>
+                  <th>Selling Price</th>
+                  <th>Available Stock</th>
+                  <th>Created</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {{#each neverSoldProducts}}
+
+                <tr>
+
+                  <td>
+
+                    <strong>
+                      {{product_name}}
+                    </strong>
+
+                  </td>
+
+                  <td>
+                    {{category}}
+                  </td>
+
+                  <td>
+                    {{brand}}
+                  </td>
+
+                  <td>
+                    GH₵ {{cost_price}}
+                  </td>
+
+                  <td>
+                    GH₵ {{selling_price}}
+                  </td>
+
+                  <td>
+
+                    <span class="warning-pill">
+                      {{quantity_available}}
+                    </span>
+
+                  </td>
+
+                  <td>
+                    {{created_at}}
+                  </td>
+
+                </tr>
+
+                {{/each}}
+
+
+                {{#unless neverSoldProducts.length}}
+
+                <tr>
+
+                  <td
+                    colspan="7"
+                    class="empty-state success-message"
+                  >
+                    ✓ All products have recorded completed sales.
+                  </td>
+
+                </tr>
+
+                {{/unless}}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           FOOTER
+           ======================================================= -->
+
+      <footer class="dashboard-footer">
+
+        <div>
+          MarketFlow Executive Intelligence
+        </div>
+
+        <div>
+          Completed sales are used for revenue and profitability analysis.
+        </div>
+
+      </footer>
+
+    </main>
+
+  </div>
+
+
+  <!-- ===========================================================
+       CHART DATA
+       =========================================================== -->
+
+  <script>
+
+     function changeDashboardScope(url) {
+
+      if (!url) {
+        return;
+      }
+
+      window.location.href = url;
+
+    }
+
+    const dailyData = [
+      {{#each dailyTrend}}
+      {
+        label: "{{day_label}}",
+        revenue: Number("{{revenue}}") || 0,
+        cost: Number("{{cost}}") || 0,
+        profit: Number("{{gross_profit}}") || 0,
+        margin: Number("{{profit_margin}}") || 0,
+        sales: Number("{{completed_sales}}") || 0,
+        units: Number("{{units_sold}}") || 0
+      },
+      {{/each}}
+    ];
+
+
+    const weeklyData = [
+      {{#each weeklyTrend}}
+      {
+        label: "{{week_label}}",
+        revenue: Number("{{revenue}}") || 0,
+        cost: Number("{{cost}}") || 0,
+        profit: Number("{{gross_profit}}") || 0,
+        margin: Number("{{profit_margin}}") || 0,
+        sales: Number("{{completed_sales}}") || 0,
+        units: Number("{{units_sold}}") || 0
+      },
+      {{/each}}
+    ];
+
+
+    const monthlyData = [
+      {{#each monthlyPerformance}}
+      {
+        label: "{{month_label}}",
+        revenue: Number("{{revenue}}") || 0,
+        cost: Number("{{total_cost}}") || 0,
+        profit: Number("{{gross_profit}}") || 0,
+        margin: Number("{{profit_margin}}") || 0,
+        sales: Number("{{completed_sales}}") || 0,
+        units: Number("{{units_sold}}") || 0
+      },
+      {{/each}}
+    ];
+
+
+    const dayData = [
+      {{#each dayOfWeekRevenue}}
+      {
+        label: "{{day_of_week}}",
+        revenue: Number("{{revenue}}") || 0,
+        sales: Number("{{completed_sales}}") || 0
+      },
+      {{/each}}
+    ];
+
+
+    const categoryData = [
+      {{#each categoryPerformance}}
+      {
+        label: "{{category}}",
+        revenue: Number("{{revenue}}") || 0,
+        profit: Number("{{gross_profit}}") || 0
+      },
+      {{/each}}
+    ];
+
+
+    const paymentData = [
+      {{#each paymentMethods}}
+      {
+        label: "{{payment_method}}",
+        amount: Number("{{amount}}") || 0
+      },
+      {{/each}}
+    ];
+
+
+    /* ===========================================================
+       CHART DEFAULTS
+       =========================================================== */
+
+    Chart.defaults.font.family =
+      "Inter, Arial, Helvetica, sans-serif";
+
+    Chart.defaults.color =
+      "#64748b";
+
+
+    /* ===========================================================
+       TREND CHART
+       =========================================================== */
+
+    const trendCanvas =
+      document.getElementById("trendChart");
+
+    let trendChart;
+
+
+    function createTrendChart(data, title) {
+
+      if (trendChart) {
+        trendChart.destroy();
+      }
+
+
+      trendChart = new Chart(
+        trendCanvas,
+        {
+          type: "line",
+
+          data: {
+
+            labels:
+              data.map(item => item.label),
+
+            datasets: [
+
+              {
+                label: "Revenue",
+
+                data:
+                  data.map(item => item.revenue),
+
+                borderWidth: 3,
+                tension: 0.35,
+                fill: false,
+                pointRadius: 3,
+                pointHoverRadius: 6
+              },
+
+              {
+                label: "Cost",
+
+                data:
+                  data.map(item => item.cost),
+
+                borderWidth: 2,
+                tension: 0.35,
+                fill: false,
+                pointRadius: 2,
+                borderDash: [6, 5]
+              },
+
+              {
+                label: "Gross Profit",
+
+                data:
+                  data.map(item => item.profit),
+
+                borderWidth: 3,
+                tension: 0.35,
+                fill: false,
+                pointRadius: 3,
+                pointHoverRadius: 6
+              }
+
+            ]
+
+          },
+
+
+          options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            interaction: {
+              intersect: false,
+              mode: "index"
+            },
+
+
+            plugins: {
+
+              legend: {
+                display: false
+              },
+
+
+              tooltip: {
+
+                callbacks: {
+
+                  label: function(context) {
+
+                    return (
+                      context.dataset.label +
+                      ": GH₵ " +
+                      Number(
+                        context.raw
+                      ).toLocaleString(
+                        "en-GH",
+                        {
+                          minimumFractionDigits: 2
+                        }
+                      )
+                    );
+
+                  }
+
+                }
+
+              }
+
+            },
+
+
+            scales: {
+
+              y: {
+
+                beginAtZero: true,
+
+                ticks: {
+
+                  callback: function(value) {
+
+                    return (
+                      "₵" +
+                      Number(value)
+                        .toLocaleString()
+                    );
+
+                  }
+
+                },
+
+                grid: {
+                  drawBorder: false
+                }
+
+              },
+
+
+              x: {
+
+                grid: {
+                  display: false
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+      );
+
+
+      document.getElementById(
+        "trendTitle"
+      ).textContent = title;
+
+    }
+
+
+    createTrendChart(
+      dailyData,
+      "Daily Business Performance"
+    );
+
+
+    /* ===========================================================
+       TREND BUTTONS
+       =========================================================== */
+
+    document
+      .querySelectorAll(".trend-button")
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          function() {
+
+            document
+              .querySelectorAll(".trend-button")
+              .forEach(btn =>
+                btn.classList.remove("active")
+              );
+
+
+            this.classList.add("active");
+
+
+            const period =
+              this.dataset.period;
+
+
+            if (period === "daily") {
+
+              createTrendChart(
+                dailyData,
+                "Daily Business Performance"
+              );
+
+              document.getElementById(
+                "trendSubtitle"
+              ).textContent =
+                "Daily revenue, cost and gross profit";
+
+            }
+
+
+            if (period === "weekly") {
+
+              createTrendChart(
+                weeklyData,
+                "Weekly Business Performance"
+              );
+
+              document.getElementById(
+                "trendSubtitle"
+              ).textContent =
+                "Weekly revenue, cost and gross profit";
+
+            }
+
+
+            if (period === "monthly") {
+
+              createTrendChart(
+                monthlyData,
+                "Monthly Business Performance"
+              );
+
+              document.getElementById(
+                "trendSubtitle"
+              ).textContent =
+                "Monthly revenue, cost and gross profit";
+
+            }
+
+          }
+        );
+
+      });
+
+
+    /* ===========================================================
+       DAY OF WEEK CHART
+       =========================================================== */
+
+    const dayCanvas =
+      document.getElementById("dayChart");
+
+
+    new Chart(
+      dayCanvas,
+      {
+
+        type: "bar",
+
+        data: {
+
+          labels:
+            dayData.map(item => item.label),
+
+          datasets: [
+
+            {
+
+              label: "Revenue",
+
+              data:
+                dayData.map(item => item.revenue),
+
+              borderRadius: 7,
+              borderSkipped: false
+
+            }
+
+          ]
+
+        },
+
+
+        options: {
+
+          responsive: true,
+
+          maintainAspectRatio: false,
+
+
+          plugins: {
+
+            legend: {
+              display: false
+            }
+
+          },
+
+
+          scales: {
+
+            y: {
+
+              beginAtZero: true,
+
+              ticks: {
+
+                callback: function(value) {
+
+                  return (
+                    "₵" +
+                    Number(value)
+                      .toLocaleString()
+                  );
+
+                }
+
+              }
+
+            },
+
+
+            x: {
+
+              grid: {
+                display: false
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* ===========================================================
+       PAYMENT CHART
+       =========================================================== */
+
+    const paymentCanvas =
+      document.getElementById("paymentChart");
+
+
+    new Chart(
+      paymentCanvas,
+      {
+
+        type: "doughnut",
+
+        data: {
+
+          labels:
+            paymentData.map(
+              item => item.label
+            ),
+
+          datasets: [
+
+            {
+
+              data:
+                paymentData.map(
+                  item => item.amount
+                ),
+
+              borderWidth: 0,
+              hoverOffset: 8
+
+            }
+
+          ]
+
+        },
+
+
+        options: {
+
+          responsive: true,
+
+          maintainAspectRatio: false,
+
+          cutout: "68%",
+
+
+          plugins: {
+
+            legend: {
+
+              position: "bottom",
+
+              labels: {
+
+                usePointStyle: true,
+                padding: 18
+
+              }
+
+            },
+
+
+            tooltip: {
+
+              callbacks: {
+
+                label: function(context) {
+
+                  return (
+                    context.label +
+                    ": GH₵ " +
+                    Number(
+                      context.raw
+                    ).toLocaleString(
+                      "en-GH",
+                      {
+                        minimumFractionDigits: 2
+                      }
+                    )
+                  );
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* ===========================================================
+       CATEGORY CHART
+       =========================================================== */
+
+    const categoryCanvas =
+      document.getElementById("categoryChart");
+
+
+    new Chart(
+      categoryCanvas,
+      {
+
+        type: "bar",
+
+        data: {
+
+          labels:
+            categoryData.map(
+              item => item.label
+            ),
+
+          datasets: [
+
+            {
+
+              label: "Revenue",
+
+              data:
+                categoryData.map(
+                  item => item.revenue
+                ),
+
+              borderRadius: 7,
+              borderSkipped: false
+
+            }
+
+          ]
+
+        },
+
+
+        options: {
+
+          indexAxis: "y",
+
+          responsive: true,
+
+          maintainAspectRatio: false,
+
+
+          plugins: {
+
+            legend: {
+              display: false
+            }
+
+          },
+
+
+          scales: {
+
+            x: {
+
+              beginAtZero: true,
+
+              ticks: {
+
+                callback: function(value) {
+
+                  return (
+                    "₵" +
+                    Number(value)
+                      .toLocaleString()
+                  );
+
+                }
+
+              }
+
+            },
+
+
+            y: {
+
+              grid: {
+                display: false
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* ===========================================================
+       NAVIGATION
+       =========================================================== */
+
+    document
+      .querySelectorAll(".nav-link")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          function() {
+
+            document
+              .querySelectorAll(".nav-link")
+              .forEach(item =>
+                item.classList.remove("active")
+              );
+
+            this.classList.add("active");
+
+          }
+        );
+
+      });
+
+  </script>
+
+</body>
+</html>

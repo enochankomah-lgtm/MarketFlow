@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pending Registrations - MarketFlow</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            margin-bottom: 20px;
+        }
+
+        .page-title h2 {
+            margin-bottom: 6px;
+        }
+
+        .page-title p {
+            color: #666;
+            margin-top: 0;
+        }
+
+        .message {
+            padding: 14px 16px;
+            background: #fff;
+            border-radius: 7px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th,
+        td {
+            padding: 14px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .role {
+            display: inline-block;
+            padding: 5px 9px;
+            background: #eef2ff;
+            color: #3730a3;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .button {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 13px;
+        }
+
+        .approve {
+            background: #16a34a;
+        }
+
+        .approve:hover {
+            background: #15803d;
+        }
+
+        .reject {
+            background: #dc2626;
+        }
+
+        .reject:hover {
+            background: #b91c1c;
+        }
+
+        .empty {
+            padding: 35px;
+            text-align: center;
+            color: #666;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        @media (max-width: 750px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header nav {
+                display: none;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>MarketFlow Admin Portal</h1>
+
+        <nav>
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/registrations">Registrations</a>
+            <a href="/admin/employees">Employees</a>
+            <a href="/auth/logout">Logout</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <a href="/admin/dashboard" class="back">
+            ← Back to Dashboard
+        </a>
+
+        <section class="page-title">
+            <h2>Pending Registrations</h2>
+
+            <p>
+                Review registration requests belonging to your business.
+            </p>
+        </section>
+
+        <div id="message" class="message"></div>
+
+        <section class="table-container">
+
+            {{#if pendingRegistrations.length}}
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Job Title</th>
+                            <th>Role</th>
+                            <th>Branch</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {{#each pendingRegistrations}}
+
+                            <tr>
+                                <td>
+                                    {{FirstName}} {{LastName}}
+                                </td>
+
+                                <td>
+                                    {{Email}}
+                                </td>
+
+                                <td>
+                                    {{Phone}}
+                                </td>
+
+                                <td>
+                                    {{JobTitle}}
+                                </td>
+
+                                <td>
+                                    <span class="role">
+                                        {{RoleName}}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {{branch_id}}
+                                </td>
+
+                                <td>
+                                    <div class="actions">
+
+                                        <button
+                                            type="button"
+                                            class="button approve"
+                                            onclick="approveRegistration({{UserID}})"
+                                        >
+                                            Approve
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="button reject"
+                                            onclick="rejectRegistration({{UserID}})"
+                                        >
+                                            Reject
+                                        </button>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        {{/each}}
+
+                    </tbody>
+                </table>
+
+            {{else}}
+
+                <div class="empty">
+                    <h3>No Pending Registrations</h3>
+
+                    <p>
+                        There are currently no registration requests waiting
+                        for approval.
+                    </p>
+                </div>
+
+            {{/if}}
+
+        </section>
+
+    </main>
+
+    <script>
+        const messageBox = document.getElementById("message");
+
+        function showMessage(message, success = true) {
+            messageBox.textContent = message;
+            messageBox.style.display = "block";
+            messageBox.style.color = success ? "#166534" : "#991b1b";
+            messageBox.style.background = success ? "#dcfce7" : "#fee2e2";
+        }
+
+        async function approveRegistration(userId) {
+            const confirmed = confirm(
+                "Are you sure you want to approve this registration?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `/admin/registrations/${userId}/approve`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || "Unable to approve registration."
+                    );
+                }
+
+                showMessage(data.message || "Registration approved.");
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 700);
+
+            } catch (error) {
+                console.error(error);
+                showMessage(error.message, false);
+            }
+        }
+
+        async function rejectRegistration(userId) {
+            const confirmed = confirm(
+                "Are you sure you want to reject this registration?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `/admin/registrations/${userId}/reject`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || "Unable to reject registration."
+                    );
+                }
+
+                showMessage(data.message || "Registration rejected.");
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 700);
+
+            } catch (error) {
+                console.error(error);
+                showMessage(error.message, false);
+            }
+        }
+    </script>
+
+</body>
+</html>

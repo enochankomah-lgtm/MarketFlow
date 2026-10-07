@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashier Dashboard | MarketFlow</title>
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="/dashboard.css">      
+    <!-- CHART JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+<div class="dashboard">
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+    <div class="header">
+        <div class="header-left">
+            <h1>
+                Welcome, {{cashier.name}}
+            </h1>
+            <p>
+                Here's your sales activity for today.
+            </p>
+        </div>
+        <div class="header-right">
+            <div class="cashier-info">
+                <strong>
+                    {{cashier.businessName}}
+                </strong>
+                <span>
+                    {{cashier.role}}
+                </span>
+            </div>
+            <div class="profile-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <a href="/productpages/main"
+               class="new-sale-btn">
+                <i class="fa-solid fa-cart-plus"></i>
+                New Sale
+            </a>
+        </div>
+    </div>
+    <!-- =====================================================
+         KPI CARDS
+    ====================================================== -->
+    <div class="stats-grid">
+        <!-- TODAY SALES -->
+        <div class="stat-card">
+            <div class="stat-icon sales-icon">
+                <i class="fa-solid fa-money-bill-trend-up"></i>
+            </div>
+            <div class="stat-title">
+                Today's Sales
+            </div>
+            <div class="stat-value">
+                GH₵ {{totalSales}}
+            </div>
+        </div>
+        <!-- TRANSACTIONS -->
+        <div class="stat-card">
+            <div class="stat-icon transaction-icon">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div class="stat-title">
+                Transactions
+            </div>
+            <div class="stat-value">
+                {{transactionCount}}
+            </div>
+        </div>
+        <!-- ITEMS SOLD -->
+        <div class="stat-card">
+            <div class="stat-icon items-icon">
+                <i class="fa-solid fa-box-open"></i>
+            </div>
+            <div class="stat-title">
+                Items Sold
+            </div>
+            <div class="stat-value">
+                {{itemsSold}}
+            </div>
+        </div>
+        <!-- CASH -->
+        <div class="stat-card">
+            <div class="stat-icon cash-icon">
+                <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+            <div class="stat-title">
+                Cash Sales
+            </div>
+            <div class="stat-value">
+                GH₵ {{paymentMethods.Cash}}
+            </div>
+        </div>
+        <!-- MOBILE MONEY -->
+        <div class="stat-card">
+            <div class="stat-icon mobile-icon">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
+            <div class="stat-title">
+                Mobile Money
+            </div>
+            <div class="stat-value">
+                GH₵ {{lookup paymentMethods "Mobile Money"}}
+            </div>
+        </div>
+        <!-- CARD -->
+        <div class="stat-card">
+            <div class="stat-icon card-icon">
+                <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <div class="stat-title">
+                Card Sales
+            </div>
+            <div class="stat-value">
+                GH₵ {{paymentMethods.Card}}
+            </div>
+        </div>
+    </div>
+    <!-- =====================================================
+         SALES + PAYMENT METHODS
+    ====================================================== -->
+    <div class="main-grid">
+        <!-- SALES OVERVIEW -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h2>
+                        Sales Overview
+                    </h2>
+                </div>
+                <span>
+                    Last 7 days
+                </span>
+            </div>
+            <div class="chart-container">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+        <!-- PAYMENT METHODS -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fa-solid fa-wallet"></i>
+                    <h2>
+                        Payment Methods
+                    </h2>
+                </div>
+                <span>
+                    Today
+                </span>
+            </div>
+            <div class="payment-list">
+                {{#each paymentSummary}}
+                    <div class="payment-row">
+                        <div class="payment-left">
+                            <div class="payment-icon">
+                                <i class="fa-solid fa-money-bill-wave"></i>
+                            </div>
+                            <span class="payment-name">
+                                {{payment_method}}
+                            </span>
+                        </div>
+                        <span class="payment-amount">
+                            GH₵ {{amount}}
+                        </span>
+                    </div>
+                {{else}}
+                    <div class="empty">
+                        <i class="fa-regular fa-credit-card"></i>
+                        No payments today.
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <div class="card today-chart-card">
+        <div class="card-header">
+            <div class="card-title">
+                <i class="fa-solid fa-chart-line"></i>
+                <h2>Sales Trend <span style="font-size:11px;font-weight:400;color:#6b7280;">(Today)</span></h2>
+            </div>
+            <select class="chart-filter" aria-label="Sales trend period">
+                <option>Today</option>
+            </select>
+        </div>
+        <div class="today-chart-container">
+            <canvas id="todaySalesChart"></canvas>
+        </div>
+    </div>
+    <!-- =====================================================
+         TOP PRODUCTS + PAYMENT SUMMARY
+    ====================================================== -->
+    <div class="bottom-grid">
+        <!-- TOP SELLING PRODUCTS -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fa-solid fa-trophy"></i>
+                    <h2>
+                        Top Selling Products
+                    </h2>
+                </div>
+                <span>
+                    Today
+                </span>
+            </div>
+            {{#each topProducts}}
+                <div class="product-row">
+                    <div class="product-left">
+                        <div class="product-icon">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+                        <div>
+                            <div class="product-name">
+                                {{product_name}}
+                            </div>
+                            <div class="product-quantity">
+                                {{quantitySold}} items sold
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-revenue">
+                        GH₵ {{revenue}}
+                    </div>
+                </div>
+            {{else}}
+                <div class="empty">
+                    <i class="fa-solid fa-box-open"></i>
+                    No products sold today.
+                </div>
+            {{/each}}
+        </div>
+        <!-- PAYMENT SUMMARY -->
+            
+        <div class="card payment-summary-card">
+
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <h2>Payment Summary</h2>
+                </div>
+
+                <span>Today</span>
+            </div>
+
+            <div class="payment-summary-content">
+
+                <!-- DONUT CHART -->
+                <div class="payment-chart-container">
+
+                    <canvas id="paymentSummaryChart"></canvas>
+
+                    <div class="payment-chart-center">
+                        <strong>
+                            GH₵ {{paymentTotal}}
+                        </strong>
+                        <small>Total</small>
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENT LIST -->
+                <div class="payment-list">
+
+                    <!-- CASH -->
+                    <div class="payment-row">
+
+                        <div class="payment-left">
+
+                            <div class="payment-icon">
+                                <i class="fa-solid fa-money-bill-wave"></i>
+                            </div>
+
+                            <span class="payment-name">
+                                Cash
+                            </span>
+
+                        </div>
+
+                        <span class="payment-amount">
+                            GH₵ {{paymentMethods.Cash}}
+                        </span>
+
+                    </div>
+
+
+                    <!-- MOBILE MONEY -->
+                    <div class="payment-row">
+
+                        <div class="payment-left">
+
+                            <div class="payment-icon">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                            </div>
+
+                            <span class="payment-name">
+                                Mobile Money
+                            </span>
+
+                        </div>
+
+                        <span class="payment-amount">
+                            GH₵ {{lookup paymentMethods "Mobile Money"}}
+                        </span>
+
+                    </div>
+
+
+                    <!-- CARD -->
+                    <div class="payment-row">
+
+                        <div class="payment-left">
+
+                            <div class="payment-icon">
+                                <i class="fa-solid fa-credit-card"></i>
+                            </div>
+
+                            <span class="payment-name">
+                                Card
+                            </span>
+
+                        </div>
+
+                        <span class="payment-amount">
+                            GH₵ {{paymentMethods.Card}}
+                        </span>
+
+                    </div>
+
+
+                    <!-- BANK TRANSFER -->
+                    <div class="payment-row">
+
+                        <div class="payment-left">
+
+                            <div class="payment-icon">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+
+                            <span class="payment-name">
+                                Bank Transfer
+                            </span>
+
+                        </div>
+
+                        <span class="payment-amount">
+                            GH₵ {{lookup paymentMethods "Bank Transfer"}}
+                        </span>
+
+                    </div>
+
+
+                    <!-- SPLIT PAYMENT -->
+                    <div class="payment-row">
+
+                        <div class="payment-left">
+
+                            <div class="payment-icon">
+                                <i class="fa-solid fa-code-branch"></i>
+                            </div>
+
+                            <span class="payment-name">
+                                Split Payment
+                            </span>
+
+                        </div>
+
+                        <span class="payment-amount">
+                            GH₵ {{lookup paymentMethods "Split Payment"}}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- =====================================================
+         RECENT TRANSACTIONS
+    ====================================================== -->
+    <div class="card transactions-card">
+        <div class="card-header">
+            <div class="card-title">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <h2>
+                    Recent Transactions
+                </h2>
+            </div>
+            <span>
+                Latest 10
+            </span>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Invoice
+                        </th>
+                        <th>
+                            Customer
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Payment
+                        </th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each recentTransactions}}
+                        <tr>
+                            <td>
+                                <strong>
+                                    {{invoice_number}}
+                                </strong>
+                            </td>
+                            <td>
+                                {{customer_name}}
+                            </td>
+                            <td>
+                                <strong>
+                                    GH₵ {{GrandTotal}}
+                                </strong>
+                            </td>
+                            <td>
+                                {{payment_method}}
+                            </td>
+                            <td>
+                                {{created_at}}
+                            </td>
+                            <td>
+                                <span class="status {{sale_status}}">
+                                    <i class="sale-status-icon"></i>
+                                    {{sale_status}}
+                                </span>
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="6"
+                                class="empty">
+                                <i class="fa-solid fa-receipt"></i>
+                                No transactions found.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- =====================================================
+         ALERTS
+    ====================================================== -->
+    <div class="alerts-grid">
+        <!-- LOW STOCK -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h2>
+                        Low Stock
+                    </h2>
+                </div>
+                <span>
+                    Attention
+                </span>
+            </div>
+            {{#each lowStock}}
+                <div class="alert-item">
+                    <div class="alert-left">
+                        <div class="alert-icon low-icon">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                        <span class="alert-name">
+                            {{product_name}}
+                        </span>
+                    </div>
+                    <span class="alert-value low">
+                        {{quantity_available}} left
+                    </span>
+                </div>
+            {{else}}
+                <div class="empty">
+                    <i class="fa-solid fa-circle-check"></i>
+                    No low-stock products.
+                </div>
+            {{/each}}
+        </div>
+        <!-- EXPIRING STOCK -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fa-solid fa-calendar-xmark"></i>
+                    <h2>
+                        Expiring Stock
+                    </h2>
+                </div>
+                <span>
+                    Next 30 days
+                </span>
+            </div>
+            {{#each expiringStock}}
+                <div class="alert-item">
+                    <div class="alert-left">
+                        <div class="alert-icon expiry-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <span class="alert-name">
+                            {{product_name}}
+                        </span>
+                    </div>
+                    <span class="alert-value expiry">
+                        {{days_remaining}} days
+                    </span>
+                </div>
+            {{else}}
+                <div class="empty">
+                    <i class="fa-solid fa-circle-check"></i>
+                    No stock expiring soon.
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+<!-- =========================================================
+     SALES CHART
+========================================================= -->
+
+<script>
+    
+
+    // =========================================================
+    // CHECK CHART.JS
+    // =========================================================
+
+    if (typeof Chart === "undefined") {
+
+        console.error("Chart.js was not loaded.");
+
+    } else {
+
+        console.log("Chart.js loaded successfully.");
+
+
+        // =====================================================
+        // TODAY'S SALES TREND
+        // =====================================================
+
+        let todaySalesTrend = [];
+
+        try {
+
+            todaySalesTrend = {{{todaySalesTrendJSON}}};
+
+            if (!Array.isArray(todaySalesTrend)) {
+                todaySalesTrend = [];
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Error loading today's sales trend:",
+                error
+            );
+
+            todaySalesTrend = [];
+
+        }
+
+
+        console.log(
+            "Today's Sales Trend:",
+            todaySalesTrend
+        );
+
+
+        // -----------------------------------------------------
+        // TODAY HOURS
+        // -----------------------------------------------------
+
+        const todayHours =
+            Array.from(
+                { length: 13 },
+                (_, index) => index + 8
+            );
+
+
+        // -----------------------------------------------------
+        // TODAY LABELS
+        // -----------------------------------------------------
+
+        const todayLabels =
+            todayHours.map(hour => {
+
+                const suffix =
+                    hour >= 12
+                        ? "PM"
+                        : "AM";
+
+                const displayHour =
+                    hour % 12 === 0
+                        ? 12
+                        : hour % 12;
+
+                return (
+                    String(displayHour).padStart(2, "0")
+                    + " "
+                    + suffix
+                );
+
+            });
+
+
+        // -----------------------------------------------------
+        // TODAY SALES DATA
+        // -----------------------------------------------------
+
+        const todaySalesData =
+            todayHours.map(hour => {
+
+                const row =
+                    todaySalesTrend.find(
+                        item =>
+                            Number(item.saleHour) === hour
+                    );
+
+                return row
+                    ? Number(row.totalSales)
+                    : 0;
+
+            });
+
+
+        console.log(
+            "Today's Sales Data:",
+            todaySalesData
+        );
+
+
+        // -----------------------------------------------------
+        // TODAY CHART
+        // -----------------------------------------------------
+
+        const todayChartCanvas =
+            document.getElementById(
+                "todaySalesChart"
+            );
+
+
+        if (todayChartCanvas) {
+
+            new Chart(
+                todayChartCanvas,
+                {
+                    type: "line",
+
+                    data: {
+
+                        labels: todayLabels,
+
+                        datasets: [
+                            {
+                                label: "Sales",
+
+                                data: todaySalesData,
+
+                                tension: 0.35,
+
+                                fill: false,
+
+                                pointRadius: 3,
+
+                                pointHoverRadius: 5,
+
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        plugins: {
+
+                            legend: {
+                                display: false
+                            },
+
+                            tooltip: {
+
+                                callbacks: {
+
+                                    label: function(context) {
+
+                                        return (
+                                            " GH₵ "
+                                            +
+                                            Number(context.raw)
+                                                .toLocaleString(
+                                                    "en-GH",
+                                                    {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2
+                                                    }
+                                                )
+                                        );
+
+                                    }
+
+                                }
+
+                            }
+
+                        },
+
+                        scales: {
+
+                            x: {
+
+                                grid: {
+                                    display: false
+                                },
+
+                                ticks: {
+                                    maxRotation: 0,
+                                    autoSkip: true,
+                                    maxTicksLimit: 7
+                                }
+                            },
+
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return (
+                                            "GH₵ "
+                                            +
+                                            Number(value)
+                                                .toLocaleString(
+                                                    "en-GH"
+                                                )
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+
+        } else {
+
+            console.error(
+                "Canvas #todaySalesChart was not found."
+            );
+
+        }
+
+        // LAST 7 DAYS SALES TREND
+
+        let salesTrend = [];
+
+        try {
+
+            salesTrend = {{{salesTrendJSON}}};
+
+            if (!Array.isArray(salesTrend)) {
+                salesTrend = [];
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Error loading 7-day sales trend:",
+                error
+            );
+
+            salesTrend = [];
+
+        }
+
+
+        console.log(
+            "7-Day Sales Trend:",
+            salesTrend
+        );
+
+
+        // -----------------------------------------------------
+        // LAST 7 DAYS LABELS
+        // -----------------------------------------------------
+
+        const labels =
+            salesTrend.map(item => {
+
+                const date =
+                    new Date(item.saleDate);
+
+                return date.toLocaleDateString(
+                    "en-GH",
+                    {
+                        weekday: "short"
+                    }
+                );
+
+            });
+
+
+        // -----------------------------------------------------
+        // LAST 7 DAYS SALES DATA
+        // -----------------------------------------------------
+
+        const salesData =
+            salesTrend.map(item =>
+                Number(item.totalSales)
+            );
+
+
+        console.log(
+            "7-Day Sales Data:",
+            salesData
+        );
+
+
+        // -----------------------------------------------------
+        // SALES CHART
+        // -----------------------------------------------------
+
+        const chartCanvas =
+            document.getElementById(
+                "salesChart"
+            );
+
+
+        if (chartCanvas) {
+
+            new Chart(
+                chartCanvas,
+                {
+                    type: "line",
+
+                    data: {
+
+                        labels: labels,
+
+                        datasets: [
+                            {
+                                label: "Sales",
+
+                                data: salesData,
+
+                                tension: 0.4,
+
+                                fill: true,
+
+                                pointRadius: 4,
+
+                                pointHoverRadius: 6,
+
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        plugins: {
+
+                            legend: {
+                                display: false
+                            },
+
+                            tooltip: {
+
+                                callbacks: {
+
+                                    label: function(context) {
+
+                                        return (
+                                            " GH₵ "
+                                            +
+                                            Number(context.raw)
+                                                .toLocaleString(
+                                                    "en-GH",
+                                                    {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2
+                                                    }
+                                                )
+                                        );
+
+                                    }
+
+                                }
+
+                            }
+
+                        },
+
+                        scales: {
+
+                            x: {
+
+                                grid: {
+                                    display: false
+                                }
+
+                            },
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                ticks: {
+
+                                    callback: function(value) {
+
+                                        return (
+                                            "GH₵ "
+                                            +
+                                            Number(value)
+                                                .toLocaleString(
+                                                    "en-GH"
+                                                )
+                                        );
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        } else {
+
+            console.error(
+                "Canvas #salesChart was not found."
+            );
+        }
+    }
+</script>
+<script>
+
+    const paymentChart = document.getElementById("paymentSummaryChart");
+
+    const cash = Number("{{paymentMethods.Cash}}") || 0;
+
+    const mobileMoney =
+        Number("{{lookup paymentMethods 'Mobile Money'}}") || 0;
+
+    const card =
+        Number("{{paymentMethods.Card}}") || 0;
+
+    const bankTransfer =
+        Number("{{lookup paymentMethods 'Bank Transfer'}}") || 0;
+
+    const splitPayment =
+        Number("{{lookup paymentMethods 'Split Payment'}}") || 0;
+
+
+    new Chart(paymentChart, {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Cash",
+                "Mobile Money",
+                "Card",
+                "Bank Transfer",
+                "Split Payment"
+            ],
+
+            datasets: [
+                {
+                    data: [
+                        cash,
+                        mobileMoney,
+                        card,
+                        bankTransfer,
+                        splitPayment
+                    ],
+
+                    borderWidth: 0,
+
+                    cutout: "65%"
+                }
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                },
+
+                tooltip: {
+
+                    callbacks: {
+
+                        label: function(context) {
+
+                            const value = context.raw || 0;
+
+                            return " GH₵ " +
+                                value.toLocaleString(
+                                    "en-GH",
+                                    {
+                                        minimumFractionDigits: 2
+                                    }
+                                );
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

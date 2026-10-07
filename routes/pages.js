@@ -1,27 +1,16 @@
-const express = require("express");
+const express=require("express");
+const router=express.Router();
 
-
-const router = express.Router();
-
-
-router.get("/", (req, res) => {
-
-    res.render("home")
-
+router.get("/",(req,res)=>{
+    res.render("home");
 });
 
-router.get("/Account", (req, res) => {
-    res.render("Account")
+router.get("/Account",(req,res)=>{
+    res.render("Account");
 });
 
-router.get("/login", (req, res) => {
+router.get("/login",(req,res)=>{
     res.render("login");
 });
 
-
-
-
-
-
-
-module.exports = router;
+module.exports=router;
