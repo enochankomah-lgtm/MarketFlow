@@ -775,6 +775,11 @@ async function buildReceipt(
                 s.sale_id,
                 s.invoice_number,
                 s.cashier_id,
+                CONCAT(
+                        COALESCE(u.FirstName, ''),
+                        ' ',
+                        COALESCE(u.LastName, '')
+                    ) AS cashier_name,
                 s.customer_id,
                 c.customer_name,
                 s.subtotal,
@@ -787,11 +792,14 @@ async function buildReceipt(
                 s.sale_status,
                 s.created_at
             FROM sales s
+            LEFT JOIN users u
+                    ON u.UserID = s.cashier_id
+                   AND u.business_id = s.business_id
+                   
             LEFT JOIN customers c
-                ON c.customer_id =
-                    s.customer_id
-                AND c.business_id =
-                    s.business_id
+                ON c.customer_id = s.customer_id
+                AND c.business_id = s.business_id
+             
             WHERE s.sale_id = ?
             AND s.business_id = ?
             AND ${branchCondition("s.branch_id")}
@@ -811,11 +819,9 @@ async function buildReceipt(
         );
     }
 
-    const sale =
-        saleRows[0];
+    const sale = saleRows[0];
 
-    const [items] =
-        await connection.query(
+    const [items] = await connection.query(
             `
             SELECT
                 sale_item_id,
@@ -849,6 +855,8 @@ async function buildReceipt(
 
         cashier_id:
             sale.cashier_id,
+
+        cashier_name:sale.cashier_name,    
 
         customer_id:
             sale.customer_id,
@@ -1400,33 +1408,45 @@ async (req, res) => {
                 );
 
         } catch (paystackError) {
+    const paystackErrorData = paystackError.response?.data;
+    const errorCode = paystackErrorData?.code;
+    const httpStatus = paystackError.response?.status;
 
-            /*
-             * A network timeout/error does NOT automatically
-             * mean the charge failed. Paystack recommends
-             * checking a pending charge after waiting.
-             *
-             * Therefore leave our payment as Pending.
-             */
+    console.error(
+        "Paystack charge request error:",
+        paystackErrorData || paystackError.message
+    );
 
-            console.error(
-                "Paystack charge request error:",
-                paystackError.response?.data ||
-                paystackError.message
-            );
+    if (
+        httpStatus >= 400 &&
+        httpStatus < 500 &&
+        httpStatus !== 408 &&
+        httpStatus !== 429
+    ) {
+        await markPaymentFailed(saleId, user);
 
-            return res.status(202).json({
-                success: true,
-                pending: true,
-                sale_id: saleId,
-                invoice_number:
-                    invoiceNumber,
-                reference,
-                status: "pending",
-                message:
-                    "The payment request is being processed. Please wait for confirmation."
-            });
-        }
+        return res.status(400).json({
+            success: false,
+            pending: false,
+            reference,
+            code: errorCode || "charge_rejected",
+            message:
+                errorCode === "invalid_email_address"
+                    ? "The payment email address is invalid. Please correct the cashier account email and try again."
+                    : paystackErrorData?.message ||
+                      "Paystack rejected the payment request."
+        });
+    }
+
+    return res.status(202).json({
+        success: true,
+        pending: true,
+        reference,
+        status: "pending",
+        message:
+            "Payment initiation could not be confirmed. Check the transaction status before retrying."
+    });
+}
 
         const paystackData =
             paystackResponse.data;
@@ -1451,10 +1471,6 @@ async (req, res) => {
         const transaction =
             paystackData.data;
 
-        /*
-         * Paystack should return the same reference
-         * we supplied.
-         */
         if (
             transaction.reference &&
             transaction.reference !== reference
@@ -1473,18 +1489,10 @@ async (req, res) => {
 
         return res.status(200).json({
             success: true,
-
-            sale_id:
-                saleId,
-
-            invoice_number:
-                invoiceNumber,
-
+            sale_id: saleId,
+            invoice_number: invoiceNumber,
             reference,
-
-            status:
-                transaction.status,
-
+            status:transaction.status,
             message:
                 transaction.display_text ||
                 "Payment request sent. Please approve the payment on your phone."

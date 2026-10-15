@@ -1523,41 +1523,29 @@ function showReceipt(receipt) {
         return;
     }
 
-    currentReceipt =
-        receipt;
+    currentReceipt =   receipt;
 
-    const invoice =
-        getElement("receiptInvoice");
+    const invoice = getElement("receiptInvoice");
 
-    const date =
-        getElement("receiptDate");
+    const date = getElement("receiptDate");
 
-    const cashier =
-        getElement("receiptCashier");
+    const cashier = getElement("receiptCashier");
 
-    const customer =
-        getElement("receiptCustomer");
+    const customer = getElement("receiptCustomer");
 
-    const payment =
-        getElement("receiptPayment");
+    const payment = getElement("receiptPayment");
 
-    const subtotal =
-        getElement("receiptSubtotal");
+    const subtotal = getElement("receiptSubtotal");
 
-    const discount =
-        getElement("receiptDiscount");
+    const discount = getElement("receiptDiscount");
 
-    const tax =
-        getElement("receiptTax");
+    const tax = getElement("receiptTax");
 
-    const grandTotal =
-        getElement("receiptGrandTotal");
+    const grandTotal = getElement("receiptGrandTotal");
 
-    const paid =
-        getElement("receiptPaid");
+    const paid = getElement("receiptPaid");
 
-    const change =
-        getElement("receiptChange");
+    const change = getElement("receiptChange");
 
     if (invoice) {
         invoice.textContent =
@@ -1572,8 +1560,7 @@ function showReceipt(receipt) {
     }
 
     if (cashier) {
-        cashier.textContent =
-            receipt.cashier_name ||
+        cashier.textContent = receipt.cashier_name ||
             receipt.cashier_id ||
             "---";
     }
@@ -1746,7 +1733,7 @@ function renderMomoReceiptDetails(receipt) {
 
     const paymentMethod = String(receipt.payment_method || "").toLowerCase();
     const isMomo = paymentMethod === "mobile money" || paymentMethod === "split payment" || paymentMethod === "Cash";
-    debugger;
+    
     if (!isMomo) {
         if (details) {
             details.style.display =

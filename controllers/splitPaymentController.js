@@ -2144,16 +2144,6 @@ exports.createSplitSale = async (req, res) => {
         }
 
 
-        /* -----------------------------------------------------------------
-           CLEAR CART
-           -----------------------------------------------------------------
-
-           If Mobile Money is pending, we still clear the temporary cart
-           because the sale items have already been copied into sales_item.
-
-           The sale itself remains Pending until payment confirmation.
-        ----------------------------------------------------------------- */
-
         await connection.query(`
             DELETE FROM sales_item_initial
 
@@ -2173,11 +2163,6 @@ exports.createSplitSale = async (req, res) => {
             user.branch_id
         ]);
 
-
-        /* -----------------------------------------------------------------
-           SUMMARY BEFORE COMMIT
-        ----------------------------------------------------------------- */
-
         const summary =
             await getPaymentSummary(
                 connection,
@@ -2185,14 +2170,6 @@ exports.createSplitSale = async (req, res) => {
                 saleId,
                 false
             );
-
-
-        /*
-         * Save everything to the database BEFORE calling Paystack.
-         *
-         * This is important because we must never hold a MySQL
-         * transaction open while waiting for an external API.
-         */
 
         await connection.commit();
 
@@ -2225,22 +2202,12 @@ exports.createSplitSale = async (req, res) => {
 
             try {
 
-                /*
-                 * The helper locks and verifies the exact payment
-                 * using payment_id + sale_id + business + branch.
-                 */
-
                 mobileMoneyResult = await initiateSplitMobileMoneyPayment({
 
-                        connection:
-                            paymentConnection,
-
+                        connection: paymentConnection,
                         user,
-
                         saleId,
-
-                        paymentId:
-                            pendingMobileMoneyPayment.payment_id,
+                        paymentId: pendingMobileMoneyPayment.payment_id,
 
                         network:
                             pendingMobileMoneyPayment.network,
@@ -2253,15 +2220,6 @@ exports.createSplitSale = async (req, res) => {
                 await paymentConnection.commit();
 
             } catch (paymentError) {
-
-                /*
-                 * Paystack/network failure must NOT automatically
-                 * cancel the entire sale.
-                 *
-                 * The payment remains Pending so that the status
-                 * endpoint/webhook can safely determine the final
-                 * result.
-                 */
 
                 try {
 

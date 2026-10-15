@@ -15,7 +15,6 @@ const db = mysql.createPool({
     keepAliveInitialDelay: 0
 });
 
-// Test database connection
 (async () => {
     try {
         const connection = await db.getConnection();

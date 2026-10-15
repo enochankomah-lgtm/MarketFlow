@@ -3,203 +3,4109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Overview | {{businessName}}</title>
+    <title>Customer Analytics | {{businessName}}</title>
     <link rel="stylesheet" href="/customeroverview.css">
+    <script src="/js/customerview.js" defer></script>
 </head>
 <body>
 
-    <!-- Customer Overview -->
+<main class="customer-dashboard">
 
-    <main class="customer-overview-page">
-        <header class="customer-overview-header">
-            <div>
-                <h1>Customer Overview</h1>
-                <p>{{businessName}}</p>
+    <header class="customer-header">
+
+        <div class="customer-header-brand">
+            <div class="customer-header-eyebrow">
+                MARKETFLOW / CUSTOMER ANALYTICS
             </div>
 
-            <form method="GET" action="/customer-overview" class="customer-overview-filters" autocomplete="off">
+            <h1>Customer Overview</h1>
 
-    <select name="scope" id="customerScope">
-        <option value="business" {{#if isBusinessScope}}selected{{/if}}>
-            All Branches
-        </option>
-        <option value="branch" {{#if isBranchScope}}selected{{/if}}>
-            Branch
-        </option>
-    </select>
-
-    <select
-        name="branch_id"
-        id="customerBranch"
-        {{#unless isBranchScope}}disabled{{/unless}}
-    >
-        {{#each branches}}
-            <option
-                value="{{branch_id}}"
-                {{#if selected}}selected{{/if}}
-            >
-                {{branch_name}}
-            </option>
-        {{/each}}
-    </select>
-
-    <select name="period" id="customerPeriod">
-        <option value="today" {{#ifEquals period "today"}}selected{{/ifEquals}}>
-            Today
-        </option>
-        <option value="week" {{#ifEquals period "week"}}selected{{/ifEquals}}>
-            This Week
-        </option>
-        <option value="month" {{#ifEquals period "month"}}selected{{/ifEquals}}>
-            This Month
-        </option>
-        <option value="quarter" {{#ifEquals period "quarter"}}selected{{/ifEquals}}>
-            This Quarter
-        </option>
-        <option value="year" {{#ifEquals period "year"}}selected{{/ifEquals}}>
-            This Year
-        </option>
-        <option value="all" {{#ifEquals period "all"}}selected{{/ifEquals}}>
-            All Time
-        </option>
-    </select>
-
-</form>
-
-<script>
-    const filterForm =
-        document.querySelector(".customer-overview-filters");
-
-    const scopeSelect =
-        document.getElementById("customerScope");
-
-    const branchSelect =
-        document.getElementById("customerBranch");
-
-    const periodSelect =
-        document.getElementById("customerPeriod");
-
-    const updateBranchFilter = () => {
-        const branchScope =
-            scopeSelect.value === "branch";
-
-        branchSelect.disabled = !branchScope;
-        branchSelect.style.display =
-            branchScope ? "block" : "none";
-    };
-
-    scopeSelect.addEventListener("change", () => {
-        if (scopeSelect.value === "business") {
-            branchSelect.disabled = true;
-            filterForm.submit();
-            return;
-        }
-
-        updateBranchFilter();
-    });
-
-    branchSelect.addEventListener("change", () => {
-        if (branchSelect.value) {
-            filterForm.submit();
-        }
-    });
-
-    periodSelect.addEventListener("change", () => {
-        filterForm.submit();
-    });
-
-    updateBranchFilter();
-</script>
-
-        </header>
-
-        <div class="customer-overview-scope">
-            {{#if isBranchScope}}
-                <span>{{branchName}}</span>
-                {{#if branchLocation}}
-                    <span>{{branchLocation}}</span>
-                {{/if}}
-            {{else}}
-                <span>All Branches</span>
-            {{/if}}
-
-            <span>{{period}}</span>
+            <p>
+                Understand customer growth, value, retention and profitability.
+            </p>
         </div>
 
-        <section class="customer-kpi-grid">
+        <div class="customer-header-business">
+            <span class="customer-header-business-label">
+                BUSINESS
+            </span>
+            <strong>{{businessName}}</strong>
+
+        </div>
+        <a href="/productpages/products" class="customer-analytics-nav-link is-active-n"> Dashboard </a>
+
+    </header>
+
+    <nav class="customer-analytics-nav" aria-label="Customer analytics navigation">
+
+    <div class="customer-analytics-nav-inner">
+
+        <a
+            href="#customer-overview"
+            class="customer-analytics-nav-link is-active"
+        >
+            Overview
+        </a>
+
+        <a
+            href="#customer-acquisition"
+            class="customer-analytics-nav-link"
+        >
+            Acquisition
+        </a>
+
+        <a
+            href="#customer-retention"
+            class="customer-analytics-nav-link"
+        >
+            Retention
+        </a>
+
+        <a
+            href="#customer-segmentation"
+            class="customer-analytics-nav-link"
+        >
+            Segmentation
+        </a>
+
+        <a
+            href="#customer-rfm"
+            class="customer-analytics-nav-link"
+        >
+            RFM
+        </a>
+
+        <a
+            href="#customer-clv"
+            class="customer-analytics-nav-link"
+        >
+            CLV
+        </a>
+
+        <a href="#customer-profitability" class="customer-analytics-nav-link" >
+            Profitability
+        </a>
+
+        <a href="#customer-purchasing-behavior" class="customer-analytics-nav-link">
+                Purchasing Behavior
+            </a>
+
+        <a
+            href="#customer-concentration"
+            class="customer-analytics-nav-link"
+        >
+            Concentration
+        </a>
+
+        <a
+            href="#customer-geographic-analysis"
+            class="customer-analytics-nav-link"
+        >
+            Geography
+        </a>
+
+        <a  href="#customer-branch-analysis"
+            class="customer-analytics-nav-link"
+        >
+            Branch Analysis
+        </a>
+
+        <a
+            href="#customer-360"
+            class="customer-analytics-nav-link"
+        >
+            Customer 360
+        </a>
+
+        <a href="#customer-decision-intelligence" class="customer-analytics-nav-link" >
+            Decision Intelligence
+        </a>
+
+    </div>
+
+</nav>
+
+    <section class="customer-toolbar">
+
+        <div class="customer-scope-summary">
+
+            <span class="customer-scope-indicator"></span>
+
+            <div>
+                <span class="customer-scope-label">CURRENT VIEW</span>
+
+                <strong>
+                    {{#if isBranchScope}}
+                        {{branchName}}
+                    {{else}}
+                        All Branches
+                    {{/if}}
+                </strong>
+            </div>
+
+        </div>
+
+        <form
+            method="GET"
+            action="/customer-overview"
+            class="customer-filters"
+            autocomplete="off"
+        >
+
+            <div class="customer-filter">
+
+                <label for="customerScope">
+                    Scope
+                </label>
+
+                <select
+                    name="scope"
+                    id="customerScope"
+                >
+                    <option
+                        value="business"
+                        {{#if isBusinessScope}}selected{{/if}}
+                    >
+                        All Branches
+                    </option>
+
+                    <option
+                        value="branch"
+                        {{#if isBranchScope}}selected{{/if}}
+                    >
+                        Branch
+                    </option>
+                </select>
+
+            </div>
+
+            <div class="customer-filter">
+
+                <label for="customerBranch">
+                    Branch
+                </label>
+
+                <select
+                    name="branch_id"
+                    id="customerBranch"
+                    {{#unless isBranchScope}}disabled{{/unless}}
+                >
+
+                    {{#each branches}}
+
+                        <option
+                            value="{{branch_id}}"
+                            {{#if selected}}selected{{/if}}
+                        >
+                            {{branch_name}}
+                        </option>
+
+                    {{/each}}
+
+                </select>
+
+            </div>
+
+            <div class="customer-filter">
+
+                <label for="customerPeriod">
+                    Period
+                </label>
+
+                <select
+                    name="period"
+                    id="customerPeriod"
+                >
+
+                    <option
+                        value="today"
+                        {{#ifEquals period "today"}}selected{{/ifEquals}}
+                    >
+                        Today
+                    </option>
+
+                    <option
+                        value="week"
+                        {{#ifEquals period "week"}}selected{{/ifEquals}}
+                    >
+                        This Week
+                    </option>
+
+                    <option
+                        value="month"
+                        {{#ifEquals period "month"}}selected{{/ifEquals}}
+                    >
+                        This Month
+                    </option>
+
+                    <option
+                        value="quarter"
+                        {{#ifEquals period "quarter"}}selected{{/ifEquals}}
+                    >
+                        This Quarter
+                    </option>
+
+                    <option
+                        value="year"
+                        {{#ifEquals period "year"}}selected{{/ifEquals}}
+                    >
+                        This Year
+                    </option>
+
+                    <option
+                        value="all"
+                        {{#ifEquals period "all"}}selected{{/ifEquals}}
+                    >
+                        All Time
+                    </option>
+
+                </select>
+
+            </div>
+
+            <button
+                type="button"
+                class="customer-refresh-button"
+                id="customerRefresh"
+                title="Refresh dashboard"
+            >
+                <span class="customer-refresh-icon">↻</span>
+                <span>Refresh</span>
+            </button>
+
+        </form>
+
+    </section>
+
+    <section id="customer-overview" class="customer-dashboard-section">
+
+        <div class="customer-section-heading">
+
+            <div>
+                <span class="customer-section-eyebrow">
+                    PERFORMANCE SNAPSHOT
+                </span>
+
+                <h2>Customer Overview</h2>
+            </div>
+
+            <div class="customer-period-badge">
+                {{period}}
+            </div>
+
+        </div>
+
+        <div class="customer-kpi-grid">
+
             <article class="customer-kpi-card">
-                <div class="customer-kpi-label">Total Customers</div>
-                <div class="customer-kpi-value">{{overview.totalCustomers}}</div>
-                <div class="customer-kpi-description">Customers registered</div>
+
+                <div class="customer-kpi-top">
+                    <span class="customer-kpi-label">
+                        Total Customers
+                    </span>
+
+                    <span class="customer-kpi-icon">
+                        ◉
+                    </span>
+                </div>
+
+                <strong class="customer-kpi-value">
+                    {{overview.totalCustomers}}
+                </strong>
+
+                <span class="customer-kpi-description">
+                    Customers registered
+                </span>
+
             </article>
 
             <article class="customer-kpi-card">
-                <div class="customer-kpi-label">Active Customers</div>
-                <div class="customer-kpi-value">{{overview.activeCustomers}}</div>
-                <div class="customer-kpi-description">Currently active customers</div>
+
+                <div class="customer-kpi-top">
+                    <span class="customer-kpi-label">
+                        Active Customers
+                    </span>
+
+                    <span class="customer-kpi-icon">
+                        ●
+                    </span>
+                </div>
+
+                <strong class="customer-kpi-value">
+                    {{overview.activeCustomers}}
+                </strong>
+
+                <span class="customer-kpi-description">
+                    Currently active customers
+                </span>
+
             </article>
 
             <article class="customer-kpi-card">
-                <div class="customer-kpi-label">New Customers</div>
-                <div class="customer-kpi-value">{{overview.newCustomers}}</div>
-                <div class="customer-kpi-description">First-time customers</div>
+
+                <div class="customer-kpi-top">
+                    <span class="customer-kpi-label">
+                        New Customers
+                    </span>
+
+                    <span class="customer-kpi-icon">
+                        +
+                    </span>
+                </div>
+
+                <strong class="customer-kpi-value">
+                    {{overview.newCustomers}}
+                </strong>
+
+                <span class="customer-kpi-description">
+                    Newly acquired customers
+                </span>
+
             </article>
 
             <article class="customer-kpi-card">
-                <div class="customer-kpi-label">Returning Customers</div>
-                <div class="customer-kpi-value">{{overview.returningCustomers}}</div>
-                <div class="customer-kpi-description">Customers who purchased more than once</div>
+
+                <div class="customer-kpi-top">
+                    <span class="customer-kpi-label">
+                        Returning Customers
+                    </span>
+
+                    <span class="customer-kpi-icon">
+                        ↻
+                    </span>
+                </div>
+
+                <strong class="customer-kpi-value">
+                    {{overview.returningCustomers}}
+                </strong>
+
+                <span class="customer-kpi-description">
+                    Customers who purchased more than once
+                </span>
+
             </article>
 
             <article class="customer-kpi-card">
-                <div class="customer-kpi-label">Customers With Purchases</div>
-                <div class="customer-kpi-value">{{overview.customersWithPurchases}}</div>
-                <div class="customer-kpi-description">Customers who purchased</div>
+
+                <div class="customer-kpi-top">
+                    <span class="customer-kpi-label">
+                        Customers With Purchases
+                    </span>
+
+                    <span class="customer-kpi-icon">
+                        ✓
+                    </span>
+                </div>
+
+                <strong class="customer-kpi-value">
+                    {{overview.customersWithPurchases}}
+                </strong>
+
+                <span class="customer-kpi-description">
+                    Customers who completed purchases
+                </span>
+
             </article>
 
             <article class="customer-kpi-card">
-                <div class="customer-kpi-label">Customer Revenue</div>
-                <div class="customer-kpi-value">₵{{overview.customerRevenue}}</div>
-                <div class="customer-kpi-description">Revenue generated by customers</div>
+
+                <div class="customer-kpi-top">
+                    <span class="customer-kpi-label">
+                        Customer Revenue
+                    </span>
+
+                    <span class="customer-kpi-icon">
+                        ₵
+                    </span>
+                </div>
+
+                <strong class="customer-kpi-value">
+                    ₵{{overview.customerRevenue}}
+                </strong>
+
+                <span class="customer-kpi-description">
+                    Revenue generated by customers
+                </span>
+
             </article>
 
             <article class="customer-kpi-card">
-                <div class="customer-kpi-label">Average Customer Value</div>
-                <div class="customer-kpi-value">₵{{overview.averageCustomerValue}}</div>
-                <div class="customer-kpi-description">Average revenue per purchasing customer</div>
+
+                <div class="customer-kpi-top">
+                    <span class="customer-kpi-label">
+                        Average Customer Value
+                    </span>
+
+                    <span class="customer-kpi-icon">
+                        ◈
+                    </span>
+                </div>
+
+                <strong class="customer-kpi-value">
+                    ₵{{overview.averageCustomerValue}}
+                </strong>
+
+                <span class="customer-kpi-description">
+                    Average revenue per purchasing customer
+                </span>
+
             </article>
 
             <article class="customer-kpi-card">
-                <div class="customer-kpi-label">Average Order Value</div>
-                <div class="customer-kpi-value">₵{{overview.averageOrderValue}}</div>
-                <div class="customer-kpi-description">Average customer transaction value</div>
+
+                <div class="customer-kpi-top">
+                    <span class="customer-kpi-label">
+                        Average Order Value
+                    </span>
+
+                    <span class="customer-kpi-icon">
+                        #
+                    </span>
+                </div>
+
+                <strong class="customer-kpi-value">
+                    ₵{{overview.averageOrderValue}}
+                </strong>
+
+                <span class="customer-kpi-description">
+                    Average customer transaction value
+                </span>
+
             </article>
-        </section>
-    </main>
+
+        </div>
+
+    </section>
+
+    <!-- ================================================================
+     CUSTOMER ACQUISITION
+     ================================================================ -->
+
+<section id="customer-acquisition" class="customer-dashboard-section customer-acquisition-section">
+
+    <div class="customer-section-heading">
+
+        <div>
+            <span class="customer-section-eyebrow">
+                CUSTOMER ACQUISITION
+            </span>
+
+            <h2>Acquisition Performance</h2>
+
+            <p class="customer-section-description">
+                Track new customer growth, first purchases and return behaviour.
+            </p>
+        </div>
+
+        <div class="customer-acquisition-status">
+            <span class="customer-acquisition-status-dot"></span>
+            <span>
+                {{#if isBranchScope}}
+                    {{branchName}}
+                {{else}}
+                    All Branches
+                {{/if}}
+            </span>
+        </div>
+
+    </div>
+
+    <div class="customer-acquisition-kpi-grid">
+
+        <article class="customer-acquisition-card acquisition-new">
+
+            <div class="customer-acquisition-card-top">
+
+                <div>
+                    <span class="customer-acquisition-card-label">
+                        New Customers
+                    </span>
+
+                    <span class="customer-acquisition-card-caption">
+                        First-time purchasers
+                    </span>
+                </div>
+
+                <span class="customer-acquisition-icon">
+                    +
+                </span>
+
+            </div>
+
+            <strong class="customer-acquisition-value">
+                {{acquisition.newCustomers}}
+            </strong>
+
+        </article>
+
+        <article class="customer-acquisition-card acquisition-returned">
+
+            <div class="customer-acquisition-card-top">
+
+                <div>
+                    <span class="customer-acquisition-card-label">
+                        Returned Customers
+                    </span>
+
+                    <span class="customer-acquisition-card-caption">
+                        Acquired customers who returned
+                    </span>
+                </div>
+
+                <span class="customer-acquisition-icon">
+                    ↻
+                </span>
+
+            </div>
+
+            <strong class="customer-acquisition-value">
+                {{acquisition.returnedCustomers}}
+            </strong>
+
+        </article>
+
+        <article class="customer-acquisition-card acquisition-never-returned">
+
+            <div class="customer-acquisition-card-top">
+
+                <div>
+                    <span class="customer-acquisition-card-label">
+                        Never Returned
+                    </span>
+
+                    <span class="customer-acquisition-card-caption">
+                        Acquired but did not return
+                    </span>
+                </div>
+
+                <span class="customer-acquisition-icon">
+                    !
+                </span>
+
+            </div>
+
+            <strong class="customer-acquisition-value">
+                {{acquisition.neverReturnedCustomers}}
+            </strong>
+
+        </article>
+
+        <article class="customer-acquisition-card acquisition-rate">
+
+            <div class="customer-acquisition-card-top">
+
+                <div>
+                    <span class="customer-acquisition-card-label">
+                        Return Rate
+                    </span>
+
+                    <span class="customer-acquisition-card-caption">
+                        Acquired customers who returned
+                    </span>
+                </div>
+
+                <span class="customer-acquisition-icon">
+                    %
+                </span>
+
+            </div>
+
+            <strong class="customer-acquisition-value">
+                {{acquisition.returnRate}}%
+            </strong>
+
+        </article>
+
+    </div>
+
+    <div class="customer-acquisition-grid">
+
+        <article class="customer-acquisition-panel customer-acquisition-trend-panel">
+
+            <div class="customer-panel-header">
+
+                <div>
+                    <span class="customer-panel-eyebrow">
+                        GROWTH TREND
+                    </span>
+
+                    <h3>New Customer Acquisition</h3>
+
+                    <p>
+                        Customers making their first completed purchase.
+                    </p>
+                </div>
+
+                <span class="customer-panel-badge">
+                    {{period}}
+                </span>
+
+            </div>
+
+            <div class="customer-acquisition-chart-wrapper">
+                <canvas id="customerAcquisitionTrendChart"></canvas>
+
+                <div
+                    id="customerAcquisitionTrendEmpty"
+                    class="customer-chart-empty"
+                    hidden
+                >
+                    <span>—</span>
+                    <strong>No acquisition data</strong>
+                    <small>
+                        No new customers were acquired during this period.
+                    </small>
+                </div>
+            </div>
+
+            <div
+                id="customerAcquisitionTrendSource"
+                class="customer-data-source"
+                aria-hidden="true"
+            >
+                {{#each acquisition.trend}}
+                    <span
+                        data-period="{{period}}"
+                        data-new-customers="{{newCustomers}}"
+                    ></span>
+                {{/each}}
+            </div>
+
+        </article>
+
+        <article class="customer-acquisition-panel customer-acquisition-branch-panel">
+
+            <div class="customer-panel-header">
+
+                <div>
+                    <span class="customer-panel-eyebrow">
+                        BRANCH PERFORMANCE
+                    </span>
+
+                    <h3>Acquisition by Branch</h3>
+
+                    <p>
+                        New customers attributed to their first purchase branch.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="customer-branch-acquisition-list">
+
+                {{#if acquisition.byBranch.length}}
+
+                    {{#each acquisition.byBranch}}
+
+                        <div
+                            class="customer-branch-acquisition-row"
+                            data-branch-name="{{branchName}}"
+                            data-new-customers="{{newCustomers}}"
+                        >
+
+                            <div class="customer-branch-acquisition-info">
+
+                                <span class="customer-branch-acquisition-name">
+                                    {{branchName}}
+                                </span>
+
+                                <span class="customer-branch-acquisition-count">
+                                    {{newCustomers}} new customers
+                                </span>
+
+                            </div>
+
+                            <div class="customer-branch-acquisition-bar">
+
+                                <span
+                                    class="customer-branch-acquisition-fill"
+                                    style="width: 0%"
+                                ></span>
+
+                            </div>
+
+                            <strong class="customer-branch-acquisition-value">
+                                {{newCustomers}}
+                            </strong>
+
+                        </div>
+
+                    {{/each}}
+
+                {{else}}
+
+                    <div class="customer-acquisition-empty">
+                        <span>—</span>
+                        <strong>No branch acquisition data</strong>
+                        <small>
+                            There are no new customers for this period.
+                        </small>
+                    </div>
+
+                {{/if}}
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+<!-- ================================================================
+     CUSTOMER RETENTION — STEP 3
+     ================================================================ -->
+
+<section
+    id="customer-retention"
+    class="customer-dashboard-section customer-retention-section"
+>
+
+    <div class="customer-section-heading">
+
+        <div>
+            <span class="customer-section-eyebrow">
+                CUSTOMER RETENTION
+            </span>
+
+            <h2>Retention &amp; Repeat Purchase Performance</h2>
+
+            <p class="customer-section-description">
+                Understand how effectively acquired customers return and continue purchasing.
+            </p>
+        </div>
+
+        <div
+            class="customer-retention-direction"
+            id="customerRetentionDirection"
+        >
+            <span class="customer-retention-direction-icon">
+                {{retention.direction}}
+            </span>
+
+            <div>
+                <span class="customer-retention-direction-label">
+                    RETENTION TREND
+                </span>
+
+                <strong>
+                    {{retention.direction}}
+                </strong>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+         RETENTION KPIs
+         ============================================================ -->
+
+    <div class="customer-retention-kpi-grid">
+
+        <article class="customer-retention-card retention-returning">
+
+            <div class="customer-retention-card-top">
+
+                <div>
+                    <span class="customer-retention-card-label">
+                        Returning Customers
+                    </span>
+
+                    <span class="customer-retention-card-caption">
+                        Customers who purchased more than once
+                    </span>
+                </div>
+
+                <span class="customer-retention-icon">
+                    ↻
+                </span>
+
+            </div>
+
+            <strong class="customer-retention-value">
+                {{retention.returningCustomers}}
+            </strong>
+
+        </article>
+
+        <article class="customer-retention-card retention-one-time">
+
+            <div class="customer-retention-card-top">
+
+                <div>
+                    <span class="customer-retention-card-label">
+                        One-Time Customers
+                    </span>
+
+                    <span class="customer-retention-card-caption">
+                        Customers who purchased only once
+                    </span>
+                </div>
+
+                <span class="customer-retention-icon">
+                    1
+                </span>
+
+            </div>
+
+            <strong class="customer-retention-value">
+                {{retention.oneTimeCustomers}}
+            </strong>
+
+        </article>
+
+        <article class="customer-retention-card retention-rate">
+
+            <div class="customer-retention-card-top">
+
+                <div>
+                    <span class="customer-retention-card-label">
+                        Repeat Purchase Rate
+                    </span>
+
+                    <span class="customer-retention-card-caption">
+                        Share of purchasing customers who returned
+                    </span>
+                </div>
+
+                <span class="customer-retention-icon">
+                    %
+                </span>
+
+            </div>
+
+            <strong class="customer-retention-value">
+                {{retention.repeatPurchaseRate}}%
+            </strong>
+
+        </article>
+
+        <article class="customer-retention-card retention-direction-card">
+
+            <div class="customer-retention-card-top">
+
+                <div>
+                    <span class="customer-retention-card-label">
+                        Retention Direction
+                    </span>
+
+                    <span class="customer-retention-card-caption">
+                        Current retention movement
+                    </span>
+                </div>
+
+                <span class="customer-retention-icon">
+                    ↗
+                </span>
+
+            </div>
+
+            <strong
+                class="customer-retention-value"
+                id="customerRetentionDirectionValue"
+            >
+                {{retention.direction}}
+            </strong>
+
+        </article>
+
+    </div>
+
+    <!-- ============================================================
+         RETENTION ANALYSIS
+         ============================================================ -->
+
+    <div class="customer-retention-grid">
+
+        <article class="customer-retention-panel">
+
+            <div class="customer-panel-header">
+
+                <div>
+                    <span class="customer-panel-eyebrow">
+                        RETENTION TREND
+                    </span>
+
+                    <h3>Repeat Purchase Rate</h3>
+
+                    <p>
+                        Movement in the share of customers who return to purchase.
+                    </p>
+                </div>
+
+                <span class="customer-panel-badge">
+                    {{period}}
+                </span>
+
+            </div>
+
+            <div class="customer-retention-chart-wrapper">
+
+                <canvas
+                    id="customerRetentionTrendChart"
+                ></canvas>
+
+                <div
+                    id="customerRetentionTrendEmpty"
+                    class="customer-chart-empty"
+                    hidden
+                >
+                    <span>—</span>
+
+                    <strong>
+                        No retention trend available
+                    </strong>
+
+                    <small>
+                        There is not enough customer purchase history for this period.
+                    </small>
+                </div>
+
+            </div>
+
+            <div
+                id="customerRetentionTrendSource"
+                class="customer-data-source"
+                aria-hidden="true"
+            >
+
+                {{#each retention.trend}}
+
+                    <span
+                        data-period="{{period}}"
+                        data-returning="{{returningCustomers}}"
+                        data-one-time="{{oneTimeCustomers}}"
+                        data-rate="{{repeatPurchaseRate}}"
+                    ></span>
+
+                {{/each}}
+
+            </div>
+
+        </article>
+
+        <article class="customer-retention-panel">
+
+            <div class="customer-panel-header">
+
+                <div>
+                    <span class="customer-panel-eyebrow">
+                        CUSTOMER MIX
+                    </span>
+
+                    <h3>Returning vs One-Time</h3>
+
+                    <p>
+                        Current customer purchasing composition.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="customer-retention-mix">
+
+                <div class="customer-retention-mix-item">
+
+                    <div class="customer-retention-mix-heading">
+
+                        <span class="customer-retention-mix-dot returning"></span>
+
+                        <span>
+                            Returning Customers
+                        </span>
+
+                        <strong>
+                            {{retention.returningCustomers}}
+                        </strong>
+
+                    </div>
+
+                    <div class="customer-retention-mix-bar">
+
+                        <span
+                            class="customer-retention-mix-fill returning"
+                            id="customerReturningMixFill"
+                        ></span>
+
+                    </div>
+
+                </div>
+
+                <div class="customer-retention-mix-item">
+
+                    <div class="customer-retention-mix-heading">
+
+                        <span class="customer-retention-mix-dot one-time"></span>
+
+                        <span>
+                            One-Time Customers
+                        </span>
+
+                        <strong>
+                            {{retention.oneTimeCustomers}}
+                        </strong>
+
+                    </div>
+
+                    <div class="customer-retention-mix-bar">
+
+                        <span
+                            class="customer-retention-mix-fill one-time"
+                            id="customerOneTimeMixFill"
+                        ></span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="customer-retention-summary">
+
+                <div class="customer-retention-summary-item">
+
+                    <span>Returning share</span>
+
+                    <strong id="customerReturningShare">
+                        —
+                    </strong>
+
+                </div>
+
+                <div class="customer-retention-summary-item">
+
+                    <span>One-time share</span>
+
+                    <strong id="customerOneTimeShare">
+                        —
+                    </strong>
+
+                </div>
+
+                <div class="customer-retention-summary-item">
+
+                    <span>Repeat purchase rate</span>
+
+                    <strong>
+                        {{retention.repeatPurchaseRate}}%
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <div
+    id="customerRetentionSummarySource"
+    class="customer-data-source"
+    data-returning="{{retention.returningCustomers}}"
+    data-one-time="{{retention.oneTimeCustomers}}"
+    aria-hidden="true"
+></div>
+
+</section>
+
+<!-- ================================================================
+     CUSTOMER SEGMENTATION — STEP 4
+     ================================================================ -->
+
+<section
+    id="customer-segmentation"
+    class="customer-dashboard-section customer-segmentation-section"
+>
+
+    <div class="customer-section-heading">
+
+        <div>
+            <span class="customer-section-eyebrow">
+                CUSTOMER SEGMENTATION
+            </span>
+
+            <h2>Customer Portfolio</h2>
+
+            <p class="customer-section-description">
+                Understand the size and composition of each customer segment.
+            </p>
+        </div>
+
+        <div class="customer-segmentation-total">
+
+            <span>
+                PURCHASING CUSTOMERS
+            </span>
+
+            <strong>
+                {{customerSegmentation.totalCustomers}}
+            </strong>
+
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+         SEGMENT CARDS
+         ============================================================ -->
+
+    <div class="customer-segment-grid">
+
+        <article class="customer-segment-card segment-vip">
+
+            <div class="customer-segment-card-top">
+
+                <div>
+                    <span class="customer-segment-label">
+                        VIP / HIGH VALUE
+                    </span>
+
+                    <span class="customer-segment-description">
+                        Highest-value customers
+                    </span>
+                </div>
+
+                <span class="customer-segment-icon">
+                    ◆
+                </span>
+
+            </div>
+
+            <strong class="customer-segment-value">
+                {{customerSegmentation.segments.vip.count}}
+            </strong>
+
+            <span class="customer-segment-share">
+                {{customerSegmentation.segments.vip.percentage}}% of customers
+            </span>
+
+        </article>
+
+        <article class="customer-segment-card segment-loyal">
+
+            <div class="customer-segment-card-top">
+
+                <div>
+                    <span class="customer-segment-label">
+                        LOYAL
+                    </span>
+
+                    <span class="customer-segment-description">
+                        Repeat active customers
+                    </span>
+                </div>
+
+                <span class="customer-segment-icon">
+                    ★
+                </span>
+
+            </div>
+
+            <strong class="customer-segment-value">
+                {{customerSegmentation.segments.loyal.count}}
+            </strong>
+
+            <span class="customer-segment-share">
+                {{customerSegmentation.segments.loyal.percentage}}% of customers
+            </span>
+
+        </article>
+
+        <article class="customer-segment-card segment-regular">
+
+            <div class="customer-segment-card-top">
+
+                <div>
+                    <span class="customer-segment-label">
+                        REGULAR
+                    </span>
+
+                    <span class="customer-segment-description">
+                        Active repeat customers
+                    </span>
+                </div>
+
+                <span class="customer-segment-icon">
+                    ●
+                </span>
+
+            </div>
+
+            <strong class="customer-segment-value">
+                {{customerSegmentation.segments.regular.count}}
+            </strong>
+
+            <span class="customer-segment-share">
+                {{customerSegmentation.segments.regular.percentage}}% of customers
+            </span>
+
+        </article>
+
+        <article class="customer-segment-card segment-new">
+
+            <div class="customer-segment-card-top">
+
+                <div>
+                    <span class="customer-segment-label">
+                        NEW
+                    </span>
+
+                    <span class="customer-segment-description">
+                        Recently acquired
+                    </span>
+                </div>
+
+                <span class="customer-segment-icon">
+                    +
+                </span>
+
+            </div>
+
+            <strong class="customer-segment-value">
+                {{customerSegmentation.segments.new.count}}
+            </strong>
+
+            <span class="customer-segment-share">
+                {{customerSegmentation.segments.new.percentage}}% of customers
+            </span>
+
+        </article>
+
+        <article class="customer-segment-card segment-risk">
+
+            <div class="customer-segment-card-top">
+
+                <div>
+                    <span class="customer-segment-label">
+                        AT RISK
+                    </span>
+
+                    <span class="customer-segment-description">
+                        Previously active customers
+                    </span>
+                </div>
+
+                <span class="customer-segment-icon">
+                    !
+                </span>
+
+            </div>
+
+            <strong class="customer-segment-value">
+                {{customerSegmentation.segments.atRisk.count}}
+            </strong>
+
+            <span class="customer-segment-share">
+                {{customerSegmentation.segments.atRisk.percentage}}% of customers
+            </span>
+
+        </article>
+
+        <article class="customer-segment-card segment-dormant">
+
+            <div class="customer-segment-card-top">
+
+                <div>
+                    <span class="customer-segment-label">
+                        DORMANT
+                    </span>
+
+                    <span class="customer-segment-description">
+                        No recent purchasing activity
+                    </span>
+                </div>
+
+                <span class="customer-segment-icon">
+                    ◌
+                </span>
+
+            </div>
+
+            <strong class="customer-segment-value">
+                {{customerSegmentation.segments.dormant.count}}
+            </strong>
+
+            <span class="customer-segment-share">
+                {{customerSegmentation.segments.dormant.percentage}}% of customers
+            </span>
+
+        </article>
+
+        <article class="customer-segment-card segment-one-time">
+
+            <div class="customer-segment-card-top">
+
+                <div>
+                    <span class="customer-segment-label">
+                        ONE-TIME
+                    </span>
+
+                    <span class="customer-segment-description">
+                        Purchased only once
+                    </span>
+                </div>
+
+                <span class="customer-segment-icon">
+                    1
+                </span>
+
+            </div>
+
+            <strong class="customer-segment-value">
+                {{customerSegmentation.segments.oneTime.count}}
+            </strong>
+
+            <span class="customer-segment-share">
+                {{customerSegmentation.segments.oneTime.percentage}}% of customers
+            </span>
+
+        </article>
+
+    </div>
+
+    <!-- ============================================================
+         SEGMENT ANALYSIS
+         ============================================================ -->
+
+    <div class="customer-segmentation-analysis">
+
+        <article class="customer-segmentation-panel">
+
+            <div class="customer-panel-header">
+
+                <div>
+                    <span class="customer-panel-eyebrow">
+                        CUSTOMER MIX
+                    </span>
+
+                    <h3>Segment Distribution</h3>
+
+                    <p>
+                        Relative size of each customer segment.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="customer-segmentation-chart-wrapper">
+
+                <canvas
+                    id="customerSegmentationChart"
+                ></canvas>
+
+                <div
+                    id="customerSegmentationEmpty"
+                    class="customer-chart-empty"
+                    hidden
+                >
+                    <span>—</span>
+
+                    <strong>
+                        No segmentation data available
+                    </strong>
+
+                    <small>
+                        Customer purchase history is required to classify customers.
+                    </small>
+                </div>
+
+            </div>
+
+        </article>
+
+        <article class="customer-segmentation-panel">
+
+            <div class="customer-panel-header">
+
+                <div>
+                    <span class="customer-panel-eyebrow">
+                        PORTFOLIO BREAKDOWN
+                    </span>
+
+                    <h3>Customer Segments</h3>
+
+                    <p>
+                        Customer count and portfolio share.
+                    </p>
+                </div>
+
+            </div>
+
+            <div
+                class="customer-segment-breakdown"
+                id="customerSegmentBreakdown"
+            >
+
+                <div
+                    class="customer-segment-data"
+                    data-name="VIP / High Value"
+                    data-key="vip"
+                    data-count="{{customerSegmentation.segments.vip.count}}"
+                    data-percentage="{{customerSegmentation.segments.vip.percentage}}"
+                ></div>
+
+                <div
+                    class="customer-segment-data"
+                    data-name="Loyal"
+                    data-key="loyal"
+                    data-count="{{customerSegmentation.segments.loyal.count}}"
+                    data-percentage="{{customerSegmentation.segments.loyal.percentage}}"
+                ></div>
+
+                <div
+                    class="customer-segment-data"
+                    data-name="Regular"
+                    data-key="regular"
+                    data-count="{{customerSegmentation.segments.regular.count}}"
+                    data-percentage="{{customerSegmentation.segments.regular.percentage}}"
+                ></div>
+
+                <div
+                    class="customer-segment-data"
+                    data-name="New"
+                    data-key="new"
+                    data-count="{{customerSegmentation.segments.new.count}}"
+                    data-percentage="{{customerSegmentation.segments.new.percentage}}"
+                ></div>
+
+                <div
+                    class="customer-segment-data"
+                    data-name="At Risk"
+                    data-key="atRisk"
+                    data-count="{{customerSegmentation.segments.atRisk.count}}"
+                    data-percentage="{{customerSegmentation.segments.atRisk.percentage}}"
+                ></div>
+
+                <div
+                    class="customer-segment-data"
+                    data-name="Dormant"
+                    data-key="dormant"
+                    data-count="{{customerSegmentation.segments.dormant.count}}"
+                    data-percentage="{{customerSegmentation.segments.dormant.percentage}}"
+                ></div>
+
+                <div
+                    class="customer-segment-data"
+                    data-name="One-Time"
+                    data-key="oneTime"
+                    data-count="{{customerSegmentation.segments.oneTime.count}}"
+                    data-percentage="{{customerSegmentation.segments.oneTime.percentage}}"
+                ></div>
+
+            </div>
+
+            <div class="customer-segment-breakdown-list">
+
+                <div class="customer-segment-breakdown-row">
+                    <span>
+                        <i class="segment-dot vip"></i>
+                        VIP / High Value
+                    </span>
+                    <strong>
+                        {{customerSegmentation.segments.vip.count}}
+                    </strong>
+                </div>
+
+                <div class="customer-segment-breakdown-row">
+                    <span>
+                        <i class="segment-dot loyal"></i>
+                        Loyal
+                    </span>
+                    <strong>
+                        {{customerSegmentation.segments.loyal.count}}
+                    </strong>
+                </div>
+
+                <div class="customer-segment-breakdown-row">
+                    <span>
+                        <i class="segment-dot regular"></i>
+                        Regular
+                    </span>
+                    <strong>
+                        {{customerSegmentation.segments.regular.count}}
+                    </strong>
+                </div>
+
+                <div class="customer-segment-breakdown-row">
+                    <span>
+                        <i class="segment-dot new"></i>
+                        New
+                    </span>
+                    <strong>
+                        {{customerSegmentation.segments.new.count}}
+                    </strong>
+                </div>
+
+                <div class="customer-segment-breakdown-row">
+                    <span>
+                        <i class="segment-dot risk"></i>
+                        At Risk
+                    </span>
+                    <strong>
+                        {{customerSegmentation.segments.atRisk.count}}
+                    </strong>
+                </div>
+
+                <div class="customer-segment-breakdown-row">
+                    <span>
+                        <i class="segment-dot dormant"></i>
+                        Dormant
+                    </span>
+                    <strong>
+                        {{customerSegmentation.segments.dormant.count}}
+                    </strong>
+                </div>
+
+                <div class="customer-segment-breakdown-row">
+                    <span>
+                        <i class="segment-dot one-time"></i>
+                        One-Time
+                    </span>
+                    <strong>
+                        {{customerSegmentation.segments.oneTime.count}}
+                    </strong>
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+<section
+    id="customer-rfm"
+    class="customer-dashboard-section customer-rfm-section"
+>
+    <div class="customer-section-heading customer-rfm-heading">
+        <div>
+            <span class="customer-section-eyebrow">RFM ANALYSIS</span>
+            <h2>Customer Value &amp; Engagement</h2>
+            <p>
+                Evaluate customers by recency, purchase frequency and monetary value.
+            </p>
+        </div>
+
+        <div class="customer-rfm-total">
+            <span>Total Customers</span>
+            <strong>{{rfm.totalCustomers}}</strong>
+        </div>
+    </div>
+
+    <div class="customer-rfm-summary-grid">
+
+        <article class="customer-rfm-summary-card customer-rfm-summary-champion">
+            <div class="customer-rfm-summary-top">
+                <span class="customer-rfm-summary-label">CHAMPIONS</span>
+                <span class="customer-rfm-summary-icon">★</span>
+            </div>
+
+            <strong class="customer-rfm-summary-value">
+                {{rfm.segments.champion.count}}
+            </strong>
+
+            <div class="customer-rfm-summary-meta">
+                <span>{{rfm.segments.champion.percentage}}%</span>
+                <span>of customers</span>
+            </div>
+
+            <div class="customer-rfm-summary-revenue">
+                <span>Revenue</span>
+                <strong>
+                    {{rfm.segments.champion.revenue}}
+                </strong>
+            </div>
+        </article>
+
+        <article class="customer-rfm-summary-card customer-rfm-summary-loyal">
+            <div class="customer-rfm-summary-top">
+                <span class="customer-rfm-summary-label">LOYAL</span>
+                <span class="customer-rfm-summary-icon">◆</span>
+            </div>
+
+            <strong class="customer-rfm-summary-value">
+                {{rfm.segments.loyal.count}}
+            </strong>
+
+            <div class="customer-rfm-summary-meta">
+                <span>{{rfm.segments.loyal.percentage}}%</span>
+                <span>of customers</span>
+            </div>
+
+            <div class="customer-rfm-summary-revenue">
+                <span>Revenue</span>
+                <strong>
+                    {{rfm.segments.loyal.revenue}}
+                </strong>
+            </div>
+        </article>
+
+        <article class="customer-rfm-summary-card customer-rfm-summary-risk">
+            <div class="customer-rfm-summary-top">
+                <span class="customer-rfm-summary-label">AT RISK</span>
+                <span class="customer-rfm-summary-icon">!</span>
+            </div>
+
+            <strong class="customer-rfm-summary-value">
+                {{rfm.segments.atRisk.count}}
+            </strong>
+
+            <div class="customer-rfm-summary-meta">
+                <span>{{rfm.segments.atRisk.percentage}}%</span>
+                <span>of customers</span>
+            </div>
+
+            <div class="customer-rfm-summary-revenue">
+                <span>Revenue</span>
+                <strong>
+                    {{rfm.segments.atRisk.revenue}}
+                </strong>
+            </div>
+        </article>
+
+        <article class="customer-rfm-summary-card customer-rfm-summary-dormant">
+            <div class="customer-rfm-summary-top">
+                <span class="customer-rfm-summary-label">DORMANT</span>
+                <span class="customer-rfm-summary-icon">○</span>
+            </div>
+
+            <strong class="customer-rfm-summary-value">
+                {{rfm.segments.dormant.count}}
+            </strong>
+
+            <div class="customer-rfm-summary-meta">
+                <span>{{rfm.segments.dormant.percentage}}%</span>
+                <span>of customers</span>
+            </div>
+
+            <div class="customer-rfm-summary-revenue">
+                <span>Revenue</span>
+                <strong>
+                    {{rfm.segments.dormant.revenue}}
+                </strong>
+            </div>
+        </article>
+
+        <article class="customer-rfm-summary-card customer-rfm-summary-other">
+            <div class="customer-rfm-summary-top">
+                <span class="customer-rfm-summary-label">OTHER</span>
+                <span class="customer-rfm-summary-icon">•</span>
+            </div>
+
+            <strong class="customer-rfm-summary-value">
+                {{rfm.segments.other.count}}
+            </strong>
+
+            <div class="customer-rfm-summary-meta">
+                <span>{{rfm.segments.other.percentage}}%</span>
+                <span>of customers</span>
+            </div>
+
+            <div class="customer-rfm-summary-revenue">
+                <span>Revenue</span>
+                <strong>
+                    {{rfm.segments.other.revenue}}
+                </strong>
+            </div>
+        </article>
+
+    </div>
+
+    <div class="customer-rfm-main-grid">
+
+        <article class="customer-panel customer-rfm-chart-panel">
+
+            <div class="customer-panel-heading">
+                <div>
+                    <span class="customer-panel-eyebrow">PORTFOLIO MIX</span>
+                    <h3>RFM Segment Distribution</h3>
+                </div>
+            </div>
+
+            <div class="customer-rfm-chart-wrap">
+                <canvas id="customerRfmChart"></canvas>
+            </div>
+
+        </article>
+
+        <article class="customer-panel customer-rfm-breakdown-panel">
+
+            <div class="customer-panel-heading">
+                <div>
+                    <span class="customer-panel-eyebrow">SEGMENT BREAKDOWN</span>
+                    <h3>Customer Value Profile</h3>
+                </div>
+            </div>
+
+            <div
+                id="customerRfmBreakdown"
+                class="customer-rfm-breakdown"
+            >
+
+                <div
+                    class="customer-rfm-data"
+                    data-key="champion"
+                    data-name="Champions"
+                    data-count="{{rfm.segments.champion.count}}"
+                    data-percentage="{{rfm.segments.champion.percentage}}"
+                    data-revenue="{{rfm.segments.champion.revenue}}"
+                ></div>
+
+                <div
+                    class="customer-rfm-data"
+                    data-key="loyal"
+                    data-name="Loyal"
+                    data-count="{{rfm.segments.loyal.count}}"
+                    data-percentage="{{rfm.segments.loyal.percentage}}"
+                    data-revenue="{{rfm.segments.loyal.revenue}}"
+                ></div>
+
+                <div
+                    class="customer-rfm-data"
+                    data-key="atRisk"
+                    data-name="At Risk"
+                    data-count="{{rfm.segments.atRisk.count}}"
+                    data-percentage="{{rfm.segments.atRisk.percentage}}"
+                    data-revenue="{{rfm.segments.atRisk.revenue}}"
+                ></div>
+
+                <div
+                    class="customer-rfm-data"
+                    data-key="dormant"
+                    data-name="Dormant"
+                    data-count="{{rfm.segments.dormant.count}}"
+                    data-percentage="{{rfm.segments.dormant.percentage}}"
+                    data-revenue="{{rfm.segments.dormant.revenue}}"
+                ></div>
+
+                <div
+                    class="customer-rfm-data"
+                    data-key="other"
+                    data-name="Other"
+                    data-count="{{rfm.segments.other.count}}"
+                    data-percentage="{{rfm.segments.other.percentage}}"
+                    data-revenue="{{rfm.segments.other.revenue}}"
+                ></div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <div class="customer-panel customer-rfm-table-panel">
+
+        <div class="customer-panel-heading">
+            <div>
+                <span class="customer-panel-eyebrow">RFM FRAMEWORK</span>
+                <h3>How Customer Value Is Classified</h3>
+            </div>
+        </div>
+
+        <div class="customer-rfm-framework">
+
+            <div class="customer-rfm-framework-card">
+                <span class="customer-rfm-framework-letter">R</span>
+                <div>
+                    <strong>Recency</strong>
+                    <p>
+                        How recently the customer completed a purchase.
+                    </p>
+                </div>
+            </div>
+
+            <div class="customer-rfm-framework-card">
+                <span class="customer-rfm-framework-letter">F</span>
+                <div>
+                    <strong>Frequency</strong>
+                    <p>
+                        How frequently the customer has purchased.
+                    </p>
+                </div>
+            </div>
+
+            <div class="customer-rfm-framework-card">
+                <span class="customer-rfm-framework-letter">M</span>
+                <div>
+                    <strong>Monetary</strong>
+                    <p>
+                        How much revenue the customer has generated.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ============================================================
+     CUSTOMER LIFETIME VALUE
+     ============================================================ -->
+
+<section
+    id="customer-clv"
+    class="customer-dashboard-section customer-clv-section"
+>
+    <div class="customer-section-heading customer-clv-heading">
+        <div>
+            <span class="customer-section-eyebrow">
+                CUSTOMER LIFETIME VALUE
+            </span>
+
+            <h2>Customer Value</h2>
+
+            <p>
+                Measure the realized financial value generated by customers
+                across their purchasing history.
+            </p>
+        </div>
+
+        <div class="customer-clv-total">
+            <span>Total Customers</span>
+            <strong>
+                {{customerLifetimeValue.totalCustomers}}
+            </strong>
+        </div>
+    </div>
+
+    <div class="customer-clv-kpi-grid">
+
+        <article class="customer-clv-kpi-card">
+            <span class="customer-clv-kpi-label">
+                TOTAL CLV
+            </span>
+
+            <strong class="customer-clv-kpi-value">
+                {{customerLifetimeValue.totalCLV}}
+            </strong>
+
+            <span class="customer-clv-kpi-description">
+                Realized customer revenue
+            </span>
+        </article>
+
+        <article class="customer-clv-kpi-card">
+            <span class="customer-clv-kpi-label">
+                AVERAGE CLV
+            </span>
+
+            <strong class="customer-clv-kpi-value">
+                {{customerLifetimeValue.averageCLV}}
+            </strong>
+
+            <span class="customer-clv-kpi-description">
+                Average value per customer
+            </span>
+        </article>
+
+        <article class="customer-clv-kpi-card">
+            <span class="customer-clv-kpi-label">
+                MEDIAN CLV
+            </span>
+
+            <strong class="customer-clv-kpi-value">
+                {{customerLifetimeValue.medianCLV}}
+            </strong>
+
+            <span class="customer-clv-kpi-description">
+                Midpoint customer value
+            </span>
+        </article>
+
+        <article class="customer-clv-kpi-card">
+            <span class="customer-clv-kpi-label">
+                HIGHEST CLV
+            </span>
+
+            <strong class="customer-clv-kpi-value">
+                {{customerLifetimeValue.highestCLV}}
+            </strong>
+
+            <span class="customer-clv-kpi-description">
+                Highest-value customer
+            </span>
+        </article>
+
+    </div>
+
+    <div class="customer-clv-main-grid">
+
+        <article class="customer-panel customer-clv-chart-panel">
+
+            <div class="customer-panel-heading">
+                <div>
+                    <span class="customer-panel-eyebrow">
+                        VALUE DISTRIBUTION
+                    </span>
+
+                    <h3>Customer Value Profile</h3>
+                </div>
+            </div>
+
+            <div class="customer-clv-chart-wrap">
+                <canvas id="customerClvChart"></canvas>
+            </div>
+
+        </article>
+
+        <article class="customer-panel customer-clv-segment-panel">
+
+            <div class="customer-panel-heading">
+                <div>
+                    <span class="customer-panel-eyebrow">
+                        VALUE SEGMENTS
+                    </span>
+
+                    <h3>High Value vs Standard Value</h3>
+                </div>
+            </div>
+
+            <div
+                id="customerClvSegmentData"
+                class="customer-clv-segment-data"
+            >
+
+                <div
+                    class="customer-clv-data"
+                    data-key="highValue"
+                    data-name="High Value"
+                    data-count="{{customerLifetimeValue.valueSegments.highValue.count}}"
+                    data-revenue="{{customerLifetimeValue.valueSegments.highValue.revenue}}"
+                    data-percentage="{{customerLifetimeValue.valueSegments.highValue.percentage}}"
+                ></div>
+
+                <div
+                    class="customer-clv-data"
+                    data-key="standardValue"
+                    data-name="Standard Value"
+                    data-count="{{customerLifetimeValue.valueSegments.standardValue.count}}"
+                    data-revenue="{{customerLifetimeValue.valueSegments.standardValue.revenue}}"
+                    data-percentage="{{customerLifetimeValue.valueSegments.standardValue.percentage}}"
+                ></div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <div class="customer-panel customer-clv-segment-performance">
+
+        <div class="customer-panel-heading">
+            <div>
+                <span class="customer-panel-eyebrow">
+                    CLV BY CUSTOMER SEGMENT
+                </span>
+
+                <h3>Lifetime Value Across Customer Segments</h3>
+            </div>
+        </div>
+
+        <div
+            id="customerClvSegmentBreakdown"
+            class="customer-clv-segment-breakdown"
+        >
+
+            {{#each customerLifetimeValue.segmentPerformance}}
+
+                <div class="customer-clv-segment-row">
+
+                    <div class="customer-clv-segment-name">
+                        <strong>
+                            {{segment}}
+                        </strong>
+
+                        <span>
+                            {{customers}} customers
+                        </span>
+                    </div>
+
+                    <div class="customer-clv-segment-metric">
+                        <span>Revenue</span>
+                        <strong>
+                            {{revenue}}
+                        </strong>
+                    </div>
+
+                    <div class="customer-clv-segment-metric">
+                        <span>Average CLV</span>
+                        <strong>
+                            {{averageCLV}}
+                        </strong>
+                    </div>
+
+                </div>
+
+            {{/each}}
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CUSTOMER PROFITABILITY -->
+<section
+    id="customer-profitability"
+    class="customer-dashboard-section customer-profitability-section"
+>
+    <div class="customer-section-heading">
+        <div>
+            <span class="customer-section-eyebrow">
+                CUSTOMER PROFITABILITY
+            </span>
+            <h2>Revenue, Costs &amp; Profit</h2>
+            <p class="customer-section-description">
+                Understand which customers contribute the most gross profit
+                and how customer revenue translates into profitability.
+            </p>
+        </div>
+
+        <div class="customer-period-badge">
+            {{period}}
+        </div>
+    </div>
+
+    <div
+        id="customerProfitabilitySource"
+        class="customer-data-source"
+        aria-hidden="true"
+        data-revenue="{{customerProfitability.totalRevenue}}"
+        data-cogs="{{customerProfitability.totalCOGS}}"
+        data-profit="{{customerProfitability.totalGrossProfit}}"
+        data-margin="{{customerProfitability.grossMargin}}"
+        data-customers="{{customerProfitability.totalCustomers}}"
+        data-profitable-customers="{{customerProfitability.profitableCustomers}}"
+        data-average-profit="{{customerProfitability.averageProfitPerCustomer}}"
+        data-average-order="{{customerProfitability.averageOrderValue}}"
+        data-transactions="{{customerProfitability.totalOrders}}"
+    ></div>
+
+    <div class="customer-kpi-grid customer-profitability-kpi-grid">
+
+        <article class="customer-kpi-card customer-profit-revenue">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Customer Revenue</span>
+                <span class="customer-kpi-icon">↗</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerProfitRevenue"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Completed customer sales
+            </span>
+        </article>
+
+        <article class="customer-kpi-card customer-profit-cost">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Cost of Goods Sold</span>
+                <span class="customer-kpi-icon">−</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerProfitCogs"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Historical item costs
+            </span>
+        </article>
+
+        <article class="customer-kpi-card customer-profit-gross">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Gross Profit</span>
+                <span class="customer-kpi-icon">◆</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerProfitGross"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Revenue less item costs
+            </span>
+        </article>
+
+        <article class="customer-kpi-card customer-profit-margin">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Gross Margin</span>
+                <span class="customer-kpi-icon">%</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerProfitMargin"
+            >0.0%</strong>
+            <span class="customer-kpi-footnote">
+                Gross profit as a share of revenue
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Profitable Customers</span>
+                <span class="customer-kpi-icon">✓</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerProfitableCustomers"
+            >0</strong>
+            <span class="customer-kpi-footnote">
+                Customers with positive gross profit
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Average Profit per Customer</span>
+                <span class="customer-kpi-icon">◈</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerAverageProfit"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Gross profit per purchasing customer
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Average Order Value</span>
+                <span class="customer-kpi-icon">▤</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerProfitAverageOrder"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Average completed transaction value
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Total Transactions</span>
+                <span class="customer-kpi-icon">#</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerProfitTransactions"
+            >0</strong>
+            <span class="customer-kpi-footnote">
+                Completed customer transactions
+            </span>
+        </article>
+
+    </div>
+
+    <div class="customer-analysis-grid customer-profitability-analysis-grid">
+
+        <article class="customer-panel customer-profit-financial-panel">
+            <div class="customer-panel-heading">
+                <div>
+                    <h3>Financial Performance</h3>
+                    <p>Revenue compared with cost and gross profit.</p>
+                </div>
+            </div>
+
+            <div class="customer-chart-container customer-profit-chart-container">
+                <canvas
+                    id="customerProfitFinancialChart"
+                    aria-label="Customer revenue, cost of goods sold and gross profit"
+                    role="img"
+                ></canvas>
+            </div>
+        </article>
+
+        <article class="customer-panel customer-profit-distribution-panel">
+            <div class="customer-panel-heading">
+                <div>
+                    <h3>Profitability Distribution</h3>
+                    <p>Customers grouped by gross profit contribution.</p>
+                </div>
+            </div>
+
+            <div class="customer-chart-container customer-profit-chart-container">
+                <canvas
+                    id="customerProfitDistributionChart"
+                    aria-label="Customer profitability distribution"
+                    role="img"
+                ></canvas>
+            </div>
+
+            <div
+                id="customerProfitDistributionSource"
+                class="customer-data-source"
+                aria-hidden="true"
+            >
+                {{#each customerProfitability.customers}}
+                    <span
+                        class="customer-profit-distribution-data"
+                        data-name="{{customerName}}"
+                        data-profit="{{grossProfit}}"
+                    ></span>
+                {{/each}}
+            </div>
+        </article>
+
+    </div>
+
+    <article class="customer-panel customer-profit-ranking-panel">
+        <div class="customer-panel-heading">
+            <div>
+                <span class="customer-section-eyebrow">
+                    PROFIT CONTRIBUTION
+                </span>
+                <h3>Most Profitable Customers</h3>
+                <p>
+                    Ranked by gross profit within the current reporting scope.
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Customer</th>
+                        <th>Transactions</th>
+                        <th>Revenue</th>
+                        <th>COGS</th>
+                        <th>Gross Profit</th>
+                        <th>Margin</th>
+                    </tr>
+                </thead>
+
+                <tbody id="customerProfitRankingBody">
+                    {{#each customerProfitability.customers}}
+                        <tr>
+                            <td>
+                                <span class="customer-rank-badge">
+                                    {{@index}}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="customer-table-primary">
+                                    {{customerName}}
+                                </div>
+                                <div class="customer-table-secondary">
+                                    {{customerCode}}
+                                </div>
+                            </td>
+                            <td>{{totalOrders}}</td>
+                            <td data-money="{{totalRevenue}}">
+                                {{totalRevenue}}
+                            </td>
+                            <td data-money="{{totalCOGS}}">
+                                {{totalCOGS}}
+                            </td>
+                            <td
+                                class="customer-profit-table-value"
+                                data-money="{{grossProfit}}"
+                            >
+                                {{grossProfit}}
+                            </td>
+                            <td data-margin="{{grossMargin}}">
+                                {{grossMargin}}%
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="7" class="customer-empty-state">
+                                No customer profitability data is available
+                                for this reporting period.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="customer-panel customer-profit-segment-panel">
+        <div class="customer-panel-heading">
+            <div>
+                <h3>Profitability by Customer Segment</h3>
+                <p>
+                    Compare revenue, cost and gross profit across customer segments.
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table">
+                <thead>
+                    <tr>
+                        <th>Segment</th>
+                        <th>Customers</th>
+                        <th>Revenue</th>
+                        <th>COGS</th>
+                        <th>Gross Profit</th>
+                        <th>Gross Margin</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#each customerProfitability.segmentProfitability}}
+                        <tr>
+                            <td>
+                                <span class="customer-segment-name">
+                                    {{segment}}
+                                </span>
+                            </td>
+                            <td>{{customers}}</td>
+                            <td data-money="{{revenue}}">{{revenue}}</td>
+                            <td data-money="{{cogs}}">{{cogs}}</td>
+                            <td data-money="{{grossProfit}}">{{grossProfit}}</td>
+                            <td data-margin="{{grossMargin}}">{{grossMargin}}%</td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="6" class="customer-empty-state">
+                                No segment profitability data is available.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+</section>
+
+<!-- CUSTOMER PURCHASING BEHAVIOR -->
+<section
+    id="customer-purchasing-behavior"
+    class="customer-dashboard-section customer-purchasing-section"
+>
+    <div class="customer-section-heading">
+        <div>
+            <span class="customer-section-eyebrow">
+                PURCHASING BEHAVIOR
+            </span>
+            <h2>How Customers Buy</h2>
+            <p class="customer-section-description">
+                Analyse customer spending, purchasing frequency,
+                product preferences and category performance.
+            </p>
+        </div>
+
+        <div class="customer-period-badge">
+            {{period}}
+        </div>
+    </div>
+
+    <div
+        id="customerPurchasingSource"
+        class="customer-data-source"
+        aria-hidden="true"
+        data-customers="{{customerPurchasingBehavior.purchasingCustomers}}"
+        data-transactions="{{customerPurchasingBehavior.totalTransactions}}"
+        data-revenue="{{customerPurchasingBehavior.totalRevenue}}"
+        data-quantity="{{customerPurchasingBehavior.totalQuantity}}"
+        data-average-transaction="{{customerPurchasingBehavior.averageTransactionValue}}"
+        data-average-basket="{{customerPurchasingBehavior.averageBasketQuantity}}"
+        data-frequency="{{customerPurchasingBehavior.averageTransactionsPerCustomer}}"
+        data-returning="{{customerPurchasingBehavior.returningCustomers}}"
+    ></div>
+
+    <div class="customer-kpi-grid customer-purchasing-kpi-grid">
+
+        <article class="customer-kpi-card customer-purchase-customers">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Purchasing Customers</span>
+                <span class="customer-kpi-icon">◎</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerPurchasingCustomers"
+            >0</strong>
+            <span class="customer-kpi-footnote">
+                Customers who purchased in this period
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Total Transactions</span>
+                <span class="customer-kpi-icon">▤</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerPurchasingTransactions"
+            >0</strong>
+            <span class="customer-kpi-footnote">
+                Completed customer purchases
+            </span>
+        </article>
+
+        <article class="customer-kpi-card customer-purchase-revenue">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Customer Revenue</span>
+                <span class="customer-kpi-icon">↗</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerPurchasingRevenue"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Revenue from completed purchases
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Units Purchased</span>
+                <span class="customer-kpi-icon">▦</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerPurchasingQuantity"
+            >0</strong>
+            <span class="customer-kpi-footnote">
+                Total quantity sold
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Average Transaction Value</span>
+                <span class="customer-kpi-icon">◈</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerAverageTransaction"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Average revenue per transaction
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Average Basket Quantity</span>
+                <span class="customer-kpi-icon">▣</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerAverageBasket"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Average units per transaction
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Transactions per Customer</span>
+                <span class="customer-kpi-icon">↻</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerPurchasingFrequency"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Average transactions per purchasing customer
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Returning Customers</span>
+                <span class="customer-kpi-icon">✓</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerPurchasingReturning"
+            >0</strong>
+            <span class="customer-kpi-footnote">
+                Customers with repeat purchases
+            </span>
+        </article>
+
+    </div>
+
+    <div class="customer-analysis-grid customer-purchasing-analysis-grid">
+
+        <article class="customer-panel">
+            <div class="customer-panel-heading">
+                <div>
+                    <h3>Top Products</h3>
+                    <p>Products contributing the most customer revenue.</p>
+                </div>
+            </div>
+
+            <div class="customer-chart-container customer-purchasing-chart">
+                <canvas
+                    id="customerPurchasingProductsChart"
+                    aria-label="Top products by customer revenue"
+                    role="img"
+                ></canvas>
+            </div>
+
+            <div
+                id="customerPurchasingProductSource"
+                class="customer-data-source"
+                aria-hidden="true"
+            >
+                {{#each customerPurchasingBehavior.topProducts}}
+                    <span
+                        class="customer-purchasing-product-data"
+                        data-name="{{productName}}"
+                        data-quantity="{{quantity}}"
+                        data-revenue="{{revenue}}"
+                    ></span>
+                {{/each}}
+            </div>
+        </article>
+
+        <article class="customer-panel">
+            <div class="customer-panel-heading">
+                <div>
+                    <h3>Revenue by Category</h3>
+                    <p>Categories ranked by customer spending.</p>
+                </div>
+            </div>
+
+            <div class="customer-chart-container customer-purchasing-chart">
+                <canvas
+                    id="customerPurchasingCategoriesChart"
+                    aria-label="Customer revenue by product category"
+                    role="img"
+                ></canvas>
+            </div>
+
+            <div
+                id="customerPurchasingCategorySource"
+                class="customer-data-source"
+                aria-hidden="true"
+            >
+                {{#each customerPurchasingBehavior.topCategories}}
+                    <span
+                        class="customer-purchasing-category-data"
+                        data-name="{{category}}"
+                        data-revenue="{{revenue}}"
+                        data-quantity="{{quantity}}"
+                    ></span>
+                {{/each}}
+            </div>
+        </article>
+
+    </div>
+
+    <article class="customer-panel customer-purchasing-frequency-panel">
+        <div class="customer-panel-heading">
+            <div>
+                <span class="customer-section-eyebrow">
+                    CUSTOMER ACTIVITY
+                </span>
+                <h3>Customer Purchase Frequency</h3>
+                <p>
+                    Review how often customers purchase and the value
+                    generated during the selected reporting period.
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Transactions</th>
+                        <th>Quantity</th>
+                        <th>Revenue</th>
+                        <th>Average Transaction</th>
+                        <th>First Purchase</th>
+                        <th>Last Purchase</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#each customerPurchasingBehavior.customers}}
+                        <tr>
+                            <td>
+                                <div class="customer-table-primary">
+                                    {{customerName}}
+                                </div>
+                                <div class="customer-table-secondary">
+                                    {{customerCode}}
+                                </div>
+                            </td>
+                            <td>{{totalTransactions}}</td>
+                            <td data-quantity="{{totalQuantity}}">
+                                {{totalQuantity}}
+                            </td>
+                            <td data-money="{{totalRevenue}}">
+                                {{totalRevenue}}
+                            </td>
+                            <td data-money="{{averageTransactionValue}}">
+                                {{averageTransactionValue}}
+                            </td>
+                            <td>{{firstPurchase}}</td>
+                            <td>{{lastPurchase}}</td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="7" class="customer-empty-state">
+                                No purchasing activity is available for this period.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="customer-panel customer-purchasing-preferences-panel">
+        <div class="customer-panel-heading">
+            <div>
+                <h3>Preferred Products by Customer</h3>
+                <p>
+                    The leading product for each customer based on purchase quantity.
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Preferred Product</th>
+                        <th>Quantity Purchased</th>
+                        <th>Product Revenue</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#each customerPurchasingBehavior.preferredProducts}}
+                        <tr>
+                            <td>
+                                <div class="customer-table-primary">
+                                    {{customerName}}
+                                </div>
+                                <div class="customer-table-secondary">
+                                    {{customerCode}}
+                                </div>
+                            </td>
+                            <td>{{productName}}</td>
+                            <td data-quantity="{{quantity}}">
+                                {{quantity}}
+                            </td>
+                            <td data-money="{{revenue}}">
+                                {{revenue}}
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="4" class="customer-empty-state">
+                                No preferred-product data is available.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+</section>
+
+<!-- CUSTOMER CONCENTRATION -->
+<section
+    id="customer-concentration"
+    class="customer-dashboard-section customer-concentration-section"
+>
+    <div class="customer-section-heading">
+        <div>
+            <span class="customer-section-eyebrow">
+                CUSTOMER CONCENTRATION
+            </span>
+            <h2>Revenue Dependency &amp; Risk</h2>
+            <p class="customer-section-description">
+                Understand how much revenue depends on your largest customers
+                and monitor changes in customer concentration over time.
+            </p>
+        </div>
+
+        <div class="customer-period-badge">
+            {{period}}
+        </div>
+    </div>
+
+    <div
+        id="customerConcentrationSource"
+        class="customer-data-source"
+        aria-hidden="true"
+        data-top5-revenue="{{customerConcentration.top5Revenue}}"
+        data-top5-percentage="{{customerConcentration.top5Percentage}}"
+        data-top10-revenue="{{customerConcentration.top10Revenue}}"
+        data-top10-percentage="{{customerConcentration.top10Percentage}}"
+        data-top20-revenue="{{customerConcentration.top20Revenue}}"
+        data-top20-percentage="{{customerConcentration.top20Percentage}}"
+        data-total-revenue="{{customerConcentration.totalRevenue}}"
+        data-direction="{{customerConcentration.direction}}"
+    ></div>
+
+    <div class="customer-kpi-grid customer-concentration-kpi-grid">
+
+        <article class="customer-kpi-card customer-concentration-top5">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">
+                    Top 5 Revenue Share
+                </span>
+                <span class="customer-kpi-icon">◎</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerConcentrationTop5Percentage"
+            >0.0%</strong>
+            <span
+                class="customer-kpi-footnote"
+                id="customerConcentrationTop5Revenue"
+            >0.00 revenue</span>
+        </article>
+
+        <article class="customer-kpi-card customer-concentration-top10">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">
+                    Top 10 Revenue Share
+                </span>
+                <span class="customer-kpi-icon">◈</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerConcentrationTop10Percentage"
+            >0.0%</strong>
+            <span
+                class="customer-kpi-footnote"
+                id="customerConcentrationTop10Revenue"
+            >0.00 revenue</span>
+        </article>
+
+        <article class="customer-kpi-card customer-concentration-top20">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">
+                    Top 20 Revenue Share
+                </span>
+                <span class="customer-kpi-icon">▥</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerConcentrationTop20Percentage"
+            >0.0%</strong>
+            <span
+                class="customer-kpi-footnote"
+                id="customerConcentrationTop20Revenue"
+            >0.00 revenue</span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">
+                    Total Customer Revenue
+                </span>
+                <span class="customer-kpi-icon">↗</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerConcentrationTotalRevenue"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Revenue from completed customer sales
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">
+                    Concentration Risk
+                </span>
+                <span class="customer-kpi-icon">!</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerConcentrationRisk"
+            >—</strong>
+            <span class="customer-kpi-footnote">
+                Based on top 10 customer revenue share
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">
+                    Concentration Trend
+                </span>
+                <span
+                    class="customer-kpi-icon"
+                    id="customerConcentrationDirectionIcon"
+                >→</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerConcentrationDirection"
+            >Stable</strong>
+            <span class="customer-kpi-footnote">
+                Change in top 10 customer revenue share
+            </span>
+        </article>
+
+    </div>
+
+    <div class="customer-analysis-grid customer-concentration-analysis-grid">
+
+        <article class="customer-panel">
+            <div class="customer-panel-heading">
+                <div>
+                    <h3>Revenue Concentration</h3>
+                    <p>
+                        Compare the revenue shares of your largest customer groups.
+                    </p>
+                </div>
+            </div>
+
+            <div class="customer-chart-container customer-concentration-chart">
+                <canvas
+                    id="customerConcentrationShareChart"
+                    aria-label="Revenue share of the top 5, top 10 and top 20 customers"
+                    role="img"
+                ></canvas>
+            </div>
+        </article>
+
+        <article class="customer-panel">
+            <div class="customer-panel-heading">
+                <div>
+                    <h3>Concentration Over Time</h3>
+                    <p>
+                        Track changes in top-customer revenue dependency.
+                    </p>
+                </div>
+            </div>
+
+            <div class="customer-chart-container customer-concentration-chart">
+                <canvas
+                    id="customerConcentrationTrendChart"
+                    aria-label="Customer concentration trend over time"
+                    role="img"
+                ></canvas>
+            </div>
+
+            <div
+                id="customerConcentrationTrendSource"
+                class="customer-data-source"
+                aria-hidden="true"
+            >
+                {{#each customerConcentration.trend}}
+                    <span
+                        class="customer-concentration-trend-data"
+                        data-period="{{period}}"
+                        data-percentage="{{top10Percentage}}"
+                        data-revenue="{{totalRevenue}}"
+                    ></span>
+                {{/each}}
+            </div>
+        </article>
+
+    </div>
+
+    <article class="customer-panel customer-concentration-ranking-panel">
+        <div class="customer-panel-heading">
+            <div>
+                <span class="customer-section-eyebrow">
+                    REVENUE DEPENDENCY
+                </span>
+                <h3>Largest Revenue-Contributing Customers</h3>
+                <p>
+                    Ranked by revenue within the current reporting scope.
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Customer</th>
+                        <th>Transactions</th>
+                        <th>Revenue</th>
+                        <th>Revenue Share</th>
+                        <th>Cumulative Share</th>
+                    </tr>
+                </thead>
+
+                <tbody id="customerConcentrationRankingBody">
+                    {{#each customerConcentration.topCustomers}}
+                        <tr
+                            data-revenue="{{revenue}}"
+                            data-transactions="{{transactions}}"
+                        >
+                            <td>
+                                <span class="customer-rank-badge">
+                                    {{@index}}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="customer-table-primary">
+                                    {{customerName}}
+                                </div>
+                                <div class="customer-table-secondary">
+                                    {{customerCode}}
+                                </div>
+                            </td>
+                            <td>{{transactions}}</td>
+                            <td data-money="{{revenue}}">
+                                {{revenue}}
+                            </td>
+                            <td data-share="{{revenuePercentage}}">
+                                {{revenuePercentage}}%
+                            </td>
+                            <td class="customer-concentration-cumulative">
+                                —
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="6" class="customer-empty-state">
+                                No customer concentration data is available
+                                for this reporting period.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="customer-panel customer-concentration-insight-panel">
+        <div class="customer-panel-heading">
+            <div>
+                <span class="customer-section-eyebrow">
+                    MANAGEMENT INTERPRETATION
+                </span>
+                <h3>Concentration Assessment</h3>
+                <p>
+                    Use customer concentration to evaluate dependency risk
+                    and identify opportunities to diversify revenue.
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-concentration-insight-grid">
+
+            <div class="customer-concentration-insight">
+                <span class="customer-concentration-insight-label">
+                    Revenue Dependency
+                </span>
+                <strong id="customerConcentrationDependency">
+                    Awaiting data
+                </strong>
+                <p id="customerConcentrationDependencyMessage">
+                    Concentration insights will appear when customer revenue
+                    data is available.
+                </p>
+            </div>
+
+            <div class="customer-concentration-insight">
+                <span class="customer-concentration-insight-label">
+                    Management Action
+                </span>
+                <strong id="customerConcentrationAction">
+                    Monitor customer mix
+                </strong>
+                <p id="customerConcentrationActionMessage">
+                    Review major customer relationships and pursue a broader
+                    customer base when concentration is high.
+                </p>
+            </div>
+
+        </div>
+    </article>
+
+</section>
+
+<!-- CUSTOMER GEOGRAPHIC ANALYSIS -->
+<section
+    id="customer-geographic-analysis"
+    class="customer-dashboard-section customer-geographic-section"
+>
+    <div class="customer-section-heading">
+        <div>
+            <span class="customer-section-eyebrow">
+                GEOGRAPHIC ANALYSIS
+            </span>
+            <h2>Customers Across Locations</h2>
+            <p class="customer-section-description">
+                Explore customer distribution, revenue contribution,
+                spending patterns and high-value geographic markets.
+            </p>
+        </div>
+
+        <div class="customer-period-badge">
+            {{period}}
+        </div>
+    </div>
+
+    <div
+        id="customerGeographicSource"
+        class="customer-data-source"
+        aria-hidden="true"
+        data-total-cities="{{customerGeographicAnalysis.totalCities}}"
+        data-top-revenue-city="{{customerGeographicAnalysis.topRevenueCity}}"
+        data-top-customer-city="{{customerGeographicAnalysis.topCustomerCity}}"
+        data-total-revenue="{{customerGeographicAnalysis.totalRevenue}}"
+        data-total-customers="{{customerGeographicAnalysis.totalCustomers}}"
+    ></div>
+
+    <div class="customer-kpi-grid customer-geographic-kpi-grid">
+
+        <article class="customer-kpi-card customer-geographic-cities">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Customer Locations</span>
+                <span class="customer-kpi-icon">⌖</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerGeographicTotalCities"
+            >0</strong>
+            <span class="customer-kpi-footnote">
+                Distinct cities represented by customers
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Registered Customers</span>
+                <span class="customer-kpi-icon">◎</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerGeographicTotalCustomers"
+            >0</strong>
+            <span class="customer-kpi-footnote">
+                Customers within the selected scope
+            </span>
+        </article>
+
+        <article class="customer-kpi-card customer-geographic-revenue">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Customer Revenue</span>
+                <span class="customer-kpi-icon">↗</span>
+            </div>
+            <strong
+                class="customer-kpi-value"
+                id="customerGeographicTotalRevenue"
+            >0.00</strong>
+            <span class="customer-kpi-footnote">
+                Revenue from completed customer purchases
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Top Revenue City</span>
+                <span class="customer-kpi-icon">★</span>
+            </div>
+            <strong
+                class="customer-kpi-value customer-geographic-city-value"
+                id="customerGeographicTopRevenueCity"
+            >—</strong>
+            <span class="customer-kpi-footnote">
+                Highest customer revenue
+            </span>
+        </article>
+
+        <article class="customer-kpi-card">
+            <div class="customer-kpi-top">
+                <span class="customer-kpi-label">Largest Customer Base</span>
+                <span class="customer-kpi-icon">♙</span>
+            </div>
+            <strong
+                class="customer-kpi-value customer-geographic-city-value"
+                id="customerGeographicTopCustomerCity"
+            >—</strong>
+            <span class="customer-kpi-footnote">
+                Most registered customers
+            </span>
+        </article>
+
+    </div>
+
+    <div class="customer-analysis-grid customer-geographic-analysis-grid">
+
+        <article class="customer-panel">
+            <div class="customer-panel-heading">
+                <div>
+                    <h3>Customer Distribution by City</h3>
+                    <p>
+                        Compare the number of registered customers in each location.
+                    </p>
+                </div>
+            </div>
+
+            <div class="customer-chart-container customer-geographic-chart">
+                <canvas
+                    id="customerGeographicCustomersChart"
+                    aria-label="Registered customers by city"
+                    role="img"
+                ></canvas>
+            </div>
+        </article>
+
+        <article class="customer-panel">
+            <div class="customer-panel-heading">
+                <div>
+                    <h3>Revenue by City</h3>
+                    <p>
+                        Identify the locations contributing the most customer revenue.
+                    </p>
+                </div>
+            </div>
+
+            <div class="customer-chart-container customer-geographic-chart">
+                <canvas
+                    id="customerGeographicRevenueChart"
+                    aria-label="Customer revenue by city"
+                    role="img"
+                ></canvas>
+            </div>
+        </article>
+
+    </div>
+
+    <article class="customer-panel customer-geographic-ranking-panel">
+        <div class="customer-panel-heading">
+            <div>
+                <span class="customer-section-eyebrow">
+                    LOCATION PERFORMANCE
+                </span>
+                <h3>Geographic Performance Breakdown</h3>
+                <p>
+                    Compare customer counts, purchasing activity, revenue
+                    and profitability across locations.
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Registered Customers</th>
+                        <th>Purchasing Customers</th>
+                        <th>Transactions</th>
+                        <th>Revenue</th>
+                        <th>Average Spend</th>
+                        <th>Revenue Share</th>
+                    </tr>
+                </thead>
+
+                <tbody id="customerGeographicRankingBody">
+                    {{#each customerGeographicAnalysis.cities}}
+                        <tr
+                            data-city="{{city}}"
+                            data-customers="{{customers}}"
+                            data-purchasing-customers="{{purchasingCustomers}}"
+                            data-transactions="{{transactions}}"
+                            data-revenue="{{revenue}}"
+                            data-average-spend="{{averageSpend}}"
+                            data-revenue-share="{{revenueShare}}"
+                        >
+                            <td>
+                                <div class="customer-table-primary">
+                                    {{city}}
+                                </div>
+                            </td>
+                            <td>{{customers}}</td>
+                            <td>{{purchasingCustomers}}</td>
+                            <td>{{transactions}}</td>
+                            <td data-money="{{revenue}}">{{revenue}}</td>
+                            <td data-money="{{averageSpend}}">{{averageSpend}}</td>
+                            <td data-share="{{revenueShare}}">
+                                {{revenueShare}}%
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="7" class="customer-empty-state">
+                                No geographic customer data is available
+                                for this reporting scope.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="customer-panel customer-geographic-high-value-panel">
+        <div class="customer-panel-heading">
+            <div>
+                <span class="customer-section-eyebrow">
+                    MARKET OPPORTUNITIES
+                </span>
+                <h3>High-Value Locations</h3>
+                <p>
+                    Prioritize locations based on customer spending
+                    and revenue contribution.
+                </p>
+            </div>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>City</th>
+                        <th>Customers</th>
+                        <th>Purchasing Customers</th>
+                        <th>Revenue</th>
+                        <th>Average Spend</th>
+                        <th>Gross Profit</th>
+                    </tr>
+                </thead>
+
+                <tbody id="customerGeographicHighValueBody">
+                    {{#each customerGeographicAnalysis.highValueLocations}}
+                        <tr>
+                            <td>
+                                <span class="customer-rank-badge">
+                                    {{@index}}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="customer-table-primary">
+                                    {{city}}
+                                </div>
+                            </td>
+                            <td>{{customers}}</td>
+                            <td>{{purchasingCustomers}}</td>
+                            <td data-money="{{revenue}}">{{revenue}}</td>
+                            <td data-money="{{averageSpend}}">{{averageSpend}}</td>
+                            <td data-money="{{grossProfit}}">{{grossProfit}}</td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="7" class="customer-empty-state">
+                                No high-value location data is available.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+</section>
+
+<!-- STEP 11: BRANCH ANALYSIS -->
+<section id="customer-branch-analysis" class="customer-section">
+    <div class="customer-section-header">
+        <div>
+            <span class="customer-section-eyebrow">CUSTOMER PERFORMANCE</span>
+            <h2>Branch Analysis</h2>
+            <p>Compare customer acquisition, purchasing activity, revenue, and profitability across branches.</p>
+        </div>
+        <div class="customer-section-badge">
+            <span class="customer-status-dot"></span>
+            Branch Performance
+        </div>
+    </div>
+
+    {{#if customerBranchAnalysis}}
+    <div class="customer-branch-kpi-grid">
+        <article class="customer-branch-kpi-card">
+            <div class="customer-branch-kpi-label">Total Customers</div>
+            <div class="customer-branch-kpi-value">
+                {{customerBranchAnalysis.totalCustomers}}
+            </div>
+            <div class="customer-branch-kpi-note">Registered customers in scope</div>
+        </article>
+
+        <article class="customer-branch-kpi-card">
+            <div class="customer-branch-kpi-label">Purchasing Customers</div>
+            <div class="customer-branch-kpi-value">
+                {{customerBranchAnalysis.purchasingCustomers}}
+            </div>
+            <div class="customer-branch-kpi-note">Customers with completed purchases</div>
+        </article>
+
+        <article class="customer-branch-kpi-card">
+            <div class="customer-branch-kpi-label">Customer Revenue</div>
+            <div class="customer-branch-kpi-value">
+                {{customerBranchAnalysis.formattedTotalRevenue}}
+            </div>
+            <div class="customer-branch-kpi-note">Revenue attributed to customers</div>
+        </article>
+
+        <article class="customer-branch-kpi-card">
+            <div class="customer-branch-kpi-label">Gross Profit</div>
+            <div class="customer-branch-kpi-value">
+                {{customerBranchAnalysis.formattedTotalGrossProfit}}
+            </div>
+            <div class="customer-branch-kpi-note">Revenue less historical cost of goods</div>
+        </article>
+
+        <article class="customer-branch-kpi-card">
+            <div class="customer-branch-kpi-label">Transactions</div>
+            <div class="customer-branch-kpi-value">
+                {{customerBranchAnalysis.totalTransactions}}
+            </div>
+            <div class="customer-branch-kpi-note">Completed customer transactions</div>
+        </article>
+
+        <article class="customer-branch-kpi-card">
+            <div class="customer-branch-kpi-label">Repeat Purchase Rate</div>
+            <div class="customer-branch-kpi-value">
+                {{customerBranchAnalysis.formattedRepeatPurchaseRate}}%
+            </div>
+            <div class="customer-branch-kpi-note">Customers who purchased repeatedly</div>
+        </article>
+    </div>
+
+    <div class="customer-branch-leaders">
+        <article class="customer-branch-leader-card">
+            <div class="customer-branch-leader-icon">↗</div>
+            <div class="customer-branch-leader-content">
+                <span>Revenue Leader</span>
+                <h3>{{customerBranchAnalysis.topBranchByRevenue.branchName}}</h3>
+                <p>{{customerBranchAnalysis.topBranchByRevenue.formattedRevenue}}</p>
+            </div>
+        </article>
+
+        <article class="customer-branch-leader-card">
+            <div class="customer-branch-leader-icon">◎</div>
+            <div class="customer-branch-leader-content">
+                <span>Customer Leader</span>
+                <h3>{{customerBranchAnalysis.topBranchByCustomers.branchName}}</h3>
+                <p>{{customerBranchAnalysis.topBranchByCustomers.totalCustomers}} customers</p>
+            </div>
+        </article>
+
+        <article class="customer-branch-leader-card">
+            <div class="customer-branch-leader-icon">◆</div>
+            <div class="customer-branch-leader-content">
+                <span>Profit Leader</span>
+                <h3>{{customerBranchAnalysis.topBranchByProfit.branchName}}</h3>
+                <p>{{customerBranchAnalysis.topBranchByProfit.formattedGrossProfit}}</p>
+            </div>
+        </article>
+    </div>
+
+    <div class="customer-branch-chart-grid">
+        <article class="customer-panel customer-branch-chart-panel">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Revenue by Branch</h3>
+                    <p>Compare customer-generated revenue across branches.</p>
+                </div>
+            </div>
+            <div class="customer-branch-chart-container">
+                <canvas id="customerBranchRevenueChart"></canvas>
+            </div>
+        </article>
+
+        <article class="customer-panel customer-branch-chart-panel">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Customer Distribution</h3>
+                    <p>Registered customer distribution across branches.</p>
+                </div>
+            </div>
+            <div class="customer-branch-chart-container">
+                <canvas id="customerBranchCustomerChart"></canvas>
+            </div>
+        </article>
+
+        <article class="customer-panel customer-branch-chart-panel">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Branch Profitability</h3>
+                    <p>Compare revenue, cost of goods, and gross profit.</p>
+                </div>
+            </div>
+            <div class="customer-branch-chart-container">
+                <canvas id="customerBranchProfitChart"></canvas>
+            </div>
+        </article>
+
+        <article class="customer-panel customer-branch-chart-panel">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Customer Retention by Branch</h3>
+                    <p>Compare repeat purchase rates across branches.</p>
+                </div>
+            </div>
+            <div class="customer-branch-chart-container">
+                <canvas id="customerBranchRetentionChart"></canvas>
+            </div>
+        </article>
+    </div>
+
+    <article class="customer-panel customer-branch-table-panel">
+        <div class="customer-panel-header">
+            <div>
+                <h3>Branch Performance Comparison</h3>
+                <p>Review acquisition, retention, customer value, and financial performance.</p>
+            </div>
+            <span class="customer-branch-table-count">
+                {{customerBranchAnalysis.branches.length}} branches
+            </span>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table customer-branch-table" id="customerBranchPerformanceTable">
+                <thead>
+                    <tr>
+                        <th>Branch</th>
+                        <th>Customers</th>
+                        <th>Purchasing</th>
+                        <th>New</th>
+                        <th>Returning</th>
+                        <th>One-Time</th>
+                        <th>Transactions</th>
+                        <th>Revenue</th>
+                        <th>Gross Profit</th>
+                        <th>Avg. Customer Value</th>
+                        <th>Avg. Order Value</th>
+                        <th>Repeat Rate</th>
+                        <th>Revenue Share</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each customerBranchAnalysis.branches}}
+                    <tr>
+                        <td>
+                            <div class="customer-branch-name">{{branchName}}</div>
+                            {{#if location}}
+                            <div class="customer-branch-location">{{location}}</div>
+                            {{/if}}
+                        </td>
+                        <td>{{totalCustomers}}</td>
+                        <td>{{purchasingCustomers}}</td>
+                        <td>{{newCustomers}}</td>
+                        <td>{{returningCustomers}}</td>
+                        <td>{{oneTimeCustomers}}</td>
+                        <td>{{totalTransactions}}</td>
+                        <td>{{formattedRevenue}}</td>
+                        <td>{{formattedGrossProfit}}</td>
+                        <td>{{formattedAverageCustomerValue}}</td>
+                        <td>{{formattedAverageOrderValue}}</td>
+                        <td>{{formattedRepeatPurchaseRate}}%</td>
+                        <td>
+                            <div class="customer-branch-share">
+                                <span>{{formattedRevenueShare}}%</span>
+                                <div class="customer-branch-share-track">
+                                    <span style="width: {{revenueShare}}%;"></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="13" class="customer-table-empty">
+                            No branch performance data is available for the selected scope.
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    {{else}}
+    <div class="customer-empty-state">
+        <h3>Branch analysis unavailable</h3>
+        <p>Branch performance data could not be loaded for the current selection.</p>
+    </div>
+    {{/if}}
+</section>
+
+<!-- STEP 12: CUSTOMER 360 -->
+<section id="customer-360" class="customer-section">
+    <div class="customer-section-header">
+        <div>
+            <span class="customer-section-eyebrow">CUSTOMER INTELLIGENCE</span>
+            <h2>Customer 360</h2>
+            <p>Explore an individual customer's value, purchase history, behavior, and relationship with your business.</p>
+        </div>
+        <div class="customer-section-badge">
+            <span class="customer-status-dot"></span>
+            Customer Profile
+        </div>
+    </div>
+
+    {{#if customer360}}
+        {{#if customer360.customer}}
+        <div class="customer-360-profile">
+            <div class="customer-360-identity">
+                <div class="customer-360-avatar">
+                    {{customer360.customer.initials}}
+                </div>
+                <div class="customer-360-identity-details">
+                    <div class="customer-360-name-row">
+                        <h3>{{customer360.customer.customerName}}</h3>
+                        <span class="customer-360-status customer-360-status-{{customer360.customer.statusClass}}">
+                            {{customer360.customer.status}}
+                        </span>
+                    </div>
+                    <p class="customer-360-code">
+                        Customer Code: {{customer360.customer.customerCode}}
+                    </p>
+                    <div class="customer-360-contact">
+                        {{#if customer360.customer.phone}}
+                        <span>{{customer360.customer.phone}}</span>
+                        {{/if}}
+                        {{#if customer360.customer.email}}
+                        <span>{{customer360.customer.email}}</span>
+                        {{/if}}
+                        {{#if customer360.customer.city}}
+                        <span>{{customer360.customer.city}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="customer-360-classifications">
+                <div class="customer-360-classification">
+                    <span>Customer Segment</span>
+                    <strong>{{customer360.customer.segment}}</strong>
+                </div>
+                <div class="customer-360-classification">
+                    <span>RFM Classification</span>
+                    <strong>{{customer360.customer.rfmSegment}}</strong>
+                </div>
+                <div class="customer-360-classification">
+                    <span>Customer Since</span>
+                    <strong>{{customer360.customer.customerSince}}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="customer-360-kpi-grid">
+            <article class="customer-360-kpi-card">
+                <span>Lifetime Revenue</span>
+                <strong>{{customer360.formattedLifetimeRevenue}}</strong>
+                <small>Total completed customer sales</small>
+            </article>
+
+            <article class="customer-360-kpi-card">
+                <span>Gross Profit</span>
+                <strong>{{customer360.formattedGrossProfit}}</strong>
+                <small>Revenue less historical item cost</small>
+            </article>
+
+            <article class="customer-360-kpi-card">
+                <span>Total Purchases</span>
+                <strong>{{customer360.totalPurchases}}</strong>
+                <small>Completed transactions</small>
+            </article>
+
+            <article class="customer-360-kpi-card">
+                <span>Average Order Value</span>
+                <strong>{{customer360.formattedAverageOrderValue}}</strong>
+                <small>Average completed transaction</small>
+            </article>
+
+            <article class="customer-360-kpi-card">
+                <span>Last Purchase</span>
+                <strong>{{customer360.lastPurchase}}</strong>
+                <small>{{customer360.daysSinceLastPurchase}} days since last purchase</small>
+            </article>
+
+            <article class="customer-360-kpi-card">
+                <span>Gross Margin</span>
+                <strong>{{customer360.formattedGrossMargin}}%</strong>
+                <small>Gross profit as a share of revenue</small>
+            </article>
+        </div>
+
+        <div class="customer-360-main-grid">
+            <article class="customer-panel customer-360-panel">
+                <div class="customer-panel-header">
+                    <div>
+                        <h3>Purchase Trend</h3>
+                        <p>Track the customer's purchasing activity over time.</p>
+                    </div>
+                </div>
+                <div class="customer-360-chart-container">
+                    <canvas id="customer360PurchaseTrendChart"></canvas>
+                </div>
+            </article>
+
+            <article class="customer-panel customer-360-panel">
+                <div class="customer-panel-header">
+                    <div>
+                        <h3>Customer Financial Profile</h3>
+                        <p>Revenue, cost of goods, and gross profit.</p>
+                    </div>
+                </div>
+                <div class="customer-360-chart-container">
+                    <canvas id="customer360ProfitabilityChart"></canvas>
+                </div>
+            </article>
+        </div>
+
+        <div class="customer-360-insights-grid">
+            <article class="customer-panel customer-360-panel">
+                <div class="customer-panel-header">
+                    <div>
+                        <h3>Buying Behavior</h3>
+                        <p>Understand what this customer purchases.</p>
+                    </div>
+                </div>
+
+                <div class="customer-360-behavior-list">
+                    <div class="customer-360-behavior-row">
+                        <span>Preferred Product</span>
+                        <strong>{{customer360.buyingBehavior.preferredProduct}}</strong>
+                    </div>
+                    <div class="customer-360-behavior-row">
+                        <span>Preferred Category</span>
+                        <strong>{{customer360.buyingBehavior.preferredCategory}}</strong>
+                    </div>
+                    <div class="customer-360-behavior-row">
+                        <span>Total Quantity Purchased</span>
+                        <strong>{{customer360.buyingBehavior.totalQuantity}}</strong>
+                    </div>
+                    <div class="customer-360-behavior-row">
+                        <span>Purchase Frequency</span>
+                        <strong>{{customer360.buyingBehavior.purchaseFrequency}}</strong>
+                    </div>
+                    <div class="customer-360-behavior-row">
+                        <span>First Purchase</span>
+                        <strong>{{customer360.firstPurchase}}</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="customer-panel customer-360-panel">
+                <div class="customer-panel-header">
+                    <div>
+                        <h3>Customer Profitability</h3>
+                        <p>Evaluate the customer's financial contribution.</p>
+                    </div>
+                </div>
+
+                <div class="customer-360-profitability-list">
+                    <div class="customer-360-profitability-row">
+                        <span>Total Revenue</span>
+                        <strong>{{customer360.formattedLifetimeRevenue}}</strong>
+                    </div>
+                    <div class="customer-360-profitability-row">
+                        <span>Cost of Goods Sold</span>
+                        <strong>{{customer360.formattedCOGS}}</strong>
+                    </div>
+                    <div class="customer-360-profitability-row">
+                        <span>Gross Profit</span>
+                        <strong>{{customer360.formattedGrossProfit}}</strong>
+                    </div>
+                    <div class="customer-360-profitability-row">
+                        <span>Gross Margin</span>
+                        <strong>{{customer360.formattedGrossMargin}}%</strong>
+                    </div>
+                    <div class="customer-360-profitability-row">
+                        <span>Average Profit per Purchase</span>
+                        <strong>{{customer360.formattedAverageProfitPerPurchase}}</strong>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <article class="customer-panel customer-360-history-panel">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Purchase History</h3>
+                    <p>Review completed transactions for this customer.</p>
+                </div>
+                <span class="customer-360-record-count">
+                    {{customer360.purchaseHistory.length}} records
+                </span>
+            </div>
+
+            <div class="customer-table-wrapper">
+                <table class="customer-data-table customer-360-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Invoice</th>
+                            <th>Branch</th>
+                            <th>Items</th>
+                            <th>Subtotal</th>
+                            <th>Discount</th>
+                            <th>Total</th>
+                            <th>Payment Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each customer360.purchaseHistory}}
+                        <tr>
+                            <td>{{date}}</td>
+                            <td>{{invoiceNumber}}</td>
+                            <td>{{branchName}}</td>
+                            <td>{{itemCount}}</td>
+                            <td>{{formattedSubtotal}}</td>
+                            <td>{{formattedDiscount}}</td>
+                            <td class="customer-360-purchase-total">{{formattedTotal}}</td>
+                            <td>{{paymentMethod}}</td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <td colspan="8" class="customer-table-empty">
+                                No completed purchase history is available.
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <article class="customer-panel customer-360-timeline-panel">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Customer Timeline</h3>
+                    <p>A chronological view of significant customer activity.</p>
+                </div>
+            </div>
+
+            <div class="customer-360-timeline">
+                {{#each customer360.timeline}}
+                <div class="customer-360-timeline-item">
+                    <div class="customer-360-timeline-marker"></div>
+                    <div class="customer-360-timeline-content">
+                        <div class="customer-360-timeline-heading">
+                            <strong>{{title}}</strong>
+                            <span>{{date}}</span>
+                        </div>
+                        <p>{{description}}</p>
+                        {{#if formattedAmount}}
+                        <strong class="customer-360-timeline-amount">{{formattedAmount}}</strong>
+                        {{/if}}
+                    </div>
+                </div>
+                {{else}}
+                <div class="customer-360-empty">
+                    No customer timeline events are available.
+                </div>
+                {{/each}}
+            </div>
+        </article>
+
+        {{else}}
+        <div class="customer-360-empty-state">
+            <div class="customer-360-empty-icon">◎</div>
+            <h3>Select a Customer</h3>
+            <p>Open a customer profile to review their purchases, lifetime value, profitability, and activity history.</p>
+            <p class="customer-360-empty-hint">
+                Select a customer from your customer records and open their Customer 360 profile.
+            </p>
+        </div>
+        {{/if}}
+    {{else}}
+        <div class="customer-360-empty-state">
+            <div class="customer-360-empty-icon">◎</div>
+            <h3>Customer Profile Unavailable</h3>
+            <p>The customer profile could not be loaded for the current business and branch scope.</p>
+        </div>
+    {{/if}}
+</section>
+
+<!-- STEP 13: DECISION INTELLIGENCE -->
+<section id="customer-decision-intelligence" class="customer-section">
+    <div class="customer-section-header">
+        <div>
+            <span class="customer-section-eyebrow">EXECUTIVE DECISION SUPPORT</span>
+            <h2>Decision Intelligence</h2>
+            <p>Identify customer risks, growth opportunities, financial dependencies, and recommended management actions.</p>
+        </div>
+        <div class="customer-section-badge">
+            <span class="customer-status-dot"></span>
+            Executive Insights
+        </div>
+    </div>
+
+    {{#if customerDecisionIntelligence}}
+
+    <div class="customer-decision-summary">
+        <div class="customer-decision-summary-content">
+            <span class="customer-decision-summary-label">EXECUTIVE SUMMARY</span>
+            <h3>{{customerDecisionIntelligence.executiveSummary.title}}</h3>
+            <p>{{customerDecisionIntelligence.executiveSummary.description}}</p>
+        </div>
+        <div class="customer-decision-summary-status customer-decision-status-{{customerDecisionIntelligence.executiveSummary.statusClass}}">
+            {{customerDecisionIntelligence.executiveSummary.status}}
+        </div>
+    </div>
+
+    <div class="customer-decision-kpi-grid">
+        <article class="customer-decision-kpi-card customer-decision-risk">
+            <div class="customer-decision-kpi-top">
+                <span>At-Risk Customers</span>
+                <span class="customer-decision-kpi-icon">!</span>
+            </div>
+            <strong>{{customerDecisionIntelligence.atRiskCustomers.count}}</strong>
+            <p>Customers showing potential disengagement</p>
+            <div class="customer-decision-kpi-footer">
+                <span>Associated Revenue</span>
+                <strong>{{customerDecisionIntelligence.atRiskCustomers.formattedRevenue}}</strong>
+            </div>
+        </article>
+
+        <article class="customer-decision-kpi-card customer-decision-dormant">
+            <div class="customer-decision-kpi-top">
+                <span>Dormant Customers</span>
+                <span class="customer-decision-kpi-icon">◷</span>
+            </div>
+            <strong>{{customerDecisionIntelligence.dormantCustomers.count}}</strong>
+            <p>Customers with extended purchasing inactivity</p>
+            <div class="customer-decision-kpi-footer">
+                <span>Associated Revenue</span>
+                <strong>{{customerDecisionIntelligence.dormantCustomers.formattedRevenue}}</strong>
+            </div>
+        </article>
+
+        <article class="customer-decision-kpi-card customer-decision-growth">
+            <div class="customer-decision-kpi-top">
+                <span>High-Value Customers</span>
+                <span class="customer-decision-kpi-icon">↗</span>
+            </div>
+            <strong>{{customerDecisionIntelligence.highValueCustomers.count}}</strong>
+            <p>Customers with significant financial contribution</p>
+            <div class="customer-decision-kpi-footer">
+                <span>Associated Revenue</span>
+                <strong>{{customerDecisionIntelligence.highValueCustomers.formattedRevenue}}</strong>
+            </div>
+        </article>
+
+        <article class="customer-decision-kpi-card customer-decision-profit">
+            <div class="customer-decision-kpi-top">
+                <span>High-Value Gross Profit</span>
+                <span class="customer-decision-kpi-icon">◆</span>
+            </div>
+            <strong>{{customerDecisionIntelligence.highValueCustomers.formattedGrossProfit}}</strong>
+            <p>Gross profit associated with high-value customers</p>
+            <div class="customer-decision-kpi-footer">
+                <span>Customer Count</span>
+                <strong>{{customerDecisionIntelligence.highValueCustomers.count}}</strong>
+            </div>
+        </article>
+    </div>
+
+    <div class="customer-decision-performance-grid">
+        <article class="customer-panel customer-decision-performance-card">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Customer Growth</h3>
+                    <p>Acquisition performance and direction.</p>
+                </div>
+                <span class="customer-decision-direction customer-direction-{{customerDecisionIntelligence.customerGrowth.directionClass}}">
+                    {{customerDecisionIntelligence.customerGrowth.direction}}
+                </span>
+            </div>
+            <strong class="customer-decision-performance-value">
+                {{customerDecisionIntelligence.customerGrowth.newCustomers}}
+            </strong>
+            <span class="customer-decision-performance-caption">New customers in the selected period</span>
+            <p>{{customerDecisionIntelligence.customerGrowth.insight}}</p>
+        </article>
+
+        <article class="customer-panel customer-decision-performance-card">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Customer Retention</h3>
+                    <p>Repeat purchasing performance.</p>
+                </div>
+                <span class="customer-decision-direction customer-direction-{{customerDecisionIntelligence.retention.directionClass}}">
+                    {{customerDecisionIntelligence.retention.direction}}
+                </span>
+            </div>
+            <strong class="customer-decision-performance-value">
+                {{customerDecisionIntelligence.retention.formattedRepeatPurchaseRate}}%
+            </strong>
+            <span class="customer-decision-performance-caption">Repeat purchase rate</span>
+            <p>{{customerDecisionIntelligence.retention.insight}}</p>
+        </article>
+
+        <article class="customer-panel customer-decision-performance-card">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Revenue Concentration</h3>
+                    <p>Exposure to the largest customers.</p>
+                </div>
+                <span class="customer-decision-direction customer-direction-{{customerDecisionIntelligence.concentration.directionClass}}">
+                    {{customerDecisionIntelligence.concentration.direction}}
+                </span>
+            </div>
+            <strong class="customer-decision-performance-value">
+                {{customerDecisionIntelligence.concentration.formattedTop10Percentage}}%
+            </strong>
+            <span class="customer-decision-performance-caption">Revenue contributed by the top 10 customers</span>
+            <p>{{customerDecisionIntelligence.concentration.insight}}</p>
+        </article>
+
+        <article class="customer-panel customer-decision-performance-card">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Branch Performance</h3>
+                    <p>Leading branch by customer revenue.</p>
+                </div>
+            </div>
+            <strong class="customer-decision-performance-value customer-decision-branch-name">
+                {{customerDecisionIntelligence.branchPerformance.topBranchName}}
+            </strong>
+            <span class="customer-decision-performance-caption">
+                {{customerDecisionIntelligence.branchPerformance.formattedRevenue}} revenue
+            </span>
+            <p>{{customerDecisionIntelligence.branchPerformance.insight}}</p>
+        </article>
+    </div>
+
+    <div class="customer-decision-main-grid">
+        <article class="customer-panel customer-decision-insights-panel">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Management Insights</h3>
+                    <p>Signals requiring attention or presenting opportunities.</p>
+                </div>
+            </div>
+
+            <div class="customer-decision-insights-list">
+                {{#each customerDecisionIntelligence.insights}}
+                <div class="customer-decision-insight customer-insight-{{severityClass}}">
+                    <div class="customer-decision-insight-indicator"></div>
+                    <div class="customer-decision-insight-content">
+                        <div class="customer-decision-insight-heading">
+                            <h4>{{title}}</h4>
+                            <span>{{severity}}</span>
+                        </div>
+                        <p>{{description}}</p>
+                        {{#if implication}}
+                        <div class="customer-decision-implication">
+                            <strong>Business implication:</strong>
+                            {{implication}}
+                        </div>
+                        {{/if}}
+                        {{#if recommendation}}
+                        <div class="customer-decision-recommendation">
+                            <strong>Recommended action:</strong>
+                            {{recommendation}}
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+                {{else}}
+                <div class="customer-decision-empty">
+                    No management insights are available for the current selection.
+                </div>
+                {{/each}}
+            </div>
+        </article>
+
+        <article class="customer-panel customer-decision-actions-panel">
+            <div class="customer-panel-header">
+                <div>
+                    <h3>Priority Actions</h3>
+                    <p>Recommended next steps for management.</p>
+                </div>
+            </div>
+
+            <div class="customer-decision-actions-list">
+                {{#each customerDecisionIntelligence.recommendations}}
+                <div class="customer-decision-action">
+                    <div class="customer-decision-action-number">{{priority}}</div>
+                    <div class="customer-decision-action-content">
+                        <h4>{{title}}</h4>
+                        <p>{{description}}</p>
+                        {{#if expectedImpact}}
+                        <span class="customer-decision-action-impact">
+                            Expected impact: {{expectedImpact}}
+                        </span>
+                        {{/if}}
+                    </div>
+                </div>
+                {{else}}
+                <div class="customer-decision-empty">
+                    No priority actions are available.
+                </div>
+                {{/each}}
+            </div>
+        </article>
+    </div>
+
+    <article class="customer-panel customer-decision-watchlist-panel">
+        <div class="customer-panel-header">
+            <div>
+                <h3>Customer Risk Watchlist</h3>
+                <p>Customers identified as at risk or dormant who may benefit from targeted engagement.</p>
+            </div>
+            <span class="customer-decision-watchlist-count">
+                {{customerDecisionIntelligence.customerWatchlist.length}} customers
+            </span>
+        </div>
+
+        <div class="customer-table-wrapper">
+            <table class="customer-data-table customer-decision-watchlist-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Customer Code</th>
+                        <th>Segment</th>
+                        <th>Last Purchase</th>
+                        <th>Days Inactive</th>
+                        <th>Transactions</th>
+                        <th>Lifetime Revenue</th>
+                        <th>Gross Profit</th>
+                        <th>Risk Level</th>
+                        <th>Suggested Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each customerDecisionIntelligence.customerWatchlist}}
+                    <tr>
+                        <td class="customer-decision-watchlist-name">{{customerName}}</td>
+                        <td>{{customerCode}}</td>
+                        <td>{{segment}}</td>
+                        <td>{{lastPurchase}}</td>
+                        <td>{{daysInactive}}</td>
+                        <td>{{totalTransactions}}</td>
+                        <td>{{formattedRevenue}}</td>
+                        <td>{{formattedGrossProfit}}</td>
+                        <td>
+                            <span class="customer-decision-risk-label customer-risk-{{riskClass}}">
+                                {{riskLevel}}
+                            </span>
+                        </td>
+                        <td>{{suggestedAction}}</td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="10" class="customer-table-empty">
+                            No customers currently appear on the risk watchlist.
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    {{else}}
+    <div class="customer-empty-state">
+        <h3>Decision intelligence unavailable</h3>
+        <p>Executive insights could not be loaded for the selected business, branch, or period.</p>
+    </div>
+    {{/if}}
+</section>
+
+</main>
 
 </body>
-
-<script>
-    const scopeSelect =
-        document.getElementById("customerScope");
-
-    const branchSelect =
-        document.getElementById("customerBranch");
-
-    const updateBranchFilter = () => {
-        const branchScope =
-            scopeSelect.value === "branch";
-
-        branchSelect.disabled = !branchScope;
-        branchSelect.style.display =
-            branchScope ? "block" : "none";
-    };
-
-    scopeSelect.addEventListener(
-        "change",
-        updateBranchFilter
-    );
-
-    updateBranchFilter();
-</script>
 </html>
