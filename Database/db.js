@@ -1,18 +1,24 @@
+
 const mysql = require("mysql2/promise");
 require("dotenv").config();
 
 const db = mysql.createPool({
     host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT || 3306),
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME || "Marketflow",
+    database: process.env.DB_NAME || "main",
 
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
 
     enableKeepAlive: true,
-    keepAliveInitialDelay: 0
+    keepAliveInitialDelay: 0,
+
+    // Enzonic requires SSL/TLS.
+    // Enable it in Render using DB_SSL=true.
+    ssl: process.env.DB_SSL === "true" ? {} : undefined
 });
 
 (async () => {
