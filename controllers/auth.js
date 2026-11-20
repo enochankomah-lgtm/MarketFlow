@@ -35,7 +35,7 @@ exports.showEmployeeSetup = async (req, res) => {
                 u.Email,
                 u.IsActive
             FROM employee_setup_tokens est
-            INNER JOIN Users u
+            INNER JOIN users u
                 ON u.UserID = est.user_id
                 AND u.business_id = est.business_id
             WHERE est.token_hash = ?
@@ -199,7 +199,7 @@ exports.completeEmployeeSetup = async (req, res) => {
                 UserID,
                 business_id,
                 IsActive
-            FROM Users
+            FROM users
             WHERE UserID = ?
             AND business_id = ?
             LIMIT 1
@@ -245,7 +245,7 @@ exports.completeEmployeeSetup = async (req, res) => {
 
         await connection.query(
             `
-            UPDATE Users
+            UPDATE users
             SET PasswordHash = ?
             WHERE UserID = ?
             AND business_id = ?
@@ -344,7 +344,7 @@ exports.register=async(req,res)=>{
     const connection=await db.getConnection();
     try{
         await connection.beginTransaction();
-        const [existingUsers]=await connection.query(`SELECT UserID FROM Users WHERE Email=?`,[cleanEmail]);
+        const [existingUsers]=await connection.query(`SELECT UserID FROM users WHERE Email=?`,[cleanEmail]);
         if(existingUsers.length){
             await connection.rollback();
             return renderRegistrationError("This email already exists.");
@@ -362,7 +362,7 @@ exports.register=async(req,res)=>{
         }
         const branch=branches[0];
         const passwordHash=await bcrypt.hash(password,12);
-        const [userResult]=await connection.query(`INSERT INTO Users(FirstName,LastName,JobTitle,RoleName,business_id,Business_name,Business_location,branch_id,Email,Phone,PasswordHash,IsActive) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,[cleanFirstName,cleanLastName,cleanJobTitle,RoleName,business.business_id,business.business_name,branch.location,branch.branch_id,cleanEmail,cleanPhone,passwordHash,0]);
+        const [userResult]=await connection.query(`INSERT INTO users(FirstName,LastName,JobTitle,RoleName,business_id,Business_name,Business_location,branch_id,Email,Phone,PasswordHash,IsActive) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,[cleanFirstName,cleanLastName,cleanJobTitle,RoleName,business.business_id,business.business_name,branch.location,branch.branch_id,cleanEmail,cleanPhone,passwordHash,0]);
         await connection.commit();
         console.log(`Public registration created: UserID=${userResult.insertId}, BusinessID=${business.business_id}, BranchID=${branch.branch_id}, Role=${RoleName}, IsActive=0`);
         return res.render("login",{message:"Registration successful. Your account is waiting for administrator approval. You can sign in after your account has been approved.",email:cleanEmail});
@@ -495,9 +495,9 @@ exports.updateProfile=async(req,res)=>{
         const cleanPhone=(req.body.phone||"").trim();
         if(!cleanFirstName||!cleanLastName||!cleanEmail)return res.status(400).json({success:false,message:"First name, last name and email are required."});
         if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail))return res.status(400).json({success:false,message:"Please enter a valid email address."});
-        const [existingUsers]=await db.query(`SELECT UserID FROM Users WHERE Email=? AND UserID!=?`,[cleanEmail,userId]);
+        const [existingUsers]=await db.query(`SELECT UserID FROM users WHERE Email=? AND UserID!=?`,[cleanEmail,userId]);
         if(existingUsers.length)return res.status(409).json({success:false,message:"This email is already being used by another account."});
-        const [result]=await db.query(`UPDATE Users SET FirstName=?,LastName=?,Email=?,Phone=? WHERE UserID=? AND business_id=?`,[cleanFirstName,cleanLastName,cleanEmail,cleanPhone||null,userId,business_id]);
+        const [result]=await db.query(`UPDATE users SET FirstName=?,LastName=?,Email=?,Phone=? WHERE UserID=? AND business_id=?`,[cleanFirstName,cleanLastName,cleanEmail,cleanPhone||null,userId,business_id]);
         if(result.affectedRows===0)return res.status(404).json({success:false,message:"Profile not found."});
         const [users]=await db.query(`SELECT UserID,FirstName,LastName,JobTitle,RoleName,business_id,branch_id,Business_name,Business_location,Email,Phone,IsActive,CreatedAt,UpdatedAt FROM Users WHERE UserID=? AND business_id=?`,[userId,business_id]);
         const updatedUser=users[0];
@@ -522,13 +522,13 @@ exports.changePassword=async(req,res)=>{
         if(!currentPassword||!newPassword||!confirmPassword)return res.status(400).json({success:false,message:"Please fill in all password fields."});
         if(newPassword.length<8)return res.status(400).json({success:false,message:"New password must be at least 8 characters long."});
         if(newPassword!==confirmPassword)return res.status(400).json({success:false,message:"New password and confirmation password do not match."});
-        const [users]=await db.query(`SELECT PasswordHash FROM Users WHERE UserID=? AND business_id=?`,[userId,business_id]);
+        const [users]=await db.query(`SELECT PasswordHash FROM users WHERE UserID=? AND business_id=?`,[userId,business_id]);
         if(!users.length)return res.status(404).json({success:false,message:"User account not found."});
         const passwordMatch=await bcrypt.compare(currentPassword,users[0].PasswordHash);
         if(!passwordMatch)return res.status(400).json({success:false,message:"Your current password is incorrect."});
         if(await bcrypt.compare(newPassword,users[0].PasswordHash))return res.status(400).json({success:false,message:"Your new password must be different from your current password."});
         const newPasswordHash=await bcrypt.hash(newPassword,12);
-        await db.query(`UPDATE Users SET PasswordHash=? WHERE UserID=? AND business_id=?`,[newPasswordHash,userId,business_id]);
+        await db.query(`UPDATE users SET PasswordHash=? WHERE UserID=? AND business_id=?`,[newPasswordHash,userId,business_id]);
         return res.json({success:true,message:"Password changed successfully."});
     }catch(error){
         console.error("Change password error:",error);
