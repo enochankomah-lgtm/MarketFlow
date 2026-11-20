@@ -9,6 +9,7 @@ const session = require("express-session");
 dotenv.config({ path: "./.env" });
 
 const app = express();
+app.set("trust proxy", 1);
 
 // ================================================================
 // ENVIRONMENT VALIDATION
