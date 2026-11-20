@@ -48,7 +48,7 @@ const adminController = {
             const [[pendingResult]] = await db.query(
                 `
                 SELECT COUNT(*) AS total
-                FROM Users
+                FROM users
                 WHERE business_id = ?
                 AND IsActive = 0
                 `,
@@ -58,7 +58,7 @@ const adminController = {
             const [[employeeResult]] = await db.query(
                 `
                 SELECT COUNT(*) AS total
-                FROM Users
+                FROM users
                 WHERE business_id = ?
                 `,
                 [businessId]
@@ -109,7 +109,7 @@ const adminController = {
                     Phone,
                     branch_id,
                     IsActive
-                FROM Users
+                FROM users
                 WHERE business_id = ?
                 AND IsActive = 0
                 ORDER BY UserID DESC
@@ -163,7 +163,7 @@ const adminController = {
         try {
             const [result] = await db.query(
                 `
-                UPDATE Users
+                UPDATE users
                 SET IsActive = 1
                 WHERE UserID = ?
                 AND business_id = ?
@@ -213,7 +213,7 @@ const adminController = {
         try {
             const [result] = await db.query(
                 `
-                UPDATE Users
+                UPDATE users
                 SET IsActive = 0
                 WHERE UserID = ?
                 AND business_id = ?
@@ -265,7 +265,7 @@ const adminController = {
                     u.IsActive,
                     u.branch_id,
                     b.branch_name
-                FROM Users u
+                FROM users u
                 LEFT JOIN branches b
                     ON b.branch_id = u.branch_id
                     AND b.business_id = u.business_id
@@ -395,7 +395,7 @@ const adminController = {
             const [existingUsers] = await connection.query(
                 `
                 SELECT UserID
-                FROM Users
+                FROM users
                 WHERE Email = ?
                 LIMIT 1
                 `,
@@ -451,7 +451,7 @@ const adminController = {
 
             const [userResult] = await connection.query(
                 `
-                INSERT INTO Users (
+                INSERT INTO users (
                     business_id,
                     FirstName,
                     LastName,
@@ -594,7 +594,7 @@ const adminController = {
         try {
             const [result] = await db.query(
                 `
-                UPDATE Users
+                UPDATE users
                 SET IsActive = 1
                 WHERE UserID = ?
                 AND business_id = ?
@@ -651,7 +651,7 @@ const adminController = {
         try {
             const [result] = await db.query(
                 `
-                UPDATE Users
+                UPDATE users
                 SET IsActive = 0
                 WHERE UserID = ?
                 AND business_id = ?
