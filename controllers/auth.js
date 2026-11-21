@@ -396,7 +396,7 @@ exports.login=async(req,res)=>{
     const password=req.body.password||"";
     try{
         if(!email||!password)return res.render("login",{message:"Please enter your email and password.",email});
-        const [users]=await db.query(`SELECT UserID,FirstName,LastName,JobTitle,RoleName,business_id,Business_name,Business_location,Email,Phone,PasswordHash,IsActive,branch_id FROM Users WHERE Email=?`,[email]);
+        const [users]=await db.query(`SELECT UserID,FirstName,LastName,JobTitle,RoleName,business_id,Business_name,Business_location,Email,Phone,PasswordHash,IsActive,branch_id FROM users WHERE Email=?`,[email]);
         if(!users.length)return res.render("login",{message:"This email does not exist.",email});
         const user=users[0];
         if(user.IsActive!==1)return res.render("login",{message:"Your account is waiting for administrator approval or has been deactivated.",email});
@@ -475,7 +475,7 @@ exports.getProfile=async(req,res)=>{
         if(!req.session.user)return res.status(401).json({success:false,message:"You are not logged in."});
         const userId=req.session.user.id;
         const business_id=req.session.user.business_id;
-        const [users]=await db.query(`SELECT UserID,FirstName,LastName,JobTitle,RoleName,business_id,branch_id,Business_name,Business_location,Email,Phone,IsActive,CreatedAt,UpdatedAt FROM Users WHERE UserID=? AND business_id=?`,[userId,business_id]);
+        const [users]=await db.query(`SELECT UserID,FirstName,LastName,JobTitle,RoleName,business_id,branch_id,Business_name,Business_location,Email,Phone,IsActive,CreatedAt,UpdatedAt FROM users WHERE UserID=? AND business_id=?`,[userId,business_id]);
         if(!users.length)return res.status(404).json({success:false,message:"Profile not found."});
         return res.json({success:true,user:users[0]});
     }catch(error){
@@ -499,7 +499,7 @@ exports.updateProfile=async(req,res)=>{
         if(existingUsers.length)return res.status(409).json({success:false,message:"This email is already being used by another account."});
         const [result]=await db.query(`UPDATE users SET FirstName=?,LastName=?,Email=?,Phone=? WHERE UserID=? AND business_id=?`,[cleanFirstName,cleanLastName,cleanEmail,cleanPhone||null,userId,business_id]);
         if(result.affectedRows===0)return res.status(404).json({success:false,message:"Profile not found."});
-        const [users]=await db.query(`SELECT UserID,FirstName,LastName,JobTitle,RoleName,business_id,branch_id,Business_name,Business_location,Email,Phone,IsActive,CreatedAt,UpdatedAt FROM Users WHERE UserID=? AND business_id=?`,[userId,business_id]);
+        const [users]=await db.query(`SELECT UserID,FirstName,LastName,JobTitle,RoleName,business_id,branch_id,Business_name,Business_location,Email,Phone,IsActive,CreatedAt,UpdatedAt FROM users WHERE UserID=? AND business_id=?`,[userId,business_id]);
         const updatedUser=users[0];
         req.session.user.name=`${updatedUser.FirstName} ${updatedUser.LastName}`;
         req.session.user.firstName=updatedUser.FirstName;
