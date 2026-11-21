@@ -23,7 +23,7 @@ const requireAuth=async(req,res,next)=>{
     try{
         const [users]=await db.query(`
             SELECT UserID,business_id,branch_id,RoleName,IsActive
-            FROM Users
+            FROM users
             WHERE UserID=? AND business_id=?
             LIMIT 1
         `,[user.id,user.business_id]);
