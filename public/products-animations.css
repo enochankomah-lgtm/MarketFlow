@@ -1,0 +1,112 @@
+.edit-btn:hover {
+    transform: translateY(-2px);
+}
+
+.add-product-btn:active,
+.new-product-btn:active,
+.edit-btn:active,
+.empty-action:active {
+    transform: scale(.97);
+}
+
+.add-product-btn i,
+.new-product-btn i,
+.edit-btn i,
+.empty-action i,
+.top-link i,
+.sidebar-icon i {
+    transition: transform var(--mf-motion-normal) var(--mf-ease);
+}
+
+.add-product-btn:hover i,
+.new-product-btn:hover i,
+.empty-action:hover i {
+    transform: rotate(90deg);
+}
+
+.edit-btn:hover i {
+    transform: rotate(-10deg) scale(1.08);
+}
+
+.top-link:hover i {
+    transform: translateY(-2px);
+}
+
+.sidebar-link:hover .sidebar-icon i {
+    transform: scale(1.13);
+}
+
+/* Search focus feedback */
+.search-box input {
+    transition:
+        border-color var(--mf-motion-fast) ease,
+        box-shadow var(--mf-motion-fast) ease,
+        background var(--mf-motion-fast) ease;
+}
+
+.search-box:focus-within i {
+    color: var(--primary);
+}
+
+/* Empty-state entrance */
+@keyframes mfEmptyEnter {
+    0%   { opacity: 0; transform: translateY(8px) scale(.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.empty-state.show .empty-icon {
+    animation: mfEmptyEnter 420ms var(--mf-ease) both;
+}
+
+/* Modal: animate the dialog, not the backdrop */
+.professional-modal {
+    animation: mfModalEnter 260ms var(--mf-ease) both;
+}
+
+@keyframes mfModalEnter {
+    from { opacity: 0; transform: translateY(10px) scale(.99); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Form focus transitions */
+.input-wrapper input,
+.form-group textarea {
+    transition:
+        border-color var(--mf-motion-fast) ease,
+        box-shadow var(--mf-motion-fast) ease,
+        background var(--mf-motion-fast) ease;
+}
+
+/* Touch devices: avoid hover-lift effects that can feel sticky */
+@media (hover: none) {
+    .stat-card:hover,
+    .product-card:hover,
+    .add-product-btn:hover,
+    .new-product-btn:hover,
+    .edit-btn:hover,
+    .empty-action:hover {
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .product-card:hover .product-image-container img {
+        transform: none;
+    }
+
+    .product-card:hover .category-badge {
+        background: var(--primary-light);
+        color: var(--primary);
+    }
+}
+
+/* Respect accessibility preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}

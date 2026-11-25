@@ -6655,3 +6655,1109 @@ body {
     }
 
 }
+
+/* =====================================================================
+   MARKETFLOW — PREMIUM VISUAL REFINEMENT
+   Appended override layer.
+   Keeps the existing selectors, IDs, Bootstrap modal structure and
+   JavaScript hooks intact while refining the visual presentation.
+   ===================================================================== */
+
+:root {
+    --mf-green: #0b6517;
+    --mf-green-dark: #084b10;
+    --mf-green-soft: #eaf6ec;
+    --mf-green-light: #f4faf5;
+    --mf-yellow: #f4c542;
+
+    --mf-bg: #f4f7f5;
+    --mf-surface: #ffffff;
+    --mf-surface-soft: #f8fbf9;
+    --mf-border: #e3ebe5;
+    --mf-text: #1d2b21;
+    --mf-muted: #718076;
+
+    --mf-shadow-sm: 0 2px 8px rgba(19, 48, 27, .045);
+    --mf-shadow: 0 8px 24px rgba(19, 48, 27, .075);
+    --mf-shadow-lg: 0 18px 48px rgba(19, 48, 27, .14);
+
+    --radius-sm: 9px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+}
+
+html {
+    scroll-behavior: smooth;
+    scrollbar-color: #c7d5ca #f4f7f5;
+}
+
+body {
+    background: var(--mf-bg);
+    color: var(--mf-text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+                 BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+    outline: 3px solid rgba(11, 101, 23, .22);
+    outline-offset: 2px;
+}
+
+/* Top navigation */
+.main-navbar {
+    background: linear-gradient(110deg, #0b6517 0%, #0a5814 100%);
+    box-shadow: 0 5px 20px rgba(8, 55, 17, .16);
+    gap: clamp(12px, 1.7vw, 24px);
+}
+
+.logo > i {
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 12px;
+    background: rgba(255,255,255,.13);
+}
+
+.logo-text h2 {
+    font-family: inherit;
+    letter-spacing: -.45px;
+    font-weight: 800;
+}
+
+.search-container {
+    border: 1px solid rgba(255,255,255,.26);
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.07);
+}
+
+.searchitem {
+    font-size: 14px;
+}
+
+.search-btn {
+    transition: background .18s ease;
+}
+
+.right-menu {
+    gap: 12px;
+}
+
+.logout-btn,
+.mobile-nav-btn {
+    border-radius: 10px;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.logout-btn:hover,
+.mobile-nav-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Category navigation */
+.category-card {
+    background: var(--mf-surface);
+    border-color: var(--mf-border);
+    border-radius: 17px;
+    box-shadow: var(--mf-shadow);
+}
+
+.category-header {
+    min-height: 56px;
+    background: #f2f8f3;
+    color: var(--mf-green-dark);
+    letter-spacing: .35px;
+    font-size: 13px;
+}
+
+.category-item {
+    padding: 10px;
+}
+
+.category-row {
+    min-height: 43px;
+    margin: 3px 0;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: background .16s ease, border-color .16s ease,
+                color .16s ease, transform .16s ease;
+}
+
+.category-row:hover {
+    background: #f1f8f2;
+    border-color: #e1eee3;
+}
+
+.category-row:first-child {
+    background: #edf7ef;
+    border-color: #dcecdf;
+    color: var(--mf-green-dark);
+}
+
+.category-footer {
+    background: #fbfdfb;
+}
+
+.add-products {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(11,101,23,.12);
+}
+
+/* Keyboard shortcuts */
+.shortcut-toolbar {
+    gap: 12px;
+}
+
+.shortcut-btn {
+    min-height: 64px;
+    padding: 10px 12px;
+    border-color: var(--mf-border);
+    border-radius: 14px;
+    background: var(--mf-surface);
+    box-shadow: var(--mf-shadow-sm);
+}
+
+.shortcut-btn:hover {
+    border-color: #c9ddcd;
+    box-shadow: var(--mf-shadow);
+}
+
+.shortcut-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+}
+
+.shortcut-key {
+    font-size: 11px;
+    letter-spacing: .45px;
+    text-transform: uppercase;
+}
+
+.shortcut-title {
+    font-size: 14px;
+    letter-spacing: -.15px;
+}
+
+/* Product catalogue */
+.products-container {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd8ce transparent;
+    padding: 5px 4px 20px;
+}
+
+.products {
+    gap: 16px;
+}
+
+.product-card {
+    min-height: 258px;
+    border-color: var(--mf-border);
+    border-radius: 16px;
+    background: var(--mf-surface);
+    box-shadow: var(--mf-shadow-sm);
+}
+
+.product-card:hover {
+    border-color: #c8ddcc;
+    box-shadow: 0 12px 26px rgba(19,48,27,.10);
+    transform: translateY(-3px);
+}
+
+.product-image-container {
+    height: 145px;
+    background: #f5f8f6;
+}
+
+.product-card .content {
+    padding: 13px;
+}
+
+.product-name {
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -.15px;
+}
+
+.product-card .price {
+    margin-top: 8px;
+    font-size: 15px;
+    letter-spacing: -.2px;
+}
+
+.stock-btn {
+    padding-top: 13px;
+}
+
+.stock-btn small {
+    font-size: 11px;
+}
+
+.add-btn {
+    min-height: 36px;
+    padding: 7px 11px;
+    border-radius: 9px;
+    box-shadow: 0 3px 8px rgba(11,101,23,.12);
+    transition: background .16s ease, transform .16s ease;
+}
+
+.add-btn:hover {
+    transform: translateY(-1px);
+}
+
+.empty-products {
+    border-color: #cbd9ce;
+    border-radius: 16px;
+    background: var(--mf-surface);
+}
+
+/* Cart and checkout */
+.purchasepoint {
+    padding: 14px;
+    border-color: var(--mf-border);
+    border-radius: 17px;
+    background: var(--mf-surface);
+    box-shadow: var(--mf-shadow);
+}
+
+.cartstyle {
+    padding: 4px 2px 13px;
+}
+
+.cartstyle h5 {
+    color: var(--mf-text);
+    font-size: 18px;
+    letter-spacing: -.35px;
+}
+
+.section-kicker {
+    color: #849188;
+    font-size: 10px;
+    letter-spacing: 1.15px;
+}
+
+.delete-btn {
+    border-radius: 9px;
+}
+
+.salesreview .table-scroll {
+    scrollbar-width: thin;
+}
+
+.purchase_ite th,
+.purchase_item th {
+    color: #718076;
+    background: #f5f8f6;
+    font-size: 11px;
+    letter-spacing: .35px;
+    text-transform: uppercase;
+}
+
+.purchase_ite td,
+.purchase_item td {
+    font-size: 12px;
+}
+
+.purchase_ite tbody tr:hover,
+.purchase_item tbody tr:hover {
+    background: #f8fbf9;
+}
+
+.qty-boxx {
+    border-color: #dce7de;
+    border-radius: 8px;
+}
+
+.qty-boxx button {
+    min-width: 28px;
+    min-height: 29px;
+}
+
+.cart-summary {
+    padding: 13px;
+    border-color: #e1ebe3;
+    border-radius: 13px;
+    background: #f8fbf9;
+}
+
+.summary-row {
+    min-height: 30px;
+    font-size: 12px;
+}
+
+.summary-row.grand-total {
+    min-height: 42px;
+    font-size: 17px;
+}
+
+.summary-row.grand-total span:last-child {
+    font-size: 21px;
+    letter-spacing: -.45px;
+}
+
+.amount-section {
+    border-radius: 13px;
+    background: linear-gradient(135deg, #0b6517 0%, #084b10 100%);
+}
+
+.amount-section h2 {
+    font-weight: 800;
+    letter-spacing: -.7px;
+}
+
+.payment-row input {
+    min-height: 36px;
+    border-color: #dfe8e1;
+    border-radius: 8px;
+}
+
+.payment-methods {
+    gap: 9px;
+}
+
+.payment-btn {
+    min-height: 52px;
+    border-radius: 11px;
+    font-size: 13px;
+    transition: transform .16s ease, box-shadow .16s ease,
+                border-color .16s ease;
+}
+
+.payment-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 15px rgba(19,48,27,.08);
+}
+
+/* Modal surfaces and forms */
+.modal-content {
+    overflow: hidden;
+    border: 1px solid rgba(223,232,225,.9);
+    border-radius: 17px;
+    box-shadow: var(--mf-shadow-lg);
+}
+
+.modal-header {
+    border-bottom-color: var(--mf-border);
+}
+
+.modal-footer {
+    border-top-color: var(--mf-border);
+}
+
+.modal-title {
+    font-weight: 750;
+    letter-spacing: -.25px;
+}
+
+.form-control,
+.form-select {
+    border-color: #dfe8e1;
+    border-radius: 9px;
+    min-height: 40px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #79ae82;
+    box-shadow: 0 0 0 3px rgba(11,101,23,.09);
+}
+
+/* Purchase, held-sale and customer panels */
+.top-section {
+    gap: 16px;
+}
+
+.top-section .card,
+.holdsale-card {
+    border-color: var(--mf-border);
+    border-radius: 15px;
+    box-shadow: var(--mf-shadow-sm);
+}
+
+.card-header,
+.recall-header,
+.holdsale-header,
+.delete-header {
+    background: linear-gradient(110deg, #0b6517, #084b10);
+}
+
+.inputs {
+    padding: 17px;
+}
+
+.inputs label {
+    font-size: 12px;
+}
+
+.inputs label + input,
+.inputs .productname,
+.inputs .priceEach,
+.inputs .totalprice {
+    border-color: #dfe8e1;
+    border-radius: 9px;
+}
+
+.Addpurchase {
+    border-radius: 11px;
+}
+
+.recall-btn,
+.holdsale-save-btn,
+.modal-complete-btn,
+.momo-complete-btn,
+.password-save-btn {
+    border-radius: 9px;
+}
+
+/* Customer modal */
+.customer-modal-content {
+    border-radius: 18px;
+    box-shadow: var(--mf-shadow-lg);
+}
+
+.customer-modal-header,
+.customer-modal-body {
+    background: #fff;
+}
+
+.customer-modal-header {
+    padding: 21px 23px;
+}
+
+.customer-modal-body {
+    padding: 21px 23px;
+}
+
+.customer-result {
+    border-color: #e3ebe5;
+    border-radius: 12px;
+}
+
+.customer-result:hover {
+    border-color: #c9ddcd;
+    background: #f8fbf9;
+}
+
+.customer-search-input {
+    border-color: #dfe8e1;
+    border-radius: 11px;
+}
+
+.customer-register-section {
+    border-color: #e3ebe5;
+    border-radius: 12px;
+}
+
+/* General interaction polish */
+button,
+.btn,
+.add-btn,
+.payment-btn,
+.category-row {
+    transition-duration: .16s;
+}
+
+button:disabled,
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: .58;
+}
+
+::selection {
+    color: #084b10;
+    background: #dff0e2;
+}
+
+/* Tablet refinements */
+@media (max-width: 1250px) and (min-width: 768px) {
+    .products {
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-card {
+        min-height: 240px;
+    }
+
+    .product-image-container {
+        height: 125px;
+    }
+
+    .purchasepoint {
+        padding: 11px;
+    }
+}
+
+/* Mobile and narrow tablet: preserve vertical document flow */
+@media (max-width: 767px) {
+    body {
+        font-size: 13px;
+    }
+
+    .main-navbar {
+        gap: 9px;
+        box-shadow: 0 3px 14px rgba(8,55,17,.13);
+    }
+
+    .search-container {
+        border-radius: 10px;
+    }
+
+    .category-card {
+        border-radius: 14px;
+        box-shadow: var(--mf-shadow-sm);
+    }
+
+    .shortcut-toolbar {
+        gap: 9px;
+    }
+
+    .shortcut-btn {
+        min-height: 56px;
+        border-radius: 12px;
+    }
+
+    .products-container {
+        padding-bottom: 14px;
+    }
+
+    .products {
+        gap: 10px;
+    }
+
+    .product-card {
+        border-radius: 13px;
+    }
+
+    .product-image-container {
+        background: #f5f8f6;
+    }
+
+    .purchasepoint {
+        border-radius: 15px;
+        box-shadow: var(--mf-shadow-sm);
+    }
+
+    .payment-btn {
+        min-height: 48px;
+    }
+
+    .modal-content {
+        border-radius: 14px;
+    }
+}
+
+@media (max-width: 500px) {
+    .shortcut-btn {
+        padding: 7px;
+    }
+
+    .shortcut-title {
+        font-size: 10px;
+    }
+
+    .purchasepoint {
+        padding: 10px;
+    }
+
+    .cart-summary {
+        padding: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+
+
+/* =========================================================
+   MARKETFLOW MOBILE-FIRST CASHIER LAYOUT
+   Focus: compact two-column catalogue and faster checkout
+   ========================================================= */
+
+@media (max-width: 767px) {
+    /* Keep the page from creating sideways scrolling. */
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* A compact, usable mobile header. */
+    .main-navbar {
+        position: relative;
+        padding: 9px 10px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .main-navbar .search-container {
+        flex: 1 0 100%;
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .search-container input {
+        min-width: 0;
+        font-size: 14px;
+    }
+
+    /* Categories remain in one horizontal, swipeable strip. */
+    .category-card {
+        margin: 8px 10px;
+        overflow: hidden;
+    }
+
+    .category-card .category-list,
+    .category-card .categories,
+    .category-card .category-items {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 7px;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 8px 10px;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .category-row {
+        flex: 0 0 auto;
+        min-height: 38px;
+        white-space: nowrap;
+    }
+
+    /* Shortcuts use a compact 2 x 2 layout. */
+    .shortcut-toolbar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        margin: 8px 10px;
+    }
+
+    .shortcut-btn {
+        min-width: 0;
+        min-height: 48px;
+        padding: 6px 8px;
+        gap: 7px;
+    }
+
+    .shortcut-icon {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+    }
+
+    .shortcut-key {
+        font-size: 9px;
+        line-height: 1.1;
+    }
+
+    .shortcut-title {
+        font-size: 11px;
+        line-height: 1.2;
+    }
+
+    /*
+      The catalogue is its own compact scroll area.
+      This prevents a long list of products pushing checkout
+      far below the fold.
+    */
+    .products-container {
+        max-height: 32vh;
+        min-height: 190px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        padding: 5px 9px 12px;
+        margin: 0 6px;
+        border-radius: 13px;
+        background: #f7faf8;
+    }
+
+    .products {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    .product-image-container {
+        height: 76px;
+        min-height: 76px;
+        flex: 0 0 76px;
+        background: #f1f6f2;
+    }
+
+    .product-card .content {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 0;
+        padding: 8px;
+    }
+
+    .product-name {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        font-size: 12px;
+        line-height: 1.3;
+    }
+
+    .product-card .price {
+        margin-top: 3px;
+        font-size: 13px;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
+
+    .stock-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+        margin-top: auto;
+        padding-top: 7px;
+    }
+
+    .stock-btn small {
+        font-size: 9px;
+        line-height: 1.2;
+    }
+
+    .add-btn {
+        min-height: 32px;
+        padding: 5px 8px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    /* Checkout stays close to the catalogue and is easy to reach. */
+    .purchasepoint {
+        position: sticky;
+        bottom: 0;
+        z-index: 15;
+        max-height: 48vh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        margin: 8px 8px 0;
+        padding: 10px;
+        border-radius: 15px 15px 0 0;
+        box-shadow: 0 -5px 20px rgba(18, 48, 25, .10);
+        background: #fff;
+    }
+
+    .cartstyle {
+        padding: 2px 0 8px;
+    }
+
+    .cartstyle h5 {
+        font-size: 16px;
+    }
+
+    .cart-summary {
+        padding: 9px;
+    }
+
+    .payment-btn {
+        min-height: 43px;
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+
+    .purchasepoint input,
+    .purchasepoint select,
+    .purchasepoint .form-control {
+        min-height: 38px;
+        font-size: 14px;
+    }
+
+    /* Keep dialogs usable on smaller screens. */
+    .modal-dialog {
+        margin: 8px;
+    }
+
+    .modal-content {
+        max-height: calc(100dvh - 16px);
+        overflow-y: auto;
+    }
+}
+
+/* Very small phones: retain two columns without cramped controls. */
+@media (max-width: 380px) {
+    .products-container {
+        max-height: 30vh;
+        min-height: 175px;
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+
+    .products {
+        gap: 6px;
+    }
+
+    .product-image-container {
+        height: 64px;
+        min-height: 64px;
+        flex-basis: 64px;
+    }
+
+    .product-card .content {
+        padding: 7px;
+    }
+
+    .product-card .price {
+        font-size: 12px;
+    }
+
+    .shortcut-toolbar {
+        gap: 6px;
+    }
+
+    .shortcut-btn {
+        min-height: 45px;
+    }
+
+    .purchasepoint {
+        max-height: 50vh;
+        margin-right: 5px;
+        margin-left: 5px;
+        padding: 8px;
+    }
+}
+
+
+
+/* =========================================================
+   MOBILE REFINEMENTS – SEARCH, NAV LINKS AND PANEL HEIGHT
+   ========================================================= */
+@media (max-width: 767px) {
+    /* The separate search icon/button wastes space on mobile.
+       The search field remains available for typing/searching. */
+    .search-btn {
+        display: none !important;
+    }
+
+    /* Bring Customers and Statistics into the upper category area.
+       They were hidden in an earlier mobile rule. */
+    .category-footer {
+        display: block !important;
+        padding: 7px 9px 9px;
+        border-top: 1px solid #e6eee8;
+    }
+
+    .category-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .category-action {
+        min-height: 38px;
+        padding: 7px 6px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    /* Slightly taller independent scroll areas, so more items
+       and more checkout controls are visible at once. */
+    .products-container {
+        max-height: 38vh;
+        min-height: 225px;
+    }
+
+    .purchasepoint {
+        max-height: 54vh;
+    }
+}
+
+@media (max-width: 380px) {
+    .products-container {
+        max-height: 36vh;
+        min-height: 210px;
+    }
+
+    .purchasepoint {
+        max-height: 56vh;
+    }
+
+    .category-action {
+        font-size: 10px;
+    }
+}
+
+
+
+/* =========================================================
+   MOBILE HEADER POLISH – prevent clipped navigation controls
+   ========================================================= */
+@media (max-width: 767px) {
+    .main-navbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        align-items: center;
+        column-gap: 8px;
+        row-gap: 9px;
+        width: 100%;
+        padding: 9px 12px 11px;
+        overflow: visible;
+    }
+
+    .main-navbar .logo {
+        grid-column: 1;
+        grid-row: 1;
+        min-width: 0;
+        max-width: 100%;
+        gap: 8px;
+    }
+
+    .main-navbar .logo-text {
+        min-width: 0;
+    }
+
+    .main-navbar .logo-text h2 {
+        font-size: clamp(17px, 4.5vw, 19px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .main-navbar .right-menu {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 7px;
+        width: max-content;
+        max-width: 100%;
+        min-width: 0;
+        overflow: visible;
+    }
+
+    /* Do not allow the menu/profile controls to shrink into clipped slivers. */
+    .main-navbar .right-menu > * {
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+
+    .main-navbar .logout-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: auto;
+        min-width: 0;
+        max-width: 116px;
+        min-height: 40px;
+        padding: 7px 9px;
+        font-size: 12px;
+        line-height: 1.15;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .main-navbar .logout-btn > span,
+    .main-navbar .logout-btn .button-text {
+        display: inline-block;
+        max-width: 76px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .main-navbar .menu-item {
+        display: none !important;
+    }
+
+    .main-navbar .search-container {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        margin: 0;
+    }
+}
+
+@media (max-width: 380px) {
+    .main-navbar {
+        column-gap: 5px;
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .main-navbar .logo {
+        gap: 6px;
+    }
+
+    .main-navbar .logo > i {
+        width: 31px;
+        height: 31px;
+        flex-basis: 31px;
+    }
+
+    .main-navbar .logo-text h2 {
+        font-size: 16px;
+    }
+
+    .main-navbar .right-menu {
+        gap: 5px;
+    }
+
+    .main-navbar .logout-btn {
+        max-width: 96px;
+        min-height: 37px;
+        padding: 6px 7px;
+        font-size: 11px;
+    }
+
+    .main-navbar .logout-btn > span,
+    .main-navbar .logout-btn .button-text {
+        max-width: 55px;
+    }
+}

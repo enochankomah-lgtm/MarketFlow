@@ -3,7 +3,11 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        <meta name="theme-color" content="#f5f8ff">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
         <title>Register Your Business | MarketFlow</title>
         <link rel="stylesheet" href="/onboarding.css">
     </head>
@@ -11,18 +15,32 @@
 
   <div class="onboarding-page">
 
-<div class="brand-background">
-    <img src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png" alt="MarketFlow Logo" >
-</div>
+<aside class="brand-background" aria-label="MarketFlow introduction">
+    <div class="brand-panel-inner">
+        <a class="brand-mark" href="/" aria-label="MarketFlow home">
+            <img src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png" alt="MarketFlow Logo">
+        </a>
+        <div class="brand-copy">
+            <span class="brand-eyebrow">YOUR BUSINESS, IN FLOW</span>
+            <h2>Everything your business needs.<br><span>All in one place.</span></h2>
+            <p>Set up your workspace in a few simple steps and bring your daily operations together with MarketFlow.</p>
+        </div>
+        <div class="brand-trust">
+            <span class="trust-check">✓</span> Simple setup <i></i> Secure workspace <i></i> Built to grow
+        </div>
+    </div>
+</aside>
 
-<main class="onboarding-card">   
+<main class="onboarding-card">
+    <div class="mobile-brand"><img src="https://i.ibb.co/mWPNw8y/marketflow-logo-png.png" alt="MarketFlow"></div>
+    <div class="form-intro"><span class="form-kicker">BUSINESS SETUP</span><span class="secure-note"> <span aria-hidden="true">●</span> Secure registration</span></div>   
     <div class="progress-area">
         <div class="progress-info">
             <span id="stepLabel">Welcome</span>
             <span id="stepNumber">1 / 7</span>
         </div>
 
-        <div class="progress-bar">
+        <div class="progress-bar" role="progressbar" aria-label="Registration progress" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1">
             <div id="progressFill"></div>
         </div>
     </div>
@@ -527,7 +545,7 @@
         </div>
 
 
-        <div id="formMessage" class="form-message"></div>
+        <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
 
 
         <div class="step-actions">
@@ -553,7 +571,7 @@
 
 </div>
 
-<script src="/js/onboarding.js"></script>
+<script src="/js/onboarding.js" defer></script>
 
 </body>
 </html>
