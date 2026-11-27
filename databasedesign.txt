@@ -238,4 +238,11 @@ event.stopPropagation(); // This will prevent bubbling the event higher in the h
    payment_method,
 
 
- 0551234987                
+ 0551234987   
+
+
+
+ node -e "const fs=require('node:fs');const {X509Certificate}=require('node:crypto');const input=process.argv[1];const output=process.argv[2];const cert=new X509Certificate(fs.readFileSync(input));if(!cert.ca)throw new Error('Certificate is not a CA certificate');fs.writeFileSync(output,cert.toString(),'utf8');console.log('Certificate converted successfully');console.log('Subject:',cert.subject);console.log('Is CA:',cert.ca);console.log('SHA-256:',cert.fingerprint256);" "C:\Users\enoch\OneDrive\Desktop\MailShield.der" "C:\Users\enoch\OneDrive\Desktop\MailShield.pem"
+
+ set "NODE_EXTRA_CA_CERTS=C:\Users\enoch\OneDrive\Desktop\MailShield.pem" && set "NODE_USE_SYSTEM_CA=1" && node -e "const tls=require('node:tls');const s=tls.connect({host:'smtp.gmail.com',port:465,servername:'smtp.gmail.com'},()=>{console.log('TLS CONNECTION SUCCESSFUL');console.log('Authorized:',s.authorized);console.log('Certificate issuer:',s.getPeerCertificate().issuer);s.end()});s.on('error',e=>console.error('TLS ERROR:',e.code,e.message));"
+ np             

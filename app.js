@@ -8,6 +8,8 @@ const session = require("express-session");
 
 dotenv.config({ path: "./.env" });
 
+const {verifyEmailConnection} = require("./utils/mailer");
+
 const app = express();
 app.set("trust proxy", 1);
 
@@ -200,5 +202,7 @@ res.status(500).json({
 const PORT = Number(process.env.PORT) || 3000;
 
 app.listen(PORT, () => {
-console.log(`MarketFlow server started on port ${PORT}`);
+    console.log(`MarketFlow server started on port ${PORT}`);
+
+    verifyEmailConnection();
 });
