@@ -1,54 +1,49 @@
 
 "use strict";
 
-const nodemailer = require("nodemailer");
+const RESEND_API_URL = "https://api.resend.com/emails";
 
-const emailConfigured =
-    process.env.EMAIL_HOST &&
-    process.env.EMAIL_USER &&
-    process.env.EMAIL_PASS;
+const API_KEY = process.env.RESEND_API_KEY;
+const EMAIL_FROM = process.env.EMAIL_FROM;
 
-let transporter = null;
+const emailConfigured = Boolean(API_KEY && EMAIL_FROM);
 
-if (emailConfigured) {
-    transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: Number(process.env.EMAIL_PORT || 465),
-        secure: process.env.EMAIL_SECURE === "true",
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
-}
 
-// Verify Gmail connection
 async function verifyEmailConnection() {
-    if (!transporter) {
-        console.warn("MarketFlow email settings are incomplete.");
-        return false;
-    }
 
-    try {
-        await transporter.verify();
+    if (!emailConfigured) {
 
-        console.log("MarketFlow Gmail connection successful!");
-
-        return true;
-    } catch (error) {
         console.error(
-            "MarketFlow Gmail connection failed:",
-            error.message
+            "MarketFlow email configuration is incomplete."
         );
 
+        if (!API_KEY) {
+            console.error("Missing RESEND_API_KEY.");
+        }
+
+        if (!EMAIL_FROM) {
+            console.error("Missing EMAIL_FROM.");
+        }
+
         return false;
     }
-}
 
-// Reusable email sender
+    console.log("----------------------------------");
+    console.log("MARKETFLOW EMAIL CONFIGURATION");
+    console.log("Provider: Resend API");
+    console.log("Sender:", EMAIL_FROM);
+    console.log("Transport: HTTPS");
+    console.log("Configuration: Ready");
+    console.log("----------------------------------");
+
+    return true;
+}
 async function sendEmail({ to, subject, html, text }) {
-    if (!transporter) {
-        throw new Error("Email service is not configured.");
+
+    if (!emailConfigured) {
+        throw new Error(
+            "Resend email service is not configured."
+        );
     }
 
     if (!to || !subject || (!html && !text)) {
@@ -57,14 +52,80 @@ async function sendEmail({ to, subject, html, text }) {
         );
     }
 
-    return transporter.sendMail({
-        from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
-        to,
-        subject,
-        html,
-        text
-    });
+    try {
+
+        const response = await fetch(RESEND_API_URL, {
+
+            method: "POST",
+
+            headers: {
+                "Authorization": `Bearer ${API_KEY}`,
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                from: EMAIL_FROM,
+
+                to: Array.isArray(to) ? to : [to],
+
+                subject,
+
+                ...(html ? { html } : {}),
+
+                ...(text ? { text } : {})
+
+            }),
+
+            signal: AbortSignal.timeout(20000)
+
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+            const errorMessage =
+                result.message ||
+                result.error ||
+                "Email delivery failed.";
+
+            console.error(
+                "Resend API error:",
+                response.status,
+                errorMessage
+            );
+
+            throw new Error(
+                `Resend API error (${response.status}): ${errorMessage}`
+            );
+        }
+
+        console.log(
+            "MarketFlow email sent successfully!",
+            result.id
+        );
+
+        // Maintain compatibility with existing callers.
+        return {
+            ...result,
+            messageId: result.id
+        };
+
+    } catch (error) {
+
+        console.error(
+            "MarketFlow email delivery failed:",
+            error.message
+        );
+
+        throw error;
+    }
 }
+
+// ======================================================
+// EXPORTS
+// ======================================================
 
 module.exports = {
     verifyEmailConnection,
